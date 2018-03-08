@@ -54,7 +54,8 @@ class LightingScene extends CGFscene
 		this.materialB.setSpecular(0.8,0.8,0.8,1);
 		this.materialB.setShininess(120);
 
-		this.prism = new MyPrism(this, 6, 1);
+		this.prism = new MyPrism(this, 6, 3);
+		this.polygon = new MyPolygon(this, 6);
 
 	};
 
@@ -141,6 +142,8 @@ class LightingScene extends CGFscene
 		this.materialDefault.apply();
 
 		this.prism.display();
+
+		// this.polygon.display();
 
 		// ---- END Background, camera and axis setup
 

@@ -4,14 +4,12 @@
  * @constructor
  */
 
-/*
+
 class MyTriangle extends CGFobject
 {
-	constructor(scene, slices, stacks)
+	constructor(scene, slices)
 	{
 		super(scene);
-		this.slices = slices;
-		this.stacks = stacks;
 
 		this.alpha = 2*Math.PI/slices;
 		this.h = Math.cos(this.alpha/2);
@@ -24,8 +22,8 @@ class MyTriangle extends CGFobject
 	{
 		this.vertices = [
 				0, 0, 0,
-				this.l, this.h, 0,
-				-this.l, this.h, 0
+				this.l/2, this.h, 0,
+				-this.l/2, this.h, 0
 				];
 
 		this.indices = [
@@ -45,7 +43,42 @@ class MyTriangle extends CGFobject
 
 
 };
-*/
+
+
+class MyPolygon extends CGFobject
+{
+	constructor(scene, slices)
+	{
+		super(scene);
+
+		this.slices = slices;
+
+		this.alpha = 2*Math.PI/slices;
+		this.h = Math.cos(this.alpha/2);
+		this.l = 2*Math.sin(this.alpha/2);
+
+		this.triangle = new MyTriangle(scene, slices);
+
+	}
+
+	display()
+	{
+
+		for (var i = 0; i < this.slices; i++)
+		{
+			this.scene.pushMatrix();
+
+			this.scene.rotate(this.alpha*i, 0, 0, 1);
+			this.triangle.display();
+
+			this.scene.popMatrix();
+		}
+
+	}
+
+
+};
+
 
 class MyPrism extends CGFobject
 {
@@ -59,44 +92,48 @@ class MyPrism extends CGFobject
 		this.l = 2*Math.sin(this.alpha/2);
 		this.h = Math.cos(this.alpha/2);
 
-
 		this.quad = new MyQuad(scene);
+		this.polygon = new MyPolygon(scene, slices);
 	}
 
 
 	display()
 	{
-
-
-		/*
-		this.scene.rotate(this.alpha, 0, 0, 1);
-		this.quad.display();
-
-		this.scene.rotate(this.alpha, 0, 0, 1);
-		this.quad.display();
-		*/
-		// this.scene.pushMatrix();
-		//
-		// this.scene.rotate(this.alpha, 0, 0, 1);
-		// this.scene.translate(0, this.h, 0);
-		// this.scene.rotate(-Math.PI/2, 1, 0, 0);
-		// this.scene.scale(this.l, 1, 1);
-		// this.quad.display();
-		//
-		// this.scene.popMatrix();
-		// var i;
-		for (var i = 0; i < this.slices; i++)
+		this.scene.translate(0, 0, this.stacks - 1);
+		
+		for (var i = 0; i < this.stacks; i++)
 		{
-			this.scene.pushMatrix();
 
-			this.scene.rotate(this.alpha*i, 0, 0, 1);
-			this.scene.translate(0, this.h, 0);
-			this.scene.rotate(-Math.PI/2, 1, 0, 0);
-			this.scene.scale(this.l, 1, 1);
-			this.quad.display();
+			for (var j = 0; j < this.slices; j++)
+			{
+				this.scene.pushMatrix();
 
-			this.scene.popMatrix();
+				this.scene.translate(0, 0, -i + 0.5);
+				this.scene.rotate(this.alpha*j, 0, 0, 1);
+				this.scene.translate(0, this.h, 0);
+				this.scene.rotate(-Math.PI/2, 1, 0, 0);
+				this.scene.scale(this.l, 1, 1);
+				this.quad.display();
+
+				this.scene.popMatrix();
+			}
 		}
 
+		this.scene.pushMatrix();
+
+		this.scene.translate(0, 0, 1);
+		this.polygon.display();
+
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+
+		this.scene.translate(0, 0, -this.stacks + 1);
+		this.scene.rotate(Math.PI, 0, 1, 0);
+		this.polygon.display();
+
+		this.scene.popMatrix();
+
+		this.scene.translate(0, 0, this.stacks - 1);
 	}
 };
