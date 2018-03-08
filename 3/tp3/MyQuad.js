@@ -6,13 +6,13 @@
 
 class MyQuad extends CGFobject
 {
-	constructor(scene) 
+	constructor(scene)
 	{
 		super(scene);
 		this.initBuffers();
 	};
 
-	initBuffers() 
+	initBuffers()
 	{
 		this.vertices = [
 				-0.5, -0.5, 0,
@@ -22,11 +22,12 @@ class MyQuad extends CGFobject
 				];
 
 		this.indices = [
-				0, 1, 2, 
+				0, 1, 2,
 				3, 2, 1
 			];
-			
+
 		this.primitiveType=this.scene.gl.TRIANGLES;
+
 		
 		this.normals = [
 				0, 0, 1,
@@ -38,4 +39,3 @@ class MyQuad extends CGFobject
 		this.initGLBuffers();
 	};
 };
-
