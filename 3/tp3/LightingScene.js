@@ -66,7 +66,7 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
- 		this.setGlobalAmbientLight(0,0,0, 1.0);
+ 		this.setGlobalAmbientLight(1, 1, 1, 1.0);
 
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
@@ -82,7 +82,7 @@ class LightingScene extends CGFscene
 		*/
 		this.lights[0].setAmbient(1, 1, 1, 1);
 		this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[0].setSpecular(1.0,1.0,0,1.0);
+		this.lights[0].setSpecular(1.0, 1.0, 1.0, 1.0);
 		this.lights[0].enable(); //Material A
 		/*
 		this.lights[1].setAmbient(0, 0, 0, 1);
