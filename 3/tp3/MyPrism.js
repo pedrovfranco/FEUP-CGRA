@@ -88,20 +88,64 @@ class MyPrism extends CGFobject
 		this.slices = slices;
 		this.stacks = stacks;
 
-		this.alpha = 2*Math.PI/this.slices;
-		this.l = 2*Math.sin(this.alpha/2);
-		this.h = Math.cos(this.alpha/2);
+		this.initBuffers();
 
-		this.quad = new MyQuad(scene);
-		// this.polygon = new MyPolygon(scene, slices);
 	}
 
+	initBuffers()
+	{
+		var alpha = 2*Math.PI/this.slices;
+		var l = Math.sin(this.alpha/2);
+		var h = Math.cos(this.alpha/2);
 
+		this.vertices = [];
+		this.indices = [];
+		this.normals = [];
+
+		for (var j = 0; j < this.stacks; j++)
+		{
+			for (var i = 0; i < this.slices; i++)
+			{
+				/*
+				this.vertices.push(Math.cos(Math.PI/2 - (this.alpha/2 + i*this.alpha)), Math.cos(this.alpha/2 + i*this.alpha), 0);		// A
+				this.vertices.push(Math.cos(Math.PI/2 - (this.alpha/2 + i*this.alpha)), Math.cos(this.alpha/2 + i*this.alpha), 0);		// B
+				this.vertices.push(Math.cos(Math.PI/2 - (this.alpha/2 + i*this.alpha)), Math.cos(this.alpha/2 + i*this.alpha), 1);		// C
+				this.vertices.push(Math.cos(Math.PI/2 - (this.alpha/2 + i*this.alpha)), Math.cos(this.alpha/2 + i*this.alpha), 1);		// D
+				*/
+
+				this.vertices.push(Math.cos(alpha*i), Math.sin(alpha*i), j/this.stacks );					// A
+				this.vertices.push(Math.cos(alpha*i), Math.sin(alpha*i),  (j+1)/this.stacks);				// B
+				this.vertices.push(Math.cos(alpha*(i+1)), Math.sin(alpha*(i+1)),  j/this.stacks);		// C
+				this.vertices.push(Math.cos(alpha*(i+1)), Math.sin(alpha*(i+1)),  (j+1)/this.stacks);	// D
+
+				this.indices.push(0 + 4*i + j*this.slices*4); this.indices.push(2 + 4*i + j*this.slices*4); this.indices.push(1 + 4*i + j*this.slices*4);
+				this.indices.push(1 + 4*i + j*this.slices*4); this.indices.push(2 + 4*i + j*this.slices*4); this.indices.push(3 + 4*i + j*this.slices*4);
+
+				this.normals.push(Math.cos(alpha/2*(2*i+1)), Math.sin(alpha/2*(2*i+1)), 0);
+				this.normals.push(Math.cos(alpha/2*(2*i+1)), Math.sin(alpha/2*(2*i+1)), 0);
+				this.normals.push(Math.cos(alpha/2*(2*i+1)), Math.sin(alpha/2*(2*i+1)), 0);
+				this.normals.push(Math.cos(alpha/2*(2*i+1)),Math.sin(alpha/2*(2*i+1)), 0);
+
+				console.log(this.normals);
+
+
+			}
+		}
+
+
+		console.log(this.vertices);
+
+		this.primitiveType=this.scene.gl.TRIANGLES;
+
+		this.initGLBuffers();
+
+	}
+
+/*
 	display()
 	{
-		this.scene.translate(0, 0, this.stacks - 1);
-
 		var alpha_loc = this.alpha;
+
 
 		for (var i = 0; i < this.stacks; i++)
 		{
@@ -110,29 +154,33 @@ class MyPrism extends CGFobject
 			{
 				this.scene.pushMatrix();
 
+				this.quad.vertices = [];
+
 				//Normals
-				this.quad.normals = [
-						0, Math.cos(alpha_loc*j), Math.sin(alpha_loc*j),
-						0, Math.cos(alpha_loc*j), Math.sin(alpha_loc*j),
-						0, Math.cos(alpha_loc*j), Math.sin(alpha_loc*j),
-						0, Math.cos(alpha_loc*j), Math.sin(alpha_loc*j),
-				];
+				// this.quad.normals = [
+				// 		0, Math.cos(alpha_loc*j), Math.sin(alpha_loc*j),
+				// 		0, Math.cos(alpha_loc*j), Math.sin(alpha_loc*j),
+				// 		0, Math.cos(alpha_loc*j), Math.sin(alpha_loc*j),
+				// 		0, Math.cos(alpha_loc*j), Math.sin(alpha_loc*j),
+				// ];
 
 				// console.log(this.quad.normals);
 
-				this.scene.translate(0, 0, -i + 0.5);
+				this.scene.translate(0, 0, i/this.stacks);
 				this.scene.rotate(alpha_loc*j, 0, 0, 1);
 				this.scene.translate(0, this.h, 0);
 				this.scene.rotate(-Math.PI/2, 1, 0, 0);
-				this.scene.scale(this.l, 1, 1);
+				this.scene.scale(this.l, 1/this.stacks, 1);
 				this.quad.display();
+
+
 
 				this.scene.popMatrix();
 			}
 		}
 
 		/* Bases of the prism
-		
+
 		this.scene.pushMatrix();
 
 		this.scene.translate(0, 0, 1);
@@ -150,6 +198,8 @@ class MyPrism extends CGFobject
 
 		this.scene.translate(0, 0, this.stacks - 1);
 
-		*/
+
 	}
+
+	*/
 };
