@@ -54,8 +54,6 @@ class MyPolygon extends CGFobject
 		this.slices = slices;
 
 		this.alpha = 2*Math.PI/slices;
-		this.h = Math.cos(this.alpha/2);
-		this.l = 2*Math.sin(this.alpha/2);
 
 		this.triangle = new MyTriangle(scene, slices);
 
@@ -95,8 +93,6 @@ class MyPrism extends CGFobject
 	initBuffers()
 	{
 		var alpha = 2*Math.PI/this.slices;
-		var l = Math.sin(this.alpha/2);
-		var h = Math.cos(this.alpha/2);
 
 		this.vertices = [];
 		this.indices = [];
