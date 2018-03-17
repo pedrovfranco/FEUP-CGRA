@@ -120,13 +120,8 @@ class MyPrism extends CGFobject
 				this.normals.push(Math.cos(alpha/2*(2*i+1)), Math.sin(alpha/2*(2*i+1)), 0);
 				this.normals.push(Math.cos(alpha/2*(2*i+1)), Math.sin(alpha/2*(2*i+1)), 0);
 
-				// console.log(this.normals);
-
 			}
 		}
-
-
-		// console.log(this.vertices);
 
 		this.primitiveType=this.scene.gl.TRIANGLES;
 

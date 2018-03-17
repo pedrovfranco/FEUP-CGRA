@@ -150,10 +150,10 @@ class LightingScene extends CGFscene
 
 
 		this.cylinder.display();
-/*
+
 		this.translate(4, 0, 0);
 
-		this.prism.display();*/
+		this.prism.display();
 		
 
 		// ---- END Scene drawing section
