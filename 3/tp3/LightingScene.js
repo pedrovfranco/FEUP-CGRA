@@ -54,10 +54,7 @@ class LightingScene extends CGFscene
 		this.materialB.setSpecular(0.8,0.8,0.8,1);
 		this.materialB.setShininess(120);
 
-		this.prism = new MyPrism(this, 8, 20);
-
-		this.cylinder = new MyCylinder(this, 8, 20);
-
+		this.lamp = new MyLamp(this, 50, 30);
 	};
 
 	initCameras()
@@ -73,10 +70,10 @@ class LightingScene extends CGFscene
 		this.lights[0].setPosition(4, 6, 1, 1);
 		// this.lights[0].setVisible(true); // show marker on light position (different from enabled)
 		
-		this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
+		this.lights[1].setPosition(-10.5, -6.0, 1.0, 1.0);
 		// this.lights[1].setVisible(true); // show marker on light position (different from enabled)
 
-		this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
+		this.lights[2].setPosition(10.5, -6.0, 5.0, 1.0);
 		// this.lights[2].setVisible(true); // show marker on light position (different from enabled)
 
 		this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
@@ -148,12 +145,10 @@ class LightingScene extends CGFscene
 
 		// ---- BEGIN Scene drawing section
 
+		this.translate(2,5,2);
+		this.rotate(Math.PI/2, 1,0,0);
 
-		this.cylinder.display();
-
-		this.translate(4, 0, 0);
-
-		this.prism.display();
+		this.lamp.display();
 		
 
 		// ---- END Scene drawing section
