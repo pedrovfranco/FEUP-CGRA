@@ -33,15 +33,10 @@ class LightingScene extends CGFscene
 
 		this.materialDefault = new CGFappearance(this);
 
-		this.floorAppearance = new CGFappearance(this);
-
-		this.floorAppearance.loadTexture("../resources/images/floor.png");
-
-
 		// Scene elements
 		this.table = new MyTable(this);
-		this.wall = new Plane(this);
-		this.floor = new MyQuad(this, 0, 1, 0, 1);
+		this.wall = new MyQuad(this, -2, 3, -1, 2);
+		this.floor = new MyQuad(this, 0, 10, 0, 12);
 
 		this.boardA = new Plane(this, BOARD_A_DIVISIONS);
 		this.boardB = new Plane(this, BOARD_B_DIVISIONS);
@@ -59,6 +54,14 @@ class LightingScene extends CGFscene
 		this.materialB.setDiffuse(0.6,0.6,0.6,1);
 		this.materialB.setSpecular(0.8,0.8,0.8,1);
 		this.materialB.setShininess(120);
+
+		this.floorAppearance = new CGFappearance(this);
+		this.floorAppearance.loadTexture("../resources/images/floor.png");
+
+		this.windowAppearance = new CGFappearance(this);
+		this.windowAppearance.loadTexture("../resources/images/window.png")
+
+		this.windowAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
 		this.cylinder = new MyCylinder(this, 8, 20);
 
@@ -114,6 +117,18 @@ class LightingScene extends CGFscene
 		this.lights[3].setSpecular(1.0,1.0,0,1.0);
 		this.lights[3].enable();
 
+		this.lights[4].setConstantAttenuation(0);
+		this.lights[4].setLinearAttenuation(0);
+		this.lights[4].setQuadraticAttenuation(0.2);
+
+		this.lights[4].setAmbient(0, 0, 0, 1);
+		this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
+		this.lights[4].setSpecular(1.0,1.0,0,1.0);
+		this.lights[4].enable();
+
+		this.lights[4].setPosition(0, 8/2, 15/2, 1.0); // this.scale(15, 8, 0.2);
+		this.lights[4].setVisible(true); // show marker on light position (different from enabled)
+
 	};
 
 	updateLights()
@@ -167,8 +182,11 @@ class LightingScene extends CGFscene
 			this.translate(0, 4, 7.5);
 			this.rotate(90 * degToRad, 0, 1, 0);
 			this.scale(15, 8, 0.2);
+			this.windowAppearance.apply();
 			this.wall.display();
 		this.popMatrix();
+
+		this.materialDefault.apply();
 
 		// Plane Wall
 		this.pushMatrix();
