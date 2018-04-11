@@ -82,10 +82,11 @@ class LightingScene extends CGFscene
 		this.slidesAppearance.setSpecular(0.2, 0.2, 0.2, 1);
 		this.slidesAppearance.setShininess(10);
 
-		this.cylinder = new MyCylinder(this, 4, 2);
+		this.clockAppearance = new CGFappearance(this);
+		this.clockAppearance.loadTexture("../resources/images/clock.png");
 
-		this.polygon = new MyPolygon(this, 4);
-
+		this.clock = new MyClock(this, 12, 1);
+		this.clockhand = new MyClockHand(this, 90);
 	};
 
 	initCameras()
@@ -95,7 +96,7 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
- 		this.setGlobalAmbientLight(1, 1, 1, 1.0);
+ 		this.setGlobalAmbientLight(0, 0, 0, 1.0);
 
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
@@ -150,6 +151,18 @@ class LightingScene extends CGFscene
 		this.lights[4].setPosition(0, 8/2, 15/2, 1.0); // this.scale(15, 8, 0.2);
 		this.lights[4].setVisible(true); // show marker on light position (different from enabled)
 
+		this.lights[5].setConstantAttenuation(0);
+		this.lights[5].setLinearAttenuation(1);
+		this.lights[5].setQuadraticAttenuation(0);
+
+		this.lights[5].setAmbient(0, 0, 0, 1);
+		this.lights[5].setDiffuse(1.0, 1.0, 1.0, 1.0);
+		this.lights[5].setSpecular(1.0,1.0,0,1.0);
+		this.lights[5].enable();
+
+		this.lights[5].setPosition(7.5, 6.9, 3);
+		this.lights[5].setVisible(true);
+
 	};
 
 	updateLights()
@@ -187,72 +200,81 @@ class LightingScene extends CGFscene
 		// ---- BEGIN Scene drawing section
 
 		// Floor
+		this.pushMatrix();
+			this.translate(7.5, 0, 7.5);
+			this.rotate(-90 * degToRad, 1, 0, 0);
+			this.scale(15, 15, 0.2);
+			this.floorAppearance.apply();
+			this.floor.display();
+		this.popMatrix();
+
+
+		// Left Wall
+		this.pushMatrix();	
+			this.translate(0, 4, 7.5);
+			this.rotate(90 * degToRad, 0, 1, 0);
+			this.scale(15, 8, 0.2);
+			this.windowAppearance.apply();
+			this.wall.display();
+		this.popMatrix();
+
+		this.materialDefault.apply();
+
+		// Plane Wall
+		this.pushMatrix();
+			this.translate(7.5, 4, 0);
+			this.scale(15, 8, 0.2);
+			this.wall.display();
+		this.popMatrix();
+
+		// First Table
+		this.pushMatrix();
+			this.translate(5, 0, 8);
+			this.table.display();
+		this.popMatrix();
+
+		// Second Table
+		this.pushMatrix();
+			this.translate(12, 0, 8);
+			this.table.display();
+		this.popMatrix();
+
+		// Board A
+		this.pushMatrix();
+			this.translate(4, 4, 0.2);
+			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
+
+			this.slidesAppearance.apply();
+			this.boardA.display();
+		this.popMatrix();
+
+		// Board B
+		this.pushMatrix();
+			this.translate(11, 4, 0.2);
+			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
+
+			this.boardAppearance.apply();
+			this.boardB.display();
+		this.popMatrix();
+
+		// Clock
+		this.pushMatrix();
+			this.translate(7.5, 6.9, 0);
+			this.scale(1, 1, 1/4);
+
+			this.clockAppearance.apply();
+			this.clock.display();
+		this.popMatrix();
+
+		// // ClockHand
 		// this.pushMatrix();
-		// 	this.translate(7.5, 0, 7.5);
-		// 	this.rotate(-90 * degToRad, 1, 0, 0);
-		// 	this.scale(15, 15, 0.2);
-		// 	this.floorAppearance.apply();
-		// 	this.floor.display();
+		// 	// this.translate(0.5, 0, 0.5);
+		// 	// this.scale(1, 1, 1/4);
+		// 	// this.rotate(-90*Math.PI/180, 0, 0, 1);
+
+		// 	this.clockhand.display();
 		// this.popMatrix();
 
-
-		// // Left Wall
-		// this.pushMatrix();	
-		// 	this.translate(0, 4, 7.5);
-		// 	this.rotate(90 * degToRad, 0, 1, 0);
-		// 	this.scale(15, 8, 0.2);
-		// 	this.windowAppearance.apply();
-		// 	this.wall.display();
-		// this.popMatrix();
-
-		// this.materialDefault.apply();
-
-		// // Plane Wall
-		// this.pushMatrix();
-		// 	this.translate(7.5, 4, 0);
-		// 	this.scale(15, 8, 0.2);
-		// 	this.wall.display();
-		// this.popMatrix();
-
-		// // First Table
-		// this.pushMatrix();
-		// 	this.translate(5, 0, 8);
-		// 	this.table.display();
-		// this.popMatrix();
-
-		// // Second Table
-		// this.pushMatrix();
-		// 	this.translate(12, 0, 8);
-		// 	this.table.display();
-		// this.popMatrix();
-
-		// // Board A
-		// this.pushMatrix();
-		// 	this.translate(4, 4.5, 0.2);
-		// 	this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
-
-		// 	this.slidesAppearance.apply();
-		// 	this.boardA.display();
-		// this.popMatrix();
-
-
-
-		// // Board B
-		// this.pushMatrix();
-		// 	this.translate(10.5, 4.5, 0.2);
-		// 	this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
-
-		// 	this.boardAppearance.apply();
-		// 	this.boardB.display();
-		// this.popMatrix();
-
-
-		// this.translate(4,4,4);
-		// this.polygon.display();
-
-		this.cylinder.display();
-
-		//this.quad.display();
 
 		// ---- END Scene drawing section
 	};
