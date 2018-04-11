@@ -85,19 +85,39 @@ class MyClock extends CGFobject
 		this.clock = new MyCylinderWithBase(scene, slices, stacks);
 
 		this.hand1 = new MyClockHand(scene, 0);
-		this.hand2 = new MyClockHand(scene, 90);
-		this.hand3 = new MyClockHand(scene, 180);
+		this.hand2 = new MyClockHand(scene, 0);
+		this.hand3 = new MyClockHand(scene, 0);
+
+		this.handAppearance = new CGFappearance(this.scene);
+		this.handAppearance.loadTexture("../resources/images/black.png");
+
+		this.defaultAppearance = new CGFappearance(this.scene);
 	}
 
 	display()
 	{
+
 		this.clock.display();
 
-		this.scene.translate(0, 0, 1.1);
+		this.scene.pushMatrix();
+			this.scene.pushMatrix();
+				this.scene.translate(0, 0, 1.5);
 
-		this.hand1.display();
-		this.hand2.display();
-		this.hand3.display();
+				this.scene.scale(1,0.6,1);
+
+				this.handAppearance.apply();
+				this.hand1.display();
+				this.hand2.display();
+				this.hand3.display();
+
+			this.scene.popMatrix();
+
+			this.hand1.setAngle(0);
+			this.hand2.setAngle(90);
+			this.hand3.setAngle(180);
+
+			this.defaultAppearance.apply();
+		this.scene.popMatrix();
 	}
 };
 
@@ -136,6 +156,13 @@ class MyClockHand extends CGFobject
 			0, 0, 1,
 			0, 0, 1,
 			0, 0, 1
+		];
+
+		this.texCoords = [
+			0, 1,
+			0, 0,
+			1, 1,
+			1, 0
 		];
 
 	
