@@ -37,14 +37,14 @@ class LightingScene extends CGFscene
 		this.table = new MyTable(this);
 
 		var scaleX = 2;
-		var scaleY = 1;
+		var scaleY = 3;
 
 		this.wall = new MyQuad(this, 0 - (scaleY-1)/2, 1 + (scaleY-1)/2, 0 - (scaleX-1)/2, 1 + (scaleX-1)/2);
 
 		this.floor = new MyQuad(this, 0, 10, 0, 12);
 
-		this.boardA = new Plane(this, BOARD_A_DIVISIONS, 1, 1);
-		this.boardB = new Plane(this, BOARD_B_DIVISIONS, 1, 1);
+		this.boardA = new Plane(this, BOARD_A_DIVISIONS);
+		this.boardB = new Plane(this, BOARD_B_DIVISIONS);
 
 		// Materials
 		this.materialA = new CGFappearance(this);
