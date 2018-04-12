@@ -86,9 +86,9 @@ class LightingScene extends CGFscene
 		this.clockAppearance.loadTexture("../resources/images/clock.png");
 
 		this.clock = new MyClock(this, 12, 1);
-		this.clockhand = new MyClockHand(this, 90);
+		this.clockhand = new MyClockHand(this, 90, 1, 1, 1);
 
-		this.setUpdatePeriod(100);
+		this.setUpdatePeriod(1000/60);
 	};
 
 	initCameras()
@@ -263,7 +263,7 @@ class LightingScene extends CGFscene
 
 		// // ClockHand
 		// this.pushMatrix();
-		// 	// this.translate(0.5, 0, 0.5);
+		// 	this.translate(0.5, 0, 0.5);
 		// 	// this.scale(1, 1, 1/4);
 		// 	// this.rotate(-90*Math.PI/180, 0, 0, 1);
 

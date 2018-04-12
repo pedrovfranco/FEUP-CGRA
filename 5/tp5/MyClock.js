@@ -137,9 +137,9 @@ class MyClock extends CGFobject
 
 		this.clock = new MyCylinderWithBase(scene, slices, stacks);
 
-		this.hand1 = new MyClockHand(scene, 0);
-		this.hand2 = new MyClockHand(scene, 0);
-		this.hand3 = new MyClockHand(scene, 0);
+		this.hourhand = new MyClockHand(scene, 0, 2.3, 0.5, 2.3);
+		this.minutehand = new MyClockHand(scene, 0, 1.5, 0.65, 1.5);
+		this.secondhand = new MyClockHand(scene, 0, 0.8, 0.75, 0.8);
 
 		this.handAppearance = new CGFappearance(this.scene);
 		this.handAppearance.loadTexture("../resources/images/black.png");
@@ -162,32 +162,26 @@ class MyClock extends CGFobject
 
 		this.scene.pushMatrix();
 
-			this.scene.scale(0.5, 0.5, 0.5);
-
 			this.handAppearance.apply();
-			this.hand1.display();
+			this.hourhand.display();
 
-			this.hand1.setAngle(getHourAngle(this.hour));
-
-		this.scene.popMatrix();
-
-		this.scene.pushMatrix();
-
-			this.scene.scale(0.65, 0.65, 0.65);
-
-			this.hand2.display();
-
-			this.hand2.setAngle(getMinuteAngle(this.minute));
+			this.hourhand.setAngle(getHourAngle(this.hour));
 
 		this.scene.popMatrix();
 
 		this.scene.pushMatrix();
 
-			this.scene.scale(0.8, 0.8, 0.8);
+			this.minutehand.display();
 
-			this.hand3.display();
+			this.minutehand.setAngle(getMinuteAngle(this.minute));
 
-			this.hand3.setAngle(getSecondAngle(this.second));
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+
+			this.secondhand.display();
+
+			this.secondhand.setAngle(getSecondAngle(this.second));
 
 		this.scene.popMatrix();
 		
@@ -197,25 +191,25 @@ class MyClock extends CGFobject
 	{
 		// console.log(currTime);
 
-		if (this.time == -1)
-			this.time = currTime;
+		// if (this.time == -1)
+		// 	this.time = currTime;
 
-		var deltaTime = (currTime - this.time); //Time elapsed in milliseconds
+		// var deltaTime = (currTime - this.time); //Time elapsed in milliseconds
 
-		this.second = 45 + deltaTime/1000;
+		// this.second = 45 + deltaTime/1000;
 
 
-		this.minute = 30 + this.second/60;
-		this.second = this.second%60;
+		// this.minute = 30 + this.second/60;
+		// this.second = this.second%60;
 
-		this.hour = 3 + this.minute/60;
-		this.minute = this.minute%60;
+		// this.hour = 3 + this.minute/60;
+		// this.minute = this.minute%60;
 
-		this.hour = this.hour%12;
+		// this.hour = this.hour%12;
 
-		// this.hour = millisecondsToHours(currTime);
-		// this.minute = millisecondsToMinutes(currTime);
-		// this.second = millisecondsToSeconds(currTime);
+		this.hour = millisecondsToHours(currTime);
+		this.minute = millisecondsToMinutes(currTime);
+		this.second = millisecondsToSeconds(currTime);
 
 		// console.log(this.hour);
 		// console.log(this.minute);
@@ -226,56 +220,36 @@ class MyClock extends CGFobject
 
 class MyClockHand extends CGFobject
 {
-	constructor(scene, angle)
+	constructor(scene, angle, scaleX, scaleY, scaleZ)
 	{
 		super(scene);
 
-		this.setAngle(angle)		
+		this.setAngle(angle);
+
+		this.scaleX = scaleX;
+		this.scaleY = scaleY;
+		this.scaleZ = scaleZ;
+
+		this.cylinder = new MyCylinderWithBase(scene, 12, 2);
 	}
 
 	setAngle(angle)
 	{
 		this.angle = angle*Math.PI/180;
-
-		this.vertices = [
-			-0.05*Math.cos(-this.angle), -0.05*Math.sin(-this.angle), 0,
-			-Math.sin(-this.angle) - 0.02*Math.cos(-this.angle), Math.cos(-this.angle) - 0.02*Math.sin(-this.angle), 0,
-			0.05*Math.cos(-this.angle), 0.05*Math.sin(-this.angle), 0,
-			0.02*Math.cos(-this.angle) - Math.sin(-this.angle), 0.02*Math.sin(-this.angle) + Math.cos(-this.angle), 0
-		];
-
-		this.initBuffers();
 	}
 
-	initBuffers()
+	display()
 	{
-		this.indices = [
-			0, 2, 3,
-			0, 3, 1
-		];
+		this.scene.pushMatrix();
+			
+			this.scene.rotate(-this.angle, 0, 0, 1);
+			this.scene.scale(this.scaleX, this.scaleY, this.scaleZ);
 
-		this.normals = [
-			0, 0, 1,
-			0, 0, 1,
-			0, 0, 1,
-			0, 0, 1
-		];
+			this.scene.rotate(-Math.PI/2, 1, 0, 0);
+			this.scene.scale(0.008, 0.008, 1);
 
-		this.texCoords = [
-			0, 1,
-			0, 0,
-			1, 1,
-			1, 0
-		];
+			this.cylinder.display();
 
-	
-		// console.log(this.vertices);
-		// console.log(this.indices);
-		// console.log(this.normals);
-
-		this.primitiveType=this.scene.gl.TRIANGLES;
-
-		this.initGLBuffers();
-
+		this.scene.popMatrix();
 	}
 };
