@@ -30,6 +30,34 @@ function getSecondAngle(second)
 	return 360*second/60;
 }
 
+function millisecondsToDays(ms)
+{
+	return (ms/24/60/60/1000);
+}
+
+function millisecondsToHours(ms)
+{
+	var seconds = ms/1000;
+
+	var secondsFromMidnight = seconds % (24*60*60);
+
+	return (secondsFromMidnight/60/60 + 1);
+}
+
+function millisecondsToMinutes(ms)
+{
+	var hours = millisecondsToHours(ms);
+	return ((hours*60)% 60);
+}
+
+function millisecondsToSeconds(ms)
+{
+	var minutes = millisecondsToMinutes(ms);
+	return ((minutes*60)% 60);
+}
+
+
+
 class MyCylinderWithBase extends CGFobject
 {
 	constructor(scene, slices, stacks)
@@ -134,20 +162,22 @@ class MyClock extends CGFobject
 
 		this.scene.pushMatrix();
 
-			this.scene.scale(0.6, 0.6, 0.6);
+			this.scene.scale(0.5, 0.5, 0.5);
 
 			this.handAppearance.apply();
 			this.hand1.display();
 
-			this.hand1.setAngle(getHourAngle(getHour(this.hour, this.minute, this.second)));
+			this.hand1.setAngle(getHourAngle(this.hour));
 
 		this.scene.popMatrix();
 
 		this.scene.pushMatrix();
 
-			this.scene.scale(0.7, 0.7, 0.7);
+			this.scene.scale(0.65, 0.65, 0.65);
 
 			this.hand2.display();
+
+			this.hand2.setAngle(getMinuteAngle(this.minute));
 
 		this.scene.popMatrix();
 
@@ -157,10 +187,10 @@ class MyClock extends CGFobject
 
 			this.hand3.display();
 
+			this.hand3.setAngle(getSecondAngle(this.second));
+
 		this.scene.popMatrix();
 		
-		
-		this.hand3.setAngle(getSecondAngle(this.second));
 	}
 
 	update(currTime)
@@ -172,18 +202,24 @@ class MyClock extends CGFobject
 
 		var deltaTime = (currTime - this.time); //Time elapsed in milliseconds
 
-		this.second = deltaTime/1000;
+		this.second = 45 + deltaTime/1000;
 
 
-		this.minute = this.second/60;
+		this.minute = 30 + this.second/60;
 		this.second = this.second%60;
 
-		this.hour = this.minute/60;
+		this.hour = 3 + this.minute/60;
 		this.minute = this.minute%60;
 
-		console.log(this.hour);
-		console.log(this.minute);
-		console.log(this.second);
+		this.hour = this.hour%12;
+
+		// this.hour = millisecondsToHours(currTime);
+		// this.minute = millisecondsToMinutes(currTime);
+		// this.second = millisecondsToSeconds(currTime);
+
+		// console.log(this.hour);
+		// console.log(this.minute);
+		// console.log(this.second);
 
 	}
 };

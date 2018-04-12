@@ -153,18 +153,6 @@ class LightingScene extends CGFscene
 		this.lights[4].setPosition(0, 8/2, 15/2, 1.0); // this.scale(15, 8, 0.2);
 		this.lights[4].setVisible(true); // show marker on light position (different from enabled)
 
-		// this.lights[5].setConstantAttenuation(0);
-		// this.lights[5].setLinearAttenuation(0);
-		// this.lights[5].setQuadraticAttenuation(0);
-
-		this.lights[5].setAmbient(0, 0, 0, 1);
-		this.lights[5].setDiffuse(1.0, 0, 10, 1.0);
-		this.lights[5].setSpecular(1.0, 0, 0, 1.0);
-		this.lights[5].enable();
-
-		this.lights[5].setPosition(7.5, 6.9, 2);
-		this.lights[5].setVisible(true);
-
 	};
 
 	updateLights()
