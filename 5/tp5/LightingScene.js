@@ -88,7 +88,7 @@ class LightingScene extends CGFscene
 		this.clock = new MyClock(this, 12, 1);
 		this.clockhand = new MyClockHand(this, 90, 1, 1, 1);
 
-		this.setUpdatePeriod(1000/60);
+		this.setUpdatePeriod(100);
 	};
 
 	initCameras()

@@ -98,7 +98,7 @@ class MyCylinderWithBase extends CGFobject
 			}
 		}
 
-		var j = this.slices*(this.stacks)*2;
+		var j = this.slices*(this.stacks)*2; //Number of side face vertices.
 
 		for (var i = 0; i < this.slices; i++)
 		{
@@ -106,7 +106,7 @@ class MyCylinderWithBase extends CGFobject
 
 			this.indices.push(j + i%this.slices);
 			this.indices.push(j + (i + 1)%this.slices);
-			this.indices.push(j + this.slices); // ABC
+			this.indices.push(j + this.slices);
 
 			this.normals.push(0, 0, 1);
 
