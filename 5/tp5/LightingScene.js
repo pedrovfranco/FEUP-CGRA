@@ -87,6 +87,8 @@ class LightingScene extends CGFscene
 
 		this.clock = new MyClock(this, 12, 1);
 		this.clockhand = new MyClockHand(this, 90);
+
+		this.setUpdatePeriod(100);
 	};
 
 	initCameras()
@@ -169,6 +171,11 @@ class LightingScene extends CGFscene
 	{
 		for (var i = 0; i < this.lights.length; i++)
 			this.lights[i].update();
+	}
+
+	update(currTime)
+	{
+		this.clock.update(currTime);
 	}
 
 

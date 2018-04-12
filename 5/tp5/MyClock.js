@@ -4,6 +4,31 @@
  * @constructor
  */
 
+function getHour(hour, minute, second)
+{
+	var min = getMinute(minute, second);
+	return hour + min/60;
+}
+
+function getMinute(minute, second)
+{
+	return minute + second/60;
+}
+
+function getHourAngle(hour)
+{
+	return 360*hour/12;
+}
+
+function getMinuteAngle(minute)
+{
+	return 360*minute/60;
+}
+
+function getSecondAngle(second)
+{
+	return 360*second/60;
+}
 
 class MyCylinderWithBase extends CGFobject
 {
@@ -92,6 +117,12 @@ class MyClock extends CGFobject
 		this.handAppearance.loadTexture("../resources/images/black.png");
 
 		this.defaultAppearance = new CGFappearance(this.scene);
+
+		this.hour = 3;
+		this.minute = 30;
+		this.second = 45;
+	
+		this.time = -1;
 	}
 
 	display()
@@ -99,25 +130,61 @@ class MyClock extends CGFobject
 
 		this.clock.display();
 
+		this.scene.translate(0, 0, 1.05);
+
 		this.scene.pushMatrix();
-			this.scene.pushMatrix();
-				this.scene.translate(0, 0, 1.5);
 
-				this.scene.scale(1,0.6,1);
+			this.scene.scale(0.6, 0.6, 0.6);
 
-				this.handAppearance.apply();
-				this.hand1.display();
-				this.hand2.display();
-				this.hand3.display();
+			this.handAppearance.apply();
+			this.hand1.display();
 
-			this.scene.popMatrix();
+			this.hand1.setAngle(getHourAngle(getHour(this.hour, this.minute, this.second)));
 
-			this.hand1.setAngle(0);
-			this.hand2.setAngle(90);
-			this.hand3.setAngle(180);
-
-			this.defaultAppearance.apply();
 		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+
+			this.scene.scale(0.7, 0.7, 0.7);
+
+			this.hand2.display();
+
+		this.scene.popMatrix();
+
+		this.scene.pushMatrix();
+
+			this.scene.scale(0.8, 0.8, 0.8);
+
+			this.hand3.display();
+
+		this.scene.popMatrix();
+		
+		
+		this.hand3.setAngle(getSecondAngle(this.second));
+	}
+
+	update(currTime)
+	{
+		// console.log(currTime);
+
+		if (this.time == -1)
+			this.time = currTime;
+
+		var deltaTime = (currTime - this.time); //Time elapsed in milliseconds
+
+		this.second = deltaTime/1000;
+
+
+		this.minute = this.second/60;
+		this.second = this.second%60;
+
+		this.hour = this.minute/60;
+		this.minute = this.minute%60;
+
+		console.log(this.hour);
+		console.log(this.minute);
+		console.log(this.second);
+
 	}
 };
 
