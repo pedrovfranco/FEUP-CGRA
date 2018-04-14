@@ -43,7 +43,7 @@ class LightingScene extends CGFscene
 
 		this.floor = new MyQuad(this, 0, 10, 0, 12);
 
-		this.boardA = new Plane(this, BOARD_A_DIVISIONS);
+		this.boardA = new Plane(this, BOARD_A_DIVISIONS, -0.25, 1.25, 0, 1);
 		this.boardB = new Plane(this, BOARD_B_DIVISIONS);
 
 		// Materials
@@ -76,6 +76,7 @@ class LightingScene extends CGFscene
 
 		this.slidesAppearance = new CGFappearance(this);
 		this.slidesAppearance.loadTexture("../resources/images/slides.png");
+		this.slidesAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
 
 		this.slidesAppearance.setAmbient(0.3, 0.3, 0.3, 1);
 		this.slidesAppearance.setDiffuse(1, 1, 1, 1);
@@ -86,9 +87,10 @@ class LightingScene extends CGFscene
 		this.clockAppearance.loadTexture("../resources/images/clock.png");
 
 		this.clock = new MyClock(this, 12, 1);
-		this.clockhand = new MyClockHand(this, 90, 1, 1, 1);
 
-		this.setUpdatePeriod(100);
+		this.paperplane = new MyPaperPlane(this);
+
+		this.setUpdatePeriod(1000/60);
 	};
 
 	initCameras()
@@ -98,7 +100,7 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
- 		this.setGlobalAmbientLight(0, 0, 0, 1.0);
+ 		this.setGlobalAmbientLight(1, 1, 1, 1.0);
 
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
@@ -164,6 +166,7 @@ class LightingScene extends CGFscene
 	update(currTime)
 	{
 		this.clock.update(currTime);
+		this.paperplane.update(currTime);
 	}
 
 
@@ -261,14 +264,14 @@ class LightingScene extends CGFscene
 			this.clock.display();
 		this.popMatrix();
 
-		// // ClockHand
-		// this.pushMatrix();
-		// 	this.translate(0.5, 0, 0.5);
-		// 	// this.scale(1, 1, 1/4);
-		// 	// this.rotate(-90*Math.PI/180, 0, 0, 1);
+		// Paper Plane
+		this.pushMatrix();
+			this.translate(13, 4, 8);
+			// this.scale(1, 1, 1/4);
+			this.rotate(-Math.PI/2, 0, 1, 0);
 
-		// 	this.clockhand.display();
-		// this.popMatrix();
+			this.paperplane.display();
+		this.popMatrix();
 
 
 		// ---- END Scene drawing section

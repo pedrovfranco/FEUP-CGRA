@@ -230,7 +230,7 @@ class MyClockHand extends CGFobject
 		this.scaleY = scaleY;
 		this.scaleZ = scaleZ;
 
-		this.cylinder = new MyCylinderWithBase(scene, 12, 2);
+		this.cylinder = new MyCylinderWithBase(scene, 3, 2);
 	}
 
 	setAngle(angle)
