@@ -4,58 +4,6 @@
  * @constructor
  */
 
-function getHour(hour, minute, second)
-{
-	var min = getMinute(minute, second);
-	return hour + min/60;
-}
-
-function getMinute(minute, second)
-{
-	return minute + second/60;
-}
-
-function getHourAngle(hour)
-{
-	return 360*hour/12;
-}
-
-function getMinuteAngle(minute)
-{
-	return 360*minute/60;
-}
-
-function getSecondAngle(second)
-{
-	return 360*second/60;
-}
-
-function millisecondsToDays(ms)
-{
-	return (ms/24/60/60/1000);
-}
-
-function millisecondsToHours(ms)
-{
-	var seconds = ms/1000;
-
-	var secondsFromMidnight = seconds % (24*60*60);
-
-	return (secondsFromMidnight/60/60 + 1);
-}
-
-function millisecondsToMinutes(ms)
-{
-	var hours = millisecondsToHours(ms);
-	return ((hours*60)% 60);
-}
-
-function millisecondsToSeconds(ms)
-{
-	var minutes = millisecondsToMinutes(ms);
-	return ((minutes*60)% 60);
-}
-
 
 class MyWing extends CGFobject
 {
@@ -84,7 +32,6 @@ class MyWing extends CGFobject
 			0, 0, 1,
 			0, 0, 1,
 			0, 0, 1,
-			0, 0, 1,
 			0, 0, 1
 		];
 
@@ -105,43 +52,98 @@ class MyPaperPlane extends CGFobject
 		this.wing = new MyWing(scene);
 
 		this.time = -1;
-		this.elapsed = 0;
+		this.elapsed = 0; //Time elapsed in milliseconds
 
 		this.hitY = -1;
 		this.hitZ = -1;
+		this.hitAngle = -1;
 		this.hitMoment = -1;
+
+		this.hitMoment2 = -1;
+
+		this.hitMoment3 = -1;
 
 	}
 
 	display()
 	{
-		var angle = Math.PI/20;
+		var t = this.elapsed/1000;
+		var x = 0;
+		var z = Math.pow(t,2)*Math.pow(Math.log(t+2), 2)/2;
+		var y = Math.pow(z, 2)/70;
+		var angle = -Math.atan(2*z/70);
 
-		if (5*Math.pow(this.elapsed/1000, 0.8) < 12)
+
+		if (z < 11.8)
 		{
-			this.scene.translate(0, 5*Math.pow(this.elapsed/1000, 0.8)*Math.tan(angle), 5*Math.pow(this.elapsed/1000, 0.8));
-			this.scene.rotate(-angle, 1, 0, 0);
+			this.scene.translate(x, y, z);
+			this.scene.rotate(angle, 1, 0, 0);
 		}
 		else
 		{
 			if (this.hitMoment == -1)
 			{
-				this.hitY = 5*Math.pow(this.elapsed/1000, 0.8)*Math.tan(angle);
-				this.hitZ = 5*Math.pow(this.elapsed/1000, 0.8);
+				this.hitY = y;
+				this.hitZ = z;
+				this.hitAngle = angle;
 				this.hitMoment = this.elapsed;
 			}
 
-			if (this.hitY - Math.pow((this.elapsed - this.hitMoment)/1000, 2)*4 > -6)
+			t = (this.elapsed - this.hitMoment)/1000;
+			x = 0;
+			y = this.hitY - Math.pow(t, 2)*4.9;
+			z = this.hitZ + t/4;
+			angle = this.hitAngle + Math.atan(-3*t);
+
+			if (y > -3.8)
 			{
-				this.scene.translate(0, this.hitY - Math.pow((this.elapsed - this.hitMoment)/1000, 2)*3.3, this.hitZ + (this.elapsed - this.hitMoment)/1000/4);
-				this.scene.rotate(-angle + Math.atan(-3*(this.elapsed - this.hitMoment)/1000), 1, 0, 0);
+				this.scene.translate(x, y, z);
+				this.scene.rotate(angle, 1, 0, 0);
 			}
 			else
 			{
-				this.scene.translate(0, -3.9, this.hitZ-1);
+				if (this.hitMoment2 == -1)
+				{
+					this.hitY = y;
+					this.hitZ = z;
+					this.hitAngle = angle;
+					this.hitMoment2 = this.elapsed;
+				}
+
+				t = (this.elapsed - this.hitMoment2)/1000;
+				x = 0;
+				z = this.hitZ;
+				angle = this.hitAngle - 3*Math.pow(t,2) ;
+				y = this.hitY - 0.04*Math.cos(angle);
+
+				if (angle > -Math.PI)
+				{
+					this.scene.translate(x, y, z);
+					this.scene.rotate(angle, 1, 0, 0);
+				}
+				else
+				{
+					if (this.hitMoment3 == -1)
+					{
+						this.hitY = y;
+						this.hitZ = z;
+						this.hitAngle = angle;
+						this.hitMoment3 = this.elapsed;
+					}
+
+					t = (this.elapsed - this.hitMoment3)/1000;
+					x = 0;
+					y = -3.8759;
+					z = 12.1459;
+					angle = -Math.PI;
+
+					this.scene.translate(x, y, z);
+					this.scene.rotate(angle, 1, 0, 0);
+				}
+				
 			}
 		}
-		
+
 
 		this.scene.pushMatrix();
 			this.scene.rotate(Math.PI/2, 1, 0, 0);
@@ -185,23 +187,9 @@ class MyPaperPlane extends CGFobject
 
 	update(currTime)
 	{
-		// console.log(currTime);
-
 		if (this.time == -1)
 			this.time = currTime;
 
 		this.elapsed = (currTime - this.time); //Time elapsed in milliseconds
-
-		this.second = 45 + this.elapsed/1000;
-
-
-		this.minute = 30 + this.second/60;
-		this.second = this.second%60;
-
-		this.hour = 3 + this.minute/60;
-		this.minute = this.minute%60;
-
-		this.hour = this.hour%12;
-
 	}
 };

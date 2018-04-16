@@ -266,7 +266,7 @@ class LightingScene extends CGFscene
 
 		// Paper Plane
 		this.pushMatrix();
-			this.translate(13, 4, 8);
+			this.translate(13, 3.9, 8);
 			// this.scale(1, 1, 1/4);
 			this.rotate(-Math.PI/2, 0, 1, 0);
 
