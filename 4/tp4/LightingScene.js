@@ -82,8 +82,11 @@ class LightingScene extends CGFscene
 		this.slidesAppearance.setSpecular(0.2, 0.2, 0.2, 1);
 		this.slidesAppearance.setShininess(10);
 
-		this.cylinder = new MyCylinder(this, 8, 20);
+		this.cylinder = new MyCylinder(this, 4, 1);
 
+		this.cylinderAppearance = new CGFappearance(this);
+		this.cylinderAppearance.loadTexture("../resources/images/nyancat.jpg");
+		// this.cylinderAppearance.loadTexture("../resources/images/board.png");
 	};
 
 	initCameras()
@@ -93,7 +96,7 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
- 		this.setGlobalAmbientLight(0,0,0, 1.0);
+ 		this.setGlobalAmbientLight(1, 1, 1, 1.0);
 
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
@@ -184,69 +187,75 @@ class LightingScene extends CGFscene
 
 		// ---- BEGIN Scene drawing section
 
-		// Floor
-		this.pushMatrix();
-			this.translate(7.5, 0, 7.5);
-			this.rotate(-90 * degToRad, 1, 0, 0);
-			this.scale(15, 15, 0.2);
-			this.floorAppearance.apply();
-			this.floor.display();
-		this.popMatrix();
+		// // Floor
+		// this.pushMatrix();
+		// 	this.translate(7.5, 0, 7.5);
+		// 	this.rotate(-90 * degToRad, 1, 0, 0);
+		// 	this.scale(15, 15, 0.2);
+		// 	this.floorAppearance.apply();
+		// 	this.floor.display();
+		// this.popMatrix();
 
 
-		// Left Wall
-		this.pushMatrix();	
-			this.translate(0, 4, 7.5);
-			this.rotate(90 * degToRad, 0, 1, 0);
-			this.scale(15, 8, 0.2);
-			this.windowAppearance.apply();
-			this.wall.display();
-		this.popMatrix();
+		// // Left Wall
+		// this.pushMatrix();	
+		// 	this.translate(0, 4, 7.5);
+		// 	this.rotate(90 * degToRad, 0, 1, 0);
+		// 	this.scale(15, 8, 0.2);
+		// 	this.windowAppearance.apply();
+		// 	this.wall.display();
+		// this.popMatrix();
 
-		this.materialDefault.apply();
+		// this.materialDefault.apply();
 
-		// Plane Wall
-		this.pushMatrix();
-			this.translate(7.5, 4, 0);
-			this.scale(15, 8, 0.2);
-			this.wall.display();
-		this.popMatrix();
+		// // Plane Wall
+		// this.pushMatrix();
+		// 	this.translate(7.5, 4, 0);
+		// 	this.scale(15, 8, 0.2);
+		// 	this.wall.display();
+		// this.popMatrix();
 
-		// First Table
-		this.pushMatrix();
-			this.translate(5, 0, 8);
-			this.table.display();
-		this.popMatrix();
+		// // First Table
+		// this.pushMatrix();
+		// 	this.translate(5, 0, 8);
+		// 	this.table.display();
+		// this.popMatrix();
+
+		// // Second Table
+		// this.pushMatrix();
+		// 	this.translate(12, 0, 8);
+		// 	this.table.display();
+		// this.popMatrix();
+
+		// // Board A
+		// this.pushMatrix();
+		// 	this.translate(4, 4.5, 0.2);
+		// 	this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
+
+		// 	this.slidesAppearance.apply();
+		// 	this.boardA.display();
+		// this.popMatrix();
+
+
+
+		// // Board B
+		// this.pushMatrix();
+		// 	this.translate(10.5, 4.5, 0.2);
+		// 	this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
+
+		// 	this.boardAppearance.apply();
+		// 	this.boardB.display();
+		// this.popMatrix();
+
+
 
 		// Second Table
 		this.pushMatrix();
-			this.translate(12, 0, 8);
-			this.table.display();
+			this.scale(1, 1, 2);
+
+			this.cylinderAppearance.apply();
+			this.cylinder.display();
 		this.popMatrix();
-
-		// Board A
-		this.pushMatrix();
-			this.translate(4, 4.5, 0.2);
-			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
-
-			this.slidesAppearance.apply();
-			this.boardA.display();
-		this.popMatrix();
-
-
-
-		// Board B
-		this.pushMatrix();
-			this.translate(10.5, 4.5, 0.2);
-			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
-
-			this.boardAppearance.apply();
-			this.boardB.display();
-		this.popMatrix();
-
-
-
-		//this.quad.display();
 
 		// ---- END Scene drawing section
 	};

@@ -90,7 +90,7 @@ class LightingScene extends CGFscene
 
 		this.paperplane = new MyPaperPlane(this);
 
-		this.setUpdatePeriod(1000/60);
+		this.setUpdatePeriod(1000/10);
 	};
 
 	initCameras()
