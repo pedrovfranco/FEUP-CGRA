@@ -37,7 +37,7 @@ class LightingScene extends CGFscene
 
 		this.speed = 3;
 
-		this.terrain = new MyTerrain(this, 25, 1.5, 1.5);
+		this.terrain = new MyTerrain(this, 100, 10, 10);
 		this.car = new MyVehicle(this);
 
 		this.materialDefault = new CGFappearance(this);
@@ -170,7 +170,7 @@ class LightingScene extends CGFscene
 
 		//Terrain
 		this.pushMatrix();
-			this.scale(50, 50, 50);
+			this.scale(200, 200, 200);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.terrainApperance.apply();
 			this.terrain.display();
