@@ -37,7 +37,7 @@ class LightingScene extends CGFscene
 
 		this.speed = 3;
 
-		this.terrain = new MyTerrain(this, 25);
+		this.terrain = new MyTerrain(this, 25, 1.5, 1.5);
 		this.car = new MyVehicle(this);
 
 		this.materialDefault = new CGFappearance(this);
