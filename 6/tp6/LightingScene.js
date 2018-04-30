@@ -37,7 +37,7 @@ class LightingScene extends CGFscene
 
 		this.speed = 3;
 
-		this.terrain = new MyTerrain(this);
+		this.terrain = new MyTerrain(this, 25);
 		this.car = new MyVehicle(this);
 
 		this.materialDefault = new CGFappearance(this);
@@ -56,8 +56,7 @@ class LightingScene extends CGFscene
 		this.materialB.setShininess(120);
 
 		this.terrainApperance = new CGFappearance(this);
-		this.terrainApperance.loadTexture("../resources/images/terrain.jpg");
-
+		this.terrainApperance.loadTexture("../resources/images/grass2.jpg");
 
 	};
 
@@ -171,16 +170,14 @@ class LightingScene extends CGFscene
 
 		//Terrain
 		this.pushMatrix();
-		this.rotate(-Math.PI/2,1,0,0);
-		this.scale(50,50,0);
-		this.terrainApperance.apply();
-		this.terrain.display();
-
-
+			this.scale(50, 50, 50);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.terrainApperance.apply();
+			this.terrain.display();
 		this.popMatrix();
 
 		this.pushMatrix();
-		this.car.display();
+			// this.car.display();
 		this.popMatrix();
 		// ---- BEGIN Scene drawing section
 

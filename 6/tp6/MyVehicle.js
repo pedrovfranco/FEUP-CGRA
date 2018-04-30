@@ -10,13 +10,12 @@ class MyVehicle extends CGFobject
 	{
 		super(scene);
 
-		this.body = new MyQuad(this);
-
-
+		this.body = new MyQuad(scene);
 		
 	};
 
-	display(){
+	display()
+	{
 
 		this.body.display();
 
