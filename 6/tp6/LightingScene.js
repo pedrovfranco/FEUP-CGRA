@@ -220,7 +220,7 @@ class LightingScene extends CGFscene
 
 		//Car
 		this.pushMatrix();
-		this.car.display();
+			this.car.display();
 		this.popMatrix();
 
 		//SemiSphere
