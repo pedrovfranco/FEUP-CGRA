@@ -31,6 +31,7 @@ class MySemiSphereReversed extends CGFobject
 		this.vertices = [];
 		this.indices = [];
 		this.normals = [];
+		this.texCoords = [];
 
 		for (var j = 0; j < this.stacks; j++)
 		{
@@ -51,15 +52,15 @@ class MySemiSphereReversed extends CGFobject
 
 				this.normals.push(Math.cos(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), Math.sin(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), j/this.stacks);	// Vector from center (0,0,0) to P(x,y,z) is (x,y,z), therefore equal to the point it is applied to.
 
+				this.texCoords.push((Math.cos(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)) + 1)/2, (-Math.sin(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)) + 1)/2);
 			}
 		}
 
-		console.log(this.vertices);
-		console.log(this.indices);
-		console.log(this.normals);
+		console.log(this.texCoords);
 
 		this.vertices.push(0,0,1); // Center
 		this.normals.push(0,0,1); // Center
+		this.texCoords.push(0.5, 0.5);
 
 		this.primitiveType=this.scene.gl.TRIANGLES;
 
