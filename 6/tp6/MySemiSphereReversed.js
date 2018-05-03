@@ -1,5 +1,5 @@
 /**
- * MySemiSphere
+ * MySemiSphereReversed
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
@@ -12,7 +12,7 @@ function foo(input ,max) // If input is greater than max then returns max instad
 		return input;
 }
 
-class MySemiSphere extends CGFobject
+class MySemiSphereReversed extends CGFobject
 {
 	constructor(scene, slices, stacks)
 	{
@@ -41,12 +41,12 @@ class MySemiSphere extends CGFobject
 
 				if (j == this.stacks -1)
 				{
-					this.indices.push(foo((0 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + (j+1)*this.slices, this.slices*this.stacks)); // ACB
+					this.indices.push(foo((0 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + (j+1)*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); // ACB
 				}
 				else
 				{
-					this.indices.push(foo((0 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + (j+1)*this.slices, this.slices*this.stacks)); // ACB
-					this.indices.push(foo((0 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + (j+1)*this.slices, this.slices*this.stacks)); this.indices.push(foo((0 + i)%(this.slices) + (j+1)*this.slices, this.slices*this.stacks)); // BCD
+					this.indices.push(foo((0 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + (j+1)*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + j*this.slices, this.slices*this.stacks));  // 01prox1
+					this.indices.push(foo((0 + i)%(this.slices) + j*this.slices, this.slices*this.stacks)); this.indices.push(foo((0 + i)%(this.slices) + (j+1)*this.slices, this.slices*this.stacks)); this.indices.push(foo((1 + i)%(this.slices) + (j+1)*this.slices, this.slices*this.stacks));  // 00prox1prox
 				}
 
 				this.normals.push(Math.cos(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), Math.sin(alpha*i)*Math.sqrt(1 - Math.pow(j/this.stacks,2)), j/this.stacks);	// Vector from center (0,0,0) to P(x,y,z) is (x,y,z), therefore equal to the point it is applied to.

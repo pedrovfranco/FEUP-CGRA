@@ -58,7 +58,7 @@ class LightingScene extends CGFscene
 		this.terrainApperance = new CGFappearance(this);
 		this.terrainApperance.loadTexture("../resources/images/grass2.jpg");
 
-		this.semisphere = new MySemiSphere(this, 50, 50);
+		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
 	};
 
@@ -185,7 +185,7 @@ class LightingScene extends CGFscene
 
 		//SemiSphere
 		this.pushMatrix();
-			this.scale(20, 20, 20);
+			this.scale(100, 100, 100);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.semisphere.display();
 		this.popMatrix();
