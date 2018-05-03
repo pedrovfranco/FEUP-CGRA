@@ -37,10 +37,23 @@ class LightingScene extends CGFscene
 
 		this.speed = 3;
 
-		this.terrain = new MyTerrain(this, 100, 10, 10);
+		this.terrain = new MyTerrain(this, 100, 10, 10, this.altimetry);
 		this.car = new MyVehicle(this);
+		
 
 		this.materialDefault = new CGFappearance(this);
+
+		//Terrain Altimetry
+		this.altimetry= [[ 2.0 , 3.0 , 2.0, 4.0, 2.5, 2.4, 2.3, 1.3 ],
+						[ 2.0 , 3.0 , 2.0, 4.0, 7.5, 6.4, 4.3, 1.3 ],
+						[ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+						[ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+						[ 0.0 , 0.0 , 2.0, 4.0, 2.5, 2.4, 0.0, 0.0 ],
+						[ 0.0 , 0.0 , 2.0, 4.0, 3.5, 2.4, 0.0, 0.0 ],
+						[ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+						[ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+						[ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3 ]
+						];
 
 		// Materials
 		this.materialA = new CGFappearance(this);
@@ -134,8 +147,7 @@ class LightingScene extends CGFscene
 
 	update(currTime)
 	{
-		this.clock.update(currTime);
-		this.paperplane.update(currTime);
+		this.checkKeys();
 	}
 
 
@@ -143,6 +155,27 @@ class LightingScene extends CGFscene
 
 		console.log("Doing something...");
 	};
+
+	checkKeys()
+	{
+		var text="Keys pressed: ";
+		var keysPressed=false;
+
+	if (this.gui.isKeyPressed("KeyW"))
+	{
+		text+=" W ";
+		keysPressed=true;
+	}
+	
+	if (this.gui.isKeyPressed("KeyS"))
+	{
+	text+=" S ";
+	keysPressed=true;
+	}
+
+	if (keysPressed)
+	console.log(text);
+};
 
 	display()
 	{
@@ -180,15 +213,19 @@ class LightingScene extends CGFscene
 
 		//Car
 		this.pushMatrix();
-			// this.car.display();
+		this.car.display();
 		this.popMatrix();
 
 		//SemiSphere
 		this.pushMatrix();
-			this.scale(100, 100, 100);
+			this.translate(0, -50, 0);
+			this.scale(300, 300, 300);
 			this.rotate(-Math.PI/2, 1, 0, 0);
+			
+			this.backgroundAppearance.apply();
 			this.semisphere.display();
 		this.popMatrix();
+
 
 		// ---- BEGIN Scene drawing section
 

@@ -16,6 +16,7 @@ serialInclude([
 	'MyInterface.js',
 	'MyTerrain.js',
 	'MyVehicle.js',
+	'MyTire.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);

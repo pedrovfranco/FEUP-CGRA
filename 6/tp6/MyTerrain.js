@@ -6,12 +6,14 @@
 
 class MyTerrain extends Plane {
 
-	constructor(scene, nrDivs, scaleX, scaleY) 
+	constructor(scene, nrDivs, scaleX, scaleY, altimetry) 
 	{
 		var scaleX = scaleX || 1;
 		var scaleY = scaleY || 1;
 
-		super(scene, nrDivs, 0 - (scaleY-1)/2, 1 + (scaleY-1)/2, 0 - (scaleX-1)/2, 1 + (scaleX-1)/2);
+		super(scene, nrDivs, 0 - (scaleY-1)/2, 1 + (scaleY-1)/2, 0 - (scaleX-1)/2, 1 + (scaleX-1)/2, altimetry);
+	//fazer a altimetry
+
 	};
 
 };
