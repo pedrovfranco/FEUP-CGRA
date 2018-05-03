@@ -55,6 +55,13 @@ class LightingScene extends CGFscene
 						[ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3 ]
 						];
 
+		this.backgroundAppearance = new CGFappearance(this);
+		this.backgroundAppearance.loadTexture("../resources/images/sky.jpg");
+		this.backgroundAppearance.setAmbient(1, 1, 1, 1);
+		this.backgroundAppearance.setDiffuse(1, 1, 1, 1);
+		this.backgroundAppearance.setSpecular(1, 1, 1, 1);
+		this.backgroundAppearance.setShininess(0);
+
 		// Materials
 		this.materialA = new CGFappearance(this);
 		this.materialA.setAmbient(0.3,0.3,0.3,1);
