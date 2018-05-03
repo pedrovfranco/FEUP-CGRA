@@ -11,6 +11,7 @@ serialInclude([
 	'Plane.js',
 	'MyCylinder.js',
 	'MyPrism.js',
+	'MySemiSphere.js',
 	'MyInterface.js',
 	'MyTerrain.js',
 	'MyVehicle.js',

@@ -23,7 +23,7 @@ class LightingScene extends CGFscene
 
 		this.enableTextures(true);
 
-		this.gl.clearColor(0.0, 0.0, 1.0, 0.2);
+		this.gl.clearColor(0.0, 0.5, 1.0, 0.8);
 		this.gl.clearDepth(90.0);
 		this.gl.enable(this.gl.DEPTH_TEST);
 		this.gl.enable(this.gl.CULL_FACE);
@@ -57,6 +57,8 @@ class LightingScene extends CGFscene
 
 		this.terrainApperance = new CGFappearance(this);
 		this.terrainApperance.loadTexture("../resources/images/grass2.jpg");
+
+		this.semisphere = new MySemiSphere(this, 50, 50);
 
 	};
 
@@ -176,9 +178,18 @@ class LightingScene extends CGFscene
 			this.terrain.display();
 		this.popMatrix();
 
+		//Car
 		this.pushMatrix();
 			// this.car.display();
 		this.popMatrix();
+
+		//SemiSphere
+		this.pushMatrix();
+			this.scale(20, 20, 20);
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.semisphere.display();
+		this.popMatrix();
+
 		// ---- BEGIN Scene drawing section
 
 		// ---- END Scene drawing section
