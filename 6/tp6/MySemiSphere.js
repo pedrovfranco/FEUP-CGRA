@@ -4,7 +4,7 @@
  * @constructor
  */
 
-function foo(input ,max) // If input is greater than max then returns max instad of input. This function aids with calculating indices of the solid. If the indice is bigger than the number of vertices then it returns the last vertice.
+function foo(input, max) // If input is greater than max then returns max instad of input. This function aids with calculating indices of the solid. If the indice is bigger than the number of vertices then it returns the last vertice.
 {
 	if (input > max)
 		return max;
