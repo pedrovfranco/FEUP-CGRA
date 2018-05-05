@@ -99,9 +99,9 @@ class MyCylinder extends CGFobject
 		this.normals.push(0, 0, 1);
 
 		
-		console.log(this.vertices);
-		console.log(this.indices);
-		console.log(this.normals);
+		// console.log(this.vertices);
+		// console.log(this.indices);
+		// console.log(this.normals);
 
 
 		this.primitiveType=this.scene.gl.TRIANGLES;

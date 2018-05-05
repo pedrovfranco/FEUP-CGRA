@@ -54,9 +54,9 @@ class MySemiSphere extends CGFobject
 			}
 		}
 
-		console.log(this.vertices);
-		console.log(this.indices);
-		console.log(this.normals);
+		// console.log(this.vertices);
+		// console.log(this.indices);
+		// console.log(this.normals);
 
 		this.vertices.push(0,0,1); // Center
 		this.normals.push(0,0,1); // Center

@@ -80,6 +80,8 @@ class LightingScene extends CGFscene
 
 		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
+		this.prism = new MyTrapezoidPrism(this, 1, 2, 1);
+
 	};
 
 	initCameras()
@@ -89,7 +91,7 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
- 		this.setGlobalAmbientLight(1, 1, 1, 1.0);
+ 		this.setGlobalAmbientLight(1, 1, 1, 1);
 
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
@@ -233,6 +235,10 @@ class LightingScene extends CGFscene
 			this.semisphere.display();
 		this.popMatrix();
 
+		//Prism
+		this.pushMatrix();
+			// this.prism.display();
+		this.popMatrix();
 
 		// ---- BEGIN Scene drawing section
 

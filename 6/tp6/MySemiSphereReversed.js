@@ -56,8 +56,6 @@ class MySemiSphereReversed extends CGFobject
 			}
 		}
 
-		console.log(this.texCoords);
-
 		this.vertices.push(0,0,1); // Center
 		this.normals.push(0,0,1); // Center
 		this.texCoords.push(0.5, 0.5);

@@ -45,7 +45,26 @@ class MyCylinderWithBase extends CGFobject
 			}
 		}
 
-		var j = this.slices*(this.stacks)*2; //Number of side face vertices.
+		var j = this.vertices.length/3; //Number of side face vertices.
+
+		for (var i = 0; i < this.slices; i++)
+		{
+			this.vertices.push(Math.cos(alpha*i), Math.sin(alpha*i), 0);		// A
+
+			this.indices.push(j + i%this.slices);
+			this.indices.push(j + this.slices);
+			this.indices.push(j + (i + 1)%this.slices);
+
+			this.normals.push(0, 0, -1);
+
+			this.texCoords.push((Math.cos(alpha*i) + 1)/2, (-Math.sin(alpha*i) + 1)/2);
+		}
+
+		this.vertices.push(0, 0, 0);
+		this.normals.push(0, 0, -1);
+		this.texCoords.push(0.5, 0.5);
+
+		j = this.vertices.length/3;
 
 		for (var i = 0; i < this.slices; i++)
 		{
