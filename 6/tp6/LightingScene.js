@@ -19,6 +19,12 @@ class LightingScene extends CGFscene
 
 		this.initCameras();
 
+		this.luz0 = true;
+		this.luz1 = true;
+		this.luz2 = true;
+		this.luz3 = true;
+		this.luz4 = true;
+
 		this.initLights();
 
 		this.enableTextures(true);
@@ -29,13 +35,17 @@ class LightingScene extends CGFscene
 		this.gl.enable(this.gl.CULL_FACE);
 		this.gl.depthFunc(this.gl.LEQUAL);
 
-		this.axis = new CGFaxis(this);
+		this.axis = true;
 
-		this.option1 = true;
-
-		this.option2 = false;
+		this.Axis = new CGFaxis(this);
 
 		this.speed = 3;
+
+		this.length = 5;
+		this.axelDistance = 3;
+		this.tireDiameter = 1;
+		this.width = 2.2;
+		this.height = 2;
 
 		this.terrain = new MyTerrain(this, 100, 10, 10, this.altimetry);
 		this.car = new MyVehicle(this);
@@ -80,8 +90,11 @@ class LightingScene extends CGFscene
 
 		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
-		this.prism = new MyTrapezoidPrism(this, 1, 2, 1);
+		this.rot = 0;
 
+		this.framerate = 60;
+
+		this.setUpdatePeriod(1000/this.framerate);
 	};
 
 	initCameras()
@@ -91,72 +104,66 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
- 		this.setGlobalAmbientLight(1, 1, 1, 1);
-
-		// Positions for four lights
+ 		this.setGlobalAmbientLight(1, 1, 1, 0);		
+	
 		this.lights[0].setPosition(4, 6, 1, 1);
-		this.lights[0].setVisible(false); // show marker on light position (different from enabled)
-
-		this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-		this.lights[1].setVisible(false); // show marker on light position (different from enabled)
-
-		this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
-		this.lights[2].setVisible(false); // show marker on light position (different from enabled)
-		this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
-		this.lights[3].setVisible(false); // show marker on light position (different from enabled)
-
+		this.lights[0].setVisible(true); // show marker on light position (different from enabled)
 		this.lights[0].setAmbient(0, 0, 0, 1);
 		this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
 		this.lights[0].setSpecular(1.0,1.0,0,1.0);
 		this.lights[0].enable(); //Material A
 
+		this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
+		this.lights[1].setVisible(true); // show marker on light position (different from enabled)
 		this.lights[1].setAmbient(0, 0, 0, 1);
 		this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[1].enable(); //Material B
+		this.lights[1].enable(); //Material A
 
-
+		this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
+		this.lights[2].setVisible(true); // show marker on light position (different from enabled)
 		this.lights[2].setConstantAttenuation(0);
 		this.lights[2].setLinearAttenuation(1);
 		this.lights[2].setQuadraticAttenuation(0);
-
 		this.lights[2].setAmbient(0, 0, 0, 1);
 		this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
 		this.lights[2].setSpecular(1, 1, 1, 1);
-		this.lights[2].enable();
+		this.lights[2].enable(); //Material A
 
-
+		this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
+		this.lights[3].setVisible(true); // show marker on light position (different from enabled)
 		this.lights[3].setConstantAttenuation(0);
 		this.lights[3].setLinearAttenuation(0);
 		this.lights[3].setQuadraticAttenuation(0.2);
-
 		this.lights[3].setAmbient(0, 0, 0, 1);
 		this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
 		this.lights[3].setSpecular(1.0,1.0,0,1.0);
-		this.lights[3].enable();
+		this.lights[3].enable(); //Material A
 
 		this.lights[4].setConstantAttenuation(0);
 		this.lights[4].setLinearAttenuation(0);
 		this.lights[4].setQuadraticAttenuation(0.2);
-
 		this.lights[4].setAmbient(0, 0, 0, 1);
 		this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
 		this.lights[4].setSpecular(1.0,1.0,0,1.0);
 		this.lights[4].enable();
-
 		this.lights[4].setPosition(0, 8/2, 15/2, 1.0); // this.scale(15, 8, 0.2);
-		this.lights[4].setVisible(false); // show marker on light position (different from enabled)
+		this.lights[4].setVisible(true); // show marker on light position (different from enabled)
 
 	};
 
 	updateLights()
 	{
+		this.enableLights = [this.luz0, this.luz1, this.luz2, this.luz3, this.luz4];
+
 		for (var i = 0; i < this.lights.length; i++)
-			this.lights[i].update();
+			if (this.enableLights[i])
+				this.lights[i].update();
 	}
 
 	update(currTime)
 	{
 		this.checkKeys();
+		this.car.update(currTime, this.length, this.axelDistance, this.tireDiameter, this.width, this.height);
 	}
 
 
@@ -167,24 +174,59 @@ class LightingScene extends CGFscene
 
 	checkKeys()
 	{
-		var text="Keys pressed: ";
+		var text="Keys pressed:";
 		var keysPressed=false;
 
-	if (this.gui.isKeyPressed("KeyW"))
-	{
-		text+=" W ";
-		keysPressed=true;
-	}
-	
-	if (this.gui.isKeyPressed("KeyS"))
-	{
-	text+=" S ";
-	keysPressed=true;
-	}
+		if (this.gui.isKeyPressed("KeyW"))
+		{
+			text+=" W";
+			keysPressed=true;
+			this.car.setSpeed(15/this.framerate);
 
-	if (keysPressed)
-	console.log(text);
-};
+			if (this.gui.isKeyPressed("KeyA"))
+			{
+				text+=" D";
+				keysPressed=true;
+				this.car.setRotation(4/this.framerate);
+			}
+
+			if (this.gui.isKeyPressed("KeyD"))
+			{
+				text+=" D";
+				keysPressed=true;
+				this.car.setRotation(-4/this.framerate);
+			}
+		}	
+		
+		if (this.gui.isKeyPressed("KeyS"))
+		{
+			text+=" S";
+			keysPressed=true;
+			this.car.setSpeed(-15/this.framerate);
+
+			if (this.gui.isKeyPressed("KeyA"))
+			{
+				text+=" D";
+				keysPressed=true;
+				this.car.setRotation(4/this.framerate);
+			}
+
+			if (this.gui.isKeyPressed("KeyD"))
+			{
+				text+=" D";
+				keysPressed=true;
+				this.car.setRotation(-4/this.framerate);
+			}
+		}
+
+		if (keysPressed)
+			console.log(text);
+		else
+		{
+			this.car.setSpeed(0);
+			this.car.setRotation(0);
+		}
+	};
 
 	display()
 	{
@@ -205,7 +247,8 @@ class LightingScene extends CGFscene
 		this.updateLights();
 
 		// Draw axis
-		this.axis.display();
+		if (this.axis)
+			this.Axis.display();
 
 		this.materialDefault.apply();
 
@@ -214,7 +257,7 @@ class LightingScene extends CGFscene
 
 		//Terrain
 		this.pushMatrix();
-			this.scale(200, 200, 200);
+			this.scale(50, 50, 50);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.terrainApperance.apply();
 			this.terrain.display();
@@ -225,15 +268,15 @@ class LightingScene extends CGFscene
 			this.car.display();
 		this.popMatrix();
 
-		//SemiSphere
-		this.pushMatrix();
-			this.translate(0, -50, 0);
-			this.scale(300, 300, 300);
-			this.rotate(-Math.PI/2, 1, 0, 0);
+		// //SemiSphere
+		// this.pushMatrix();
+		// 	this.translate(0, 0, 0);
+		// 	this.scale(50, 50, 50);
+		// 	this.rotate(-Math.PI/2, 1, 0, 0);
 			
-			this.backgroundAppearance.apply();
-			this.semisphere.display();
-		this.popMatrix();
+		// 	this.backgroundAppearance.apply();
+		// 	this.semisphere.display();
+		// this.popMatrix();
 
 		//Prism
 		this.pushMatrix();

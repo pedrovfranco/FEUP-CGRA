@@ -18,37 +18,30 @@ class MyInterface extends CGFinterface {
 		// call CGFinterface init
 		super.init(application);
 
-		// init GUI. For more information on the methods, check:
-		//  http://workshop.chromeexperiments.com/examples/gui
-
 		this.gui = new dat.GUI();
 
-		// add a button:
-		// the first parameter is the object that is being controlled (in this case the scene)
-		// the identifier 'doSomething' must be a function declared as part of that object (i.e. a member of the scene class)
-		// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
+		this.gui.add(this.scene, 'speed', -5, 5);
+		this.gui.add(this.scene, 'axis');
 
-		this.gui.add(this.scene, 'doSomething');	
+		var car = this.gui.addFolder("Carro");
+		car.open();
 
-		// add a group of controls (and open/expand by defult)
+		car.add(this.scene, 'length', 4, 5);
+		car.add(this.scene, 'axelDistance', 2, 3.5);
+		car.add(this.scene, 'tireDiameter', 0.7, 1.1);
+		car.add(this.scene, 'width', 1.8, 2.5);
+		car.add(this.scene, 'height', 1.2, 2.0);
 
-		var group=this.gui.addFolder("Options");
-		group.open();
+		var luzes = this.gui.addFolder("Luzes");
+		luzes.open();
 
-		// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
-		// e.g. this.option1=true; this.option2=false;
-
-		group.add(this.scene, 'option1');
-		group.add(this.scene, 'option2');
-
-		// add a slider
-		// must be a numeric variable of the scene, initialized in scene.init e.g.
-		// this.speed=3;
-		// min and max values can be specified as parameters
+		luzes.add(this.scene, 'luz0');
+		luzes.add(this.scene, 'luz1');
+		luzes.add(this.scene, 'luz2');
+		luzes.add(this.scene, 'luz3');
+		luzes.add(this.scene, 'luz4');
 
 		this.initKeys();
-		this.gui.add(this.scene, 'speed', -5, 5);
-
 		return true;
 	};
 
@@ -56,25 +49,28 @@ class MyInterface extends CGFinterface {
 	 * processKeyboard
 	 * @param event {Event}
 	 */
-	initKeys() {
+	initKeys()
+	{
+		this.scene.gui=this;
+		this.processKeyboard=function(){};
+		this.activeKeys={};
+	}
 
-	this.scene.gui=this;
-	this.processKeyboard=function(){};
-	this.activeKeys={};
-}
 
+	processKeyDown(event)
+	{
 
-	processKeyDown(event) {
+		this.activeKeys[event.code]=true;
+	};
 
-	this.activeKeys[event.code]=true;
-};
+	processKeyUp(event)
+	{
+		this.activeKeys[event.code]=false;
+	};
 
-	processKeyUp(event) {
-	this.activeKeys[event.code]=false;
-};
-
-	isKeyPressed(keyCode) {
-	return this.activeKeys[keyCode] || false;
-}
+	isKeyPressed(keyCode)
+	{
+		return this.activeKeys[keyCode] || false;
+	}
 };
 

@@ -15,19 +15,28 @@ class MyVehicle extends CGFobject
 		this.tire = new MyTire(scene, 35, 1);
 		this.semisphere = new MySemiSphere(scene, 20, 20);
 
-		this.length = 5;
-		this.axelDistance = 3;
-		this.tireDiameter = 1;
-		this.width = 2.2;
-		this.height = 2;
+		this.time = -1;
+		this.elapsed = 0;
+
+		this.speed = 0;
+
+		this.position = [0, 0, 0];
+		this.rotation = [0, 0, 0];
+
+		this.setVariables(4, 3, 1, 2.2, 2);
 	};
 
 	display()
 	{
-
 		var tireScale = this.tireDiameter/2;
 		var tireThickness = tireScale*0.7;
 		var tireX = (this.width - 2*tireThickness)/2 - 0.01;
+
+		this.scene.translate(this.position[0], this.position[1], this.position[2]);
+
+		this.scene.rotate(this.rotation[0], 1, 0, 0);
+		this.scene.rotate(this.rotation[1], 0, 1, 0);
+		this.scene.rotate(this.rotation[2], 0, 0, 1);
 
 		// //back left tire
 		this.scene.pushMatrix();
@@ -94,5 +103,36 @@ class MyVehicle extends CGFobject
 		this.scene.popMatrix();
 
 
+	};
+
+	setVariables(length, axelDistance, tireDiameter, width, height)
+	{
+		this.length = length;
+		this.axelDistance = axelDistance;
+		this.tireDiameter = tireDiameter;
+		this.width = width;
+		this.height = height;
+	};
+
+	setSpeed(speed)
+	{
+		this.position[2] += speed*Math.cos(this.rotation[1]);
+		this.position[1] += speed*Math.sin(this.rotation[0]);
+		this.position[0] += speed*Math.sin(this.rotation[1]);
+	}
+
+	setRotation(rot)
+	{
+		this.rotation[1] += rot;
+	}
+
+	update(currTime, length, axelDistance, tireDiameter, width, height)
+	{
+		this.setVariables(length, axelDistance, tireDiameter, width, height);
+
+		if (this.time == -1)
+			this.time = currTime;
+
+		this.elapsed = currTime - this.time; //Time elapsed from start in milliseconds
 	};
 };

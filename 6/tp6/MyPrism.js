@@ -182,10 +182,10 @@ class MyTrapezoidPrism extends CGFobject
 			this.indices.push(this.vertices.length/3 - 4 + 0, this.vertices.length/3 - 4 + 2, this.vertices.length/3 - 4 + 1);
 			this.indices.push(this.vertices.length/3 - 4 + 1, this.vertices.length/3 - 4 + 2, this.vertices.length/3 - 4 + 3);
 
-			this.normals.push(2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), (this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
-			this.normals.push(2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), (this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
-			this.normals.push(2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), (this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
-			this.normals.push(2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), (this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
+			this.normals.push(-2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), -(this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
+			this.normals.push(-2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), -(this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
+			this.normals.push(-2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), -(this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
+			this.normals.push(-2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), -(this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
 		}
 
 		for (var i = 0; i < this.stacks; i++)
@@ -214,10 +214,10 @@ class MyTrapezoidPrism extends CGFobject
 			this.indices.push(this.vertices.length/3 - 4 + 0, this.vertices.length/3 - 4 + 2, this.vertices.length/3 - 4 + 1);
 			this.indices.push(this.vertices.length/3 - 4 + 1, this.vertices.length/3 - 4 + 2, this.vertices.length/3 - 4 + 3);
 
-			this.normals.push(-2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), (this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
-			this.normals.push(-2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), (this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
-			this.normals.push(-2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), (this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
-			this.normals.push(-2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), (this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
+			this.normals.push(2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), -(this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
+			this.normals.push(2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), -(this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
+			this.normals.push(2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), -(this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
+			this.normals.push(2/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), -(this.top - this.bottom)/Math.sqrt(this.top*this.top - 2*this.top*this.bottom + this.bottom*this.bottom + 4), 0);
 		}
 
 
