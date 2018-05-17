@@ -25,7 +25,7 @@ class MyVehicle extends CGFobject
 		this.speed = 0;
 		this.acceleration = 0;
 
-		this.maxSpeed = 5;
+		this.maxSpeed = 0.3;
 		
 		this.rotation = [0, 0, 0];
 
@@ -35,9 +35,11 @@ class MyVehicle extends CGFobject
 
 		this.maxAngle = 0.1;
 
-		this.fallout = 1;
+		this.fallout = 0;
 
 		this.tickTime = -1;
+
+		this.wheelFrontRotation = 0;
 
 		this.setVariables(4, 3, 1, 2.2, 2);
 	};
@@ -62,6 +64,7 @@ class MyVehicle extends CGFobject
 		// //back left tire
 		this.scene.pushMatrix();
 			this.scene.translate(tireX, tireScale, -this.axelDistance/2);
+			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.scene.scale(tireScale, tireScale, tireThickness);
 			this.tire.display();
@@ -70,6 +73,7 @@ class MyVehicle extends CGFobject
 		// //back right tire
 		this.scene.pushMatrix();
 			this.scene.translate(-tireThickness-tireX, tireScale, -this.axelDistance/2);
+			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.scene.scale(tireScale, tireScale, tireThickness);
 			this.tire.display();
@@ -80,6 +84,7 @@ class MyVehicle extends CGFobject
 			
 			this.scene.translate(tireX, tireScale, this.axelDistance/2);
 			this.scene.rotate(this.wheelAngle, 0, 1, 0);
+			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.scene.scale(tireScale, tireScale, tireThickness);
 			this.tire.display();
@@ -89,6 +94,7 @@ class MyVehicle extends CGFobject
 		this.scene.pushMatrix();
 			this.scene.translate(-tireThickness-tireX, tireScale, this.axelDistance/2);
 			this.scene.rotate(this.wheelAngle, 0, 1, 0);
+			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.scene.scale(tireScale, tireScale, tireThickness);
 			this.tire.display();
@@ -141,15 +147,11 @@ class MyVehicle extends CGFobject
 	setAcceleration(acceleration)
 	{
 		if (acceleration == 0)
-			this.fallout = 1.01;
-			else
-			this.fallout = 1;
+			this.fallout = 0.001;
+		else
+			this.fallout = 0;
 
-			this.acceleration = 0.00005*acceleration;
-
-		if (this.acceleration < 0)
-		this.acceleration *= 3;
-		
+			this.acceleration = 0.00008*acceleration;
 	}
 
 	setRotSpeed(rotSpeed)
@@ -170,17 +172,24 @@ class MyVehicle extends CGFobject
 
 		this.wheelAngle = 3*this.rotationSpeed[1];
 
-		
-		if (this.speed < 0)
-			this.speed = 0;
-		else if (this.speed > this.maxSpeed)
-			this.speed = this.maxSpeed;
+		if (this.speed > 0)
+			this.speed -= this.fallout;
 		else
-			this.speed += this.acceleration * this.tickTime;
+			this.speed += this.fallout;
+		
+		if (this.speed > this.maxSpeed)
+			this.speed = this.maxSpeed;
+
+		if (this.speed < -this.maxSpeed)
+			this.speed = -this.maxSpeed;
+
+		this.speed += this.acceleration * this.tickTime;
 
 		this.position[0] += this.speed*Math.sin(this.rotation[1]);
 		this.position[1] += this.speed*Math.sin(this.rotation[0]);
 		this.position[2] += this.speed*Math.cos(this.rotation[1]);
+
+		this.wheelFrontRotation += this.speed/this.tireDiameter/2;
 	};
 	
 	update(currTime, length, axelDistance, tireDiameter, width, height)
