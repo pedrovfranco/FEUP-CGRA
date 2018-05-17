@@ -4,7 +4,8 @@
  * @constructor
  */
 
-class MyCylinderWihoutBases extends CGFobject
+
+class MyCylinderWithBase extends CGFobject
 {
 	constructor(scene, slices, stacks)
 	{
@@ -13,7 +14,6 @@ class MyCylinderWihoutBases extends CGFobject
 		this.stacks = stacks;
 
 		this.initBuffers();
-
 	}
 
 	initBuffers()
@@ -29,6 +29,7 @@ class MyCylinderWihoutBases extends CGFobject
 		{
 			for (var i = 0; i < this.slices; i++)
 			{
+
 				this.vertices.push(Math.cos(alpha*i), Math.sin(alpha*i), j/this.stacks );				// A
 				this.vertices.push(Math.cos(alpha*i), Math.sin(alpha*i),  (j+1)/this.stacks);			// B
 
@@ -38,56 +39,49 @@ class MyCylinderWihoutBases extends CGFobject
 				this.normals.push(Math.cos(alpha*i), Math.sin(alpha*i), 0);
 				this.normals.push(Math.cos(alpha*i), Math.sin(alpha*i), 0);
 
-				var ang = alpha*i;
-				var strip = ang/(2*Math.PI);
-
-				this.texCoords.push(j/this.stacks, alpha*i/(2*Math.PI));
-				this.texCoords.push((j+1)/this.stacks, alpha*i/(2*Math.PI));
+				this.texCoords.push(0, 0);
+				this.texCoords.push(0, 0);
 
 			}
 		}
 
-
-		this.primitiveType=this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
-	}
-};
-
-class MyBase extends CGFobject
-{
-	constructor(scene, slices)
-	{
-		super(scene);
-		this.slices = slices;
-
-		this.initBuffers();
-	}
-
-	initBuffers()
-	{
-		var alpha = 2*Math.PI/this.slices;
-
-		this.vertices = [];
-		this.indices = [];
-		this.normals = [];
-		this.texCoords = [];
+		var j = this.vertices.length/3; //Number of side face vertices.
 
 		for (var i = 0; i < this.slices; i++)
 		{
 			this.vertices.push(Math.cos(alpha*i), Math.sin(alpha*i), 0);		// A
 
-			this.indices.push(i%this.slices);
-			this.indices.push((i + 1)%this.slices);
-			this.indices.push(this.slices);
+			this.indices.push(j + i%this.slices);
+			this.indices.push(j + this.slices);
+			this.indices.push(j + (i + 1)%this.slices);
+
+			this.normals.push(0, 0, -1);
+
+			this.texCoords.push((Math.cos(alpha*i) + 1)/2, (-Math.sin(alpha*i) + 1)/2);
+		}
+
+		this.vertices.push(0, 0, 0);
+		this.normals.push(0, 0, -1);
+		this.texCoords.push(0.5, 0.5);
+
+		j = this.vertices.length/3;
+
+		for (var i = 0; i < this.slices; i++)
+		{
+			this.vertices.push(Math.cos(alpha*i), Math.sin(alpha*i), 1);		// A
+
+			this.indices.push(j + i%this.slices);
+			this.indices.push(j + (i + 1)%this.slices);
+			this.indices.push(j + this.slices);
 
 			this.normals.push(0, 0, 1);
 
 			this.texCoords.push((Math.cos(alpha*i) + 1)/2, (-Math.sin(alpha*i) + 1)/2);
 		}
 
-		this.vertices.push(0, 0, 0,);
+		this.vertices.push(0, 0, 1);
 		this.normals.push(0, 0, 1);
-		this.texCoords.push(1/2, 1/2);
+		this.texCoords.push(0.5, 0.5);
 
 		this.primitiveType=this.scene.gl.TRIANGLES;
 
@@ -97,39 +91,24 @@ class MyBase extends CGFobject
 
 class MyTire extends CGFobject {
 
-	constructor(scene, slices, stacks){
+	constructor(scene,slices,stacks){
 
 		super(scene);
+		this.slices = slices;
+		this.stacks = stacks;
 		
-		this.cylinder = new MyCylinderWihoutBases(scene, slices, stacks);
-		this.base = new MyBase(scene, slices);
+		this.tire = new MyCylinderWithBase(scene,slices,stacks);
 
-		this.cylinderAppearance = new CGFappearance(this.scene);
-		this.cylinderAppearance.loadTexture("../resources/images/random.png");
-
-		this.baseAppearance = new CGFappearance(this.scene);
-		this.baseAppearance.loadTexture("../resources/images/random.png");
+		this.tireAppearance = new CGFappearance(this.scene);
+		this.tireAppearance.loadTexture("../resources/images/tireFront.jpg");
 		
 	}
 
 	display(){
 
 		this.scene.pushMatrix();
-			this.cylinderAppearance.apply();
-			this.cylinder.display();
-
-			this.scene.pushMatrix();
-				this.scene.rotate(Math.PI, 0, 1, 0);
-				this.baseAppearance.apply();
-				this.base.display();
-			this.scene.popMatrix();
-
-			this.scene.pushMatrix();
-				this.scene.translate(0, 0, 1);
-
-				this.base.display();
-			this.scene.popMatrix();
-
+		this.tireAppearance.apply();
+		this.tire.display();
 		this.scene.popMatrix();
 	}
 

@@ -59,7 +59,18 @@ class LightingScene extends CGFscene
 						 [ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0 ]
 						 ];
 
-		this.terrain = new MyTerrain(this, 8, 5, 5, this.altimetry);
+	   this.altimetry2= [[ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
+						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
+						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
+						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
+						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
+						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
+						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
+						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
+						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ]
+						 ];
+
+		this.terrain = new MyTerrain(this, 8, 4, 4, this.altimetry2);
 		this.car = new MyVehicle(this);
 		
 
@@ -85,8 +96,27 @@ class LightingScene extends CGFscene
 		this.materialB.setSpecular(0.8,0.8,0.8,1);
 		this.materialB.setShininess(120);
 
-		this.terrainApperance = new CGFappearance(this);
-		this.terrainApperance.loadTexture("../resources/images/grass2.jpg");
+		
+
+		this.terrainGrass = new CGFappearance(this);
+		this.terrainGrass.loadTexture("../resources/images/grass2.jpg");
+
+		this.terrainSand = new CGFappearance(this);
+		this.terrainSand.loadTexture("../resources/images/sand.jpg");
+
+		this.terrainRock = new CGFappearance(this);
+		this.terrainRock.loadTexture("../resources/images/rock.jpg");
+
+		this.terrainAppearances = [this.terrainGrass, this.terrainSand, this.terrainRock];
+
+		this.terrainAppearancesList = ["Grass", "Sand", "Rock"];
+
+		for(var i = 0; i < 4; i++){
+
+			this.terrainAppearancesList[i] = this.terrainAppearances[i];
+		}
+
+		this.currTerrainApperance = this.terrainAppearancesList[2];
 
 		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
@@ -244,7 +274,7 @@ class LightingScene extends CGFscene
 		this.pushMatrix();
 			this.scale(50, 50, 50);
 			this.rotate(-Math.PI/2, 1, 0, 0);
-			this.terrainApperance.apply();
+			this.currTerrainApperance.apply();
 			this.terrain.display();
 		this.popMatrix();
 
@@ -262,6 +292,17 @@ class LightingScene extends CGFscene
 		 	this.backgroundAppearance.apply();
 		 	this.semisphere.display();
 		 this.popMatrix();
+
+		 // //SemiSphere
+		 this.pushMatrix();
+		 	this.translate(0, -5, 0);
+		 	this.scale(50, 50, 50);
+		 	this.rotate(Math.PI/2, 1, 0, 0);
+			
+		 	this.backgroundAppearance.apply();
+		 	this.semisphere.display();
+		 this.popMatrix();
+
 
 		//Prism
 		this.pushMatrix();
