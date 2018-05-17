@@ -47,23 +47,23 @@ class LightingScene extends CGFscene
 		this.width = 2.2;
 		this.height = 2;
 
-		this.terrain = new MyTerrain(this, 100, 10, 10, this.altimetry);
+				//Terrain Altimetry
+		this.altimetry= [[ 2.0 , 3.0 , 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0 ],
+						 [ 2.0 , 3.0 , 2.0, 4.0, 2.5, 1.4, 2.3, 1.3, 0 ],
+						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ],
+						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ],
+						 [ 0.0 , 0.0 , 2.0, 4.0, 2.5, 2.4, 0.0, 0.0, 0 ],
+						 [ 0.0 , 0.0 , 2.0, 4.0, 3.5, 2.4, 0.0, 0.0, 0 ],
+						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ],
+						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ],
+						 [ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0 ]
+						 ];
+
+		this.terrain = new MyTerrain(this, 8, 5, 5, this.altimetry);
 		this.car = new MyVehicle(this);
 		
 
 		this.materialDefault = new CGFappearance(this);
-
-		//Terrain Altimetry
-		this.altimetry= [[ 2.0 , 3.0 , 2.0, 4.0, 2.5, 2.4, 2.3, 1.3 ],
-						[ 2.0 , 3.0 , 2.0, 4.0, 7.5, 6.4, 4.3, 1.3 ],
-						[ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-						[ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-						[ 0.0 , 0.0 , 2.0, 4.0, 2.5, 2.4, 0.0, 0.0 ],
-						[ 0.0 , 0.0 , 2.0, 4.0, 3.5, 2.4, 0.0, 0.0 ],
-						[ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-						[ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-						[ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3 ]
-						];
 
 		this.backgroundAppearance = new CGFappearance(this);
 		this.backgroundAppearance.loadTexture("../resources/images/sky.jpg");
@@ -180,21 +180,25 @@ class LightingScene extends CGFscene
 			text+=" W";
 			keysPressed=true;
 			this.car.setAcceleration(1);
+
+		
 		}	
+		
 		else if (this.gui.isKeyPressed("KeyS"))
 		{
 			text+=" S";
 			keysPressed=true;
 			this.car.setAcceleration(-1);
 		}
-		else
-			this.car.setAcceleration(0);
 
-		if (this.gui.isKeyPressed("KeyA"))
-		{
+		else this.car.setAcceleration(0);
+
+		if (this.gui.isKeyPressed("KeyA")){
+
 			text+=" A";
 			keysPressed=true;
 			this.car.setRotSpeed(0.1);
+			
 		}
 		else if (this.gui.isKeyPressed("KeyD"))
 		{
@@ -204,7 +208,6 @@ class LightingScene extends CGFscene
 		}
 		else
 			this.car.setRotSpeed(0);
-
 
 		if (keysPressed)
 			console.log(text);
@@ -251,14 +254,14 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 
 		// //SemiSphere
-		// this.pushMatrix();
-		// 	this.translate(0, 0, 0);
-		// 	this.scale(50, 50, 50);
-		// 	this.rotate(-Math.PI/2, 1, 0, 0);
+		 this.pushMatrix();
+		 	this.translate(0, -5, 0);
+		 	this.scale(50, 50, 50);
+		 	this.rotate(-Math.PI/2, 1, 0, 0);
 			
-		// 	this.backgroundAppearance.apply();
-		// 	this.semisphere.display();
-		// this.popMatrix();
+		 	this.backgroundAppearance.apply();
+		 	this.semisphere.display();
+		 this.popMatrix();
 
 		//Prism
 		this.pushMatrix();

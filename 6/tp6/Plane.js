@@ -2,26 +2,23 @@
 /** Represents a plane with nrDivs divisions along both axis, with center at (0,0) */
 class Plane extends CGFobject{
 
-	constructor(scene, nrDivs, minS, maxS, minT, maxT) 
+	constructor(scene, nrDivs, minS, maxS, minT, maxT, altimetry) 
 	{
 		super(scene);
 
 		// nrDivs = 1 if not provided
 		nrDivs = typeof nrDivs !== 'undefined' ? nrDivs : 1;
 
+		this.altimetry = altimetry;
 		this.nrDivs = nrDivs;
 		this.patchLength = 1.0 / nrDivs;
 
-		this.minS = minS || 0.0; // Mete a estes valores se forem 0 (acho eu)
+		this.minS = minS || 0.0; 
 		this.maxS = maxS || 1.0;
 		this.minT = minT || 0.0;
 		this.maxT = maxT || 1.0;
 
-		// console.log(this.minS);
-		// console.log(this.maxS);
-		// console.log(this.minT);
-		// console.log(this.maxT);
-
+		
 		this.initBuffers();
 	};
 
@@ -47,6 +44,7 @@ class Plane extends CGFobject{
 		this.vertices = [];
 		this.normals = [];
 		
+		
 		// Uncomment below to init texCoords
 		this.texCoords = [];
 
@@ -54,21 +52,21 @@ class Plane extends CGFobject{
 		var Tincrement = this.maxT - this.minT;
 
 		var yCoord = 0.5;
+		var z;
 
 		for (var j = 0; j <= this.nrDivs; j++) 
 		{
 			var xCoord = -0.5;
 			for (var i = 0; i <= this.nrDivs; i++) 
 			{
-				this.vertices.push(xCoord, yCoord, 0);
+
+				z = this.altimetry[j][i] * this.patchLength;
+				this.vertices.push(xCoord, yCoord, z);
 				
 				// As this plane is being drawn on the xy plane, the normal to the plane will be along the positive z axis.
 				// So all the vertices will have the same normal, (0, 0, 1).
 				
 				this.normals.push(0,0,1);
-
-				// texCoords should be computed here; uncomment and fill the blanks
-				// this.texCoords.push(..., ...);
 
 				this.texCoords.push(this.minS + i*Sincrement/this.nrDivs, this.minT + j*Tincrement/this.nrDivs);
 				

@@ -15,6 +15,9 @@ class MyVehicle extends CGFobject
 		this.tire = new MyTire(scene, 35, 1);
 		this.semisphere = new MySemiSphere(scene, 20, 20);
 
+		this.headlightAppearance =  new CGFappearance(this.scene);
+		this.headlightAppearance.loadTexture("../resources/images/headlight.jpg");
+		
 		this.time = -1;
 		this.elapsed = 0;
 
@@ -23,8 +26,9 @@ class MyVehicle extends CGFobject
 		this.acceleration = 0;
 
 		this.maxSpeed = 5;
-
+		
 		this.rotation = [0, 0, 0];
+
 		this.rotationSpeed = [0, 0, 0];
 
 		this.wheelAngle = 0;
@@ -38,8 +42,6 @@ class MyVehicle extends CGFobject
 		this.setVariables(4, 3, 1, 2.2, 2);
 	};
 
-
-
 	display()
 	{
 		var tireScale = this.tireDiameter/2;
@@ -51,16 +53,13 @@ class MyVehicle extends CGFobject
 		this.scene.translate(this.position[0], this.position[1], this.position[2]);
 
 		this.scene.rotate(this.rotation[0], 1, 0, 0);
-
-		this.scene.translate(0, 0, -this.axelDistance/2); // Rotate car by rear wheel axis
+		this.scene.translate(0, 0, -this.axelDistance/2); // Rotate car by rear wheel axis		
 		this.scene.rotate(this.rotation[1], 0, 1, 0);
+
 		this.scene.translate(0, 0, this.axelDistance/2);
-		
 		this.scene.rotate(this.rotation[2], 0, 0, 1);
 
-		
-
-		//back left tire
+		// //back left tire
 		this.scene.pushMatrix();
 			this.scene.translate(tireX, tireScale, -this.axelDistance/2);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
@@ -68,7 +67,7 @@ class MyVehicle extends CGFobject
 			this.tire.display();
 		this.scene.popMatrix();
 
-		//back right tire
+		// //back right tire
 		this.scene.pushMatrix();
 			this.scene.translate(-tireThickness-tireX, tireScale, -this.axelDistance/2);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
@@ -78,6 +77,7 @@ class MyVehicle extends CGFobject
 
 		//front left tire
 		this.scene.pushMatrix();
+			
 			this.scene.translate(tireX, tireScale, this.axelDistance/2);
 			this.scene.rotate(this.wheelAngle, 0, 1, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
@@ -116,6 +116,7 @@ class MyVehicle extends CGFobject
 		this.scene.pushMatrix();
 			this.scene.translate(this.width/2*0.7, this.height/2, this.length/2);
 			this.scene.scale(0.2, 0.2, 0.15);
+			this.headlightAppearance.apply();
 			this.semisphere.display();
 		this.scene.popMatrix();
 
@@ -123,10 +124,9 @@ class MyVehicle extends CGFobject
 		this.scene.pushMatrix();
 			this.scene.translate(-this.width/2*0.7, this.height/2, this.length/2);
 			this.scene.scale(0.2, 0.2, 0.15);
+			this.headlightAppearance.apply();
 			this.semisphere.display();
 		this.scene.popMatrix();
-
-
 	};
 
 	setVariables(length, axelDistance, tireDiameter, width, height)
@@ -142,13 +142,14 @@ class MyVehicle extends CGFobject
 	{
 		if (acceleration == 0)
 			this.fallout = 1.01;
-		else
+			else
 			this.fallout = 1;
 
-		this.acceleration = 0.00005*acceleration;
+			this.acceleration = 0.00005*acceleration;
 
 		if (this.acceleration < 0)
-			this.acceleration *= 3;
+		this.acceleration *= 3;
+		
 	}
 
 	setRotSpeed(rotSpeed)
@@ -181,7 +182,7 @@ class MyVehicle extends CGFobject
 		this.position[1] += this.speed*Math.sin(this.rotation[0]);
 		this.position[2] += this.speed*Math.cos(this.rotation[1]);
 	};
-
+	
 	update(currTime, length, axelDistance, tireDiameter, width, height)
 	{
 		this.setVariables(length, axelDistance, tireDiameter, width, height);
@@ -189,11 +190,8 @@ class MyVehicle extends CGFobject
 		if (this.time == -1)
 			this.time = currTime;
 
-		this.tickTime = currTime - this.time - this.elapsed;
+			this.tickTime = currTime - this.time - this.elapsed;
 
 		this.elapsed = currTime - this.time; //Time elapsed from start in milliseconds
-
-		// console.log(this.elapsed);
-		// console.log(this.tickTime);
 	};
-};
+};	

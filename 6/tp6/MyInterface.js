@@ -41,6 +41,12 @@ class MyInterface extends CGFinterface {
 		luzes.add(this.scene, 'luz3');
 		luzes.add(this.scene, 'luz4');
 
+		var tex = this.gui.addFolder("Textures");
+		tex.open();
+
+		//tex.add(this.scene, 'Terrain');
+		//tex.add(this.scene, 'Car');
+		
 		this.initKeys();
 		return true;
 	};
