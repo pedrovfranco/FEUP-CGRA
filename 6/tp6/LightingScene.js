@@ -90,8 +90,6 @@ class LightingScene extends CGFscene
 
 		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
-		this.rot = 0;
-
 		this.framerate = 60;
 
 		this.setUpdatePeriod(1000/this.framerate);
@@ -181,51 +179,35 @@ class LightingScene extends CGFscene
 		{
 			text+=" W";
 			keysPressed=true;
-			this.car.setSpeed(15/this.framerate);
-
-			if (this.gui.isKeyPressed("KeyA"))
-			{
-				text+=" D";
-				keysPressed=true;
-				this.car.setRotation(4/this.framerate);
-			}
-
-			if (this.gui.isKeyPressed("KeyD"))
-			{
-				text+=" D";
-				keysPressed=true;
-				this.car.setRotation(-4/this.framerate);
-			}
+			this.car.setAcceleration(1);
 		}	
-		
-		if (this.gui.isKeyPressed("KeyS"))
+		else if (this.gui.isKeyPressed("KeyS"))
 		{
 			text+=" S";
 			keysPressed=true;
-			this.car.setSpeed(-15/this.framerate);
-
-			if (this.gui.isKeyPressed("KeyA"))
-			{
-				text+=" D";
-				keysPressed=true;
-				this.car.setRotation(4/this.framerate);
-			}
-
-			if (this.gui.isKeyPressed("KeyD"))
-			{
-				text+=" D";
-				keysPressed=true;
-				this.car.setRotation(-4/this.framerate);
-			}
+			this.car.setAcceleration(-1);
 		}
+		else
+			this.car.setAcceleration(0);
+
+		if (this.gui.isKeyPressed("KeyA"))
+		{
+			text+=" A";
+			keysPressed=true;
+			this.car.setRotSpeed(0.1);
+		}
+		else if (this.gui.isKeyPressed("KeyD"))
+		{
+			text+=" D";
+			keysPressed=true;
+			this.car.setRotSpeed(-0.1);
+		}
+		else
+			this.car.setRotSpeed(0);
+
 
 		if (keysPressed)
 			console.log(text);
-		else
-		{
-			this.car.setSpeed(0);
-			this.car.setRotation(0);
-		}
 	};
 
 	display()
