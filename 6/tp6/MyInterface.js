@@ -20,7 +20,7 @@ class MyInterface extends CGFinterface {
 
 		this.gui = new dat.GUI();
 
-		this.gui.add(this.scene, 'speed', -5, 5);
+		this.gui.add(this.scene, 'speed', 0, 3);
 		this.gui.add(this.scene, 'axis');
 
 		var car = this.gui.addFolder("Carro");

@@ -41,7 +41,9 @@ class MyVehicle extends CGFobject
 
 		this.wheelFrontRotation = 0;
 
-		this.setVariables(4, 3, 1, 2.2, 2);
+		this.guiSpeed = 1;
+
+		this.setVariables(4, 3, 1, 2.2, 2, 1);
 	};
 
 	display()
@@ -135,13 +137,15 @@ class MyVehicle extends CGFobject
 		this.scene.popMatrix();
 	};
  
-	setVariables(length, axelDistance, tireDiameter, width, height)
+	setVariables(length, axelDistance, tireDiameter, width, height, guiSpeed)
 	{
 		this.length = length;
 		this.axelDistance = axelDistance;
 		this.tireDiameter = tireDiameter;
 		this.width = width;
 		this.height = height;
+		this.guiSpeed = guiSpeed;
+		this.maxSpeed = 0.3 * guiSpeed;
 	};
 
 	setAcceleration(acceleration)
@@ -157,8 +161,10 @@ class MyVehicle extends CGFobject
 	setRotSpeed(rotSpeed)
 	{
 		this.rotationSpeed[0] = 0;
-		this.rotationSpeed[1] = rotSpeed;
+		this.rotationSpeed[1] = 0.2*rotSpeed;
 		this.rotationSpeed[2] = 0;
+
+		this.wheelAngle = 3*this.rotationSpeed[1];
 	}
 
 	updatePosition()
@@ -170,8 +176,7 @@ class MyVehicle extends CGFobject
 		this.rotation[1] += this.rotationSpeed[1]*this.speed;
 		this.rotation[2] += this.rotationSpeed[2];
 
-		this.wheelAngle = 3*this.rotationSpeed[1];
-
+		
 		if (this.speed > 0)
 			this.speed -= this.fallout;
 		else
@@ -183,7 +188,7 @@ class MyVehicle extends CGFobject
 		if (this.speed < -this.maxSpeed)
 			this.speed = -this.maxSpeed;
 
-		this.speed += this.acceleration * this.tickTime;
+		this.speed += this.guiSpeed * this.acceleration * this.tickTime;
 
 		this.position[0] += this.speed*Math.sin(this.rotation[1]);
 		this.position[1] += this.speed*Math.sin(this.rotation[0]);
@@ -192,14 +197,14 @@ class MyVehicle extends CGFobject
 		this.wheelFrontRotation += this.speed/this.tireDiameter/2;
 	};
 	
-	update(currTime, length, axelDistance, tireDiameter, width, height)
+	update(currTime, length, axelDistance, tireDiameter, width, height, guiSpeed)
 	{
-		this.setVariables(length, axelDistance, tireDiameter, width, height);
+		this.setVariables(length, axelDistance, tireDiameter, width, height, guiSpeed);
 
 		if (this.time == -1)
 			this.time = currTime;
 
-			this.tickTime = currTime - this.time - this.elapsed;
+		this.tickTime = currTime - this.time - this.elapsed;
 
 		this.elapsed = currTime - this.time; //Time elapsed from start in milliseconds
 	};

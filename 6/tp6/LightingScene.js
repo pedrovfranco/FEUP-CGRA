@@ -39,7 +39,7 @@ class LightingScene extends CGFscene
 
 		this.Axis = new CGFaxis(this);
 
-		this.speed = 3;
+		this.speed = 1;
 
 		this.length = 5;
 		this.axelDistance = 3;
@@ -54,25 +54,36 @@ class LightingScene extends CGFscene
 		var foobar = 0;
 		var sobar;
 
-		for(var j = 0; j < 52; j++){
+		// for(var j = 0; j < 52; j++){
 
-			 var column = [];
+		// 	 var column = [];
 
-			for(var i = 0; i < 52; i++){
-				foobar += (Math.random() - 0.5)/7; // [-0.1, 0.1[
+		// 	for(var i = 0; i < 52; i++){
+		// 		foobar += (Math.random() - 0.5)/7; // [-0.1, 0.1[
 
-				column.push(foobar);
-			}
+		// 		column.push(foobar);
+		// 	}
 
-			this.altimetry.push(column);
-		}
+		// 	this.altimetry.push(column);
+		// }
+
+		this.altimetry = [
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 
 	   this.altimetry2= [[ 0 , 0],
 						 [ 0 , 0 ]
 						 ];
 
-		this.terrain = new MyTerrain(this, 50, 4, 4, this.altimetry);
+		this.terrain = new MyTerrain(this, 8, 4, 4, this.altimetry);
 		this.car = new MyVehicle(this);
 		
 
@@ -189,18 +200,7 @@ class LightingScene extends CGFscene
 	update(currTime)
 	{
 		this.checkKeys();
-		this.car.update(currTime, this.length, this.axelDistance, this.tireDiameter, this.width, this.height);
-	}
-
-	find(arr, value)
-	{
-		for (var i = 0; i < arr.length; i++)
-		{
-			if (arr[i] == value)
-				return i;
-		}
-
-		return -1;
+		this.car.update(currTime, this.length, this.axelDistance, this.tireDiameter, this.width, this.height, this.speed);
 	}
 
 	doSomething(){
@@ -235,14 +235,14 @@ class LightingScene extends CGFscene
 
 			text+=" A";
 			keysPressed=true;
-			this.car.setRotSpeed(0.1);
+			this.car.setRotSpeed(Math.PI/6);
 			
 		}
 		else if (this.gui.isKeyPressed("KeyD"))
 		{
 			text+=" D";
 			keysPressed=true;
-			this.car.setRotSpeed(-0.1);
+			this.car.setRotSpeed(-Math.PI/6);
 		}
 		else
 			this.car.setRotSpeed(0);
@@ -277,11 +277,7 @@ class LightingScene extends CGFscene
 
 		// ---- END Background, camera and axis setup
 
-		console.log(this.terreno);
-
-		this.currTerrainApperance = this.find(this.terrainAppearancesList, this.terreno);
-
-		console.log(this.currTerrainApperance);
+		this.currTerrainApperance = this.terrainAppearancesList.indexOf(this.terreno);
 
 		//Terrain
 		this.pushMatrix();
@@ -296,7 +292,7 @@ class LightingScene extends CGFscene
 			this.car.display();
 		this.popMatrix();
 
-		// //SemiSphere
+		//SemiSphere
 		 this.pushMatrix();
 		 	this.translate(0, -5, 0);
 		 	this.scale(50, 50, 50);
@@ -306,7 +302,7 @@ class LightingScene extends CGFscene
 		 	this.semisphere.display();
 		 this.popMatrix();
 
-		 // //SemiSphere
+		 //SemiSphere
 		 this.pushMatrix();
 		 	this.translate(0, -5, 0);
 		 	this.scale(50, 50, 50);
@@ -316,11 +312,6 @@ class LightingScene extends CGFscene
 		 	this.semisphere.display();
 		 this.popMatrix();
 
-
-		//Prism
-		this.pushMatrix();
-			// this.prism.display();
-		this.popMatrix();
 
 		// ---- BEGIN Scene drawing section
 
