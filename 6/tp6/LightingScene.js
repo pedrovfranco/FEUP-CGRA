@@ -48,29 +48,31 @@ class LightingScene extends CGFscene
 		this.height = 2;
 
 				//Terrain Altimetry
-		this.altimetry= [[ 2.0 , 3.0 , 2.0, 4.0, 2.5, 2.4, 2.3, 1.3, 0 ],
-						 [ 2.0 , 3.0 , 2.0, 4.0, 2.5, 1.4, 2.3, 1.3, 0 ],
-						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ],
-						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ],
-						 [ 0.0 , 0.0 , 2.0, 4.0, 2.5, 2.4, 0.0, 0.0, 0 ],
-						 [ 0.0 , 0.0 , 2.0, 4.0, 3.5, 2.4, 0.0, 0.0, 0 ],
-						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ],
-						 [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0 ],
-						 [ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3, 0 ]
+		
+		this.altimetry = [];
+
+		var foobar = 0;
+		var sobar;
+
+		for(var j = 0; j < 52; j++){
+
+			 var column = [];
+
+			for(var i = 0; i < 52; i++){
+				foobar += (Math.random() - 0.5)/7; // [-0.1, 0.1[
+
+				column.push(foobar);
+			}
+
+			this.altimetry.push(column);
+		}
+
+
+	   this.altimetry2= [[ 0 , 0],
+						 [ 0 , 0 ]
 						 ];
 
-	   this.altimetry2= [[ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
-						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
-						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
-						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
-						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
-						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
-						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
-						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ],
-						 [ 0 , 0 , 0, 0, 0, 0, 0, 0, 0 ]
-						 ];
-
-		this.terrain = new MyTerrain(this, 8, 4, 4, this.altimetry2);
+		this.terrain = new MyTerrain(this, 50, 4, 4, this.altimetry);
 		this.car = new MyVehicle(this);
 		
 
@@ -109,14 +111,10 @@ class LightingScene extends CGFscene
 
 		this.terrainAppearances = [this.terrainGrass, this.terrainSand, this.terrainRock];
 
-		this.terrainAppearancesList = ["Grass", "Sand", "Rock"];
-
-		for(var i = 0; i < 4; i++){
-
-			this.terrainAppearancesList[i] = this.terrainAppearances[i];
-		}
-
-		this.currTerrainApperance = this.terrainAppearancesList[2];
+		this.terrainAppearancesList = ['Grass', 'Sand', 'Rock'];
+	
+		this.currTerrainApperance = 0;
+		this.terreno = this.terrainAppearancesList[this.currTerrainApperance];
 
 		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
@@ -194,6 +192,16 @@ class LightingScene extends CGFscene
 		this.car.update(currTime, this.length, this.axelDistance, this.tireDiameter, this.width, this.height);
 	}
 
+	find(arr, value)
+	{
+		for (var i = 0; i < arr.lengh; i++)
+		{
+			if (arr[i] == value)
+				return i;
+		}
+
+		return -1;
+	}
 
 	doSomething(){
 
@@ -274,7 +282,7 @@ class LightingScene extends CGFscene
 		this.pushMatrix();
 			this.scale(50, 50, 50);
 			this.rotate(-Math.PI/2, 1, 0, 0);
-			this.currTerrainApperance.apply();
+			this.terrainAppearances[this.find(this.terrainAppearancesList, this.terreno)].apply();
 			this.terrain.display();
 		this.popMatrix();
 

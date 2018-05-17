@@ -44,7 +44,7 @@ class MyInterface extends CGFinterface {
 		var tex = this.gui.addFolder("Textures");
 		tex.open();
 
-		//tex.add(this.scene, 'Terrain');
+		tex.add(this.scene, 'terreno', this.scene.terrainAppearancesList);
 		//tex.add(this.scene, 'Car');
 		
 		this.initKeys();
