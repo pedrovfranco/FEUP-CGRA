@@ -118,7 +118,7 @@ class LightingScene extends CGFscene
 
 		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
-		this.framerate = 60;
+		this.framerate = 10;
 
 		this.setUpdatePeriod(1000/this.framerate);
 	};
@@ -194,7 +194,7 @@ class LightingScene extends CGFscene
 
 	find(arr, value)
 	{
-		for (var i = 0; i < arr.lengh; i++)
+		for (var i = 0; i < arr.length; i++)
 		{
 			if (arr[i] == value)
 				return i;
@@ -277,12 +277,17 @@ class LightingScene extends CGFscene
 
 		// ---- END Background, camera and axis setup
 
+		console.log(this.terreno);
+
+		this.currTerrainApperance = this.find(this.terrainAppearancesList, this.terreno);
+
+		console.log(this.currTerrainApperance);
 
 		//Terrain
 		this.pushMatrix();
 			this.scale(50, 50, 50);
 			this.rotate(-Math.PI/2, 1, 0, 0);
-			this.terrainAppearances[this.find(this.terrainAppearancesList, this.terreno)].apply();
+			this.terrainAppearances[this.currTerrainApperance].apply();
 			this.terrain.display();
 		this.popMatrix();
 

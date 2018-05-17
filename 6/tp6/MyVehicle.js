@@ -134,7 +134,7 @@ class MyVehicle extends CGFobject
 			this.semisphere.display();
 		this.scene.popMatrix();
 	};
-
+ 
 	setVariables(length, axelDistance, tireDiameter, width, height)
 	{
 		this.length = length;
