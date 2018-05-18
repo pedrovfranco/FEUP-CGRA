@@ -218,34 +218,31 @@ class LightingScene extends CGFscene
 			text+=" W";
 			keysPressed=true;
 			this.car.setAcceleration(1);
-
-		
 		}	
-		
 		else if (this.gui.isKeyPressed("KeyS"))
 		{
 			text+=" S";
 			keysPressed=true;
 			this.car.setAcceleration(-1);
 		}
+		else
+			this.car.setAcceleration(0);
 
-		else this.car.setAcceleration(0);
-
-		if (this.gui.isKeyPressed("KeyA")){
-
+		if (this.gui.isKeyPressed("KeyA"))
+		{
 			text+=" A";
 			keysPressed=true;
-			this.car.setRotSpeed(Math.PI/6);
+			this.car.setRotAcceleration(1);
 			
 		}
 		else if (this.gui.isKeyPressed("KeyD"))
 		{
 			text+=" D";
 			keysPressed=true;
-			this.car.setRotSpeed(-Math.PI/6);
+			this.car.setRotAcceleration(-1);
 		}
 		else
-			this.car.setRotSpeed(0);
+			this.car.setRotAcceleration(0);
 
 		if (keysPressed)
 			console.log(text);

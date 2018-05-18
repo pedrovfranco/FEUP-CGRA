@@ -28,14 +28,16 @@ class MyVehicle extends CGFobject
 		this.maxSpeed = 0.3;
 		
 		this.rotation = [0, 0, 0];
-
 		this.rotationSpeed = [0, 0, 0];
+		this.rotationAcceleration = [0, 0, 0];
 
 		this.wheelAngle = 0;
 
-		this.maxAngle = 0.1;
+		this.maxRotation = 0.01;
 
 		this.fallout = 0;
+
+		this.rotationFallout = 0;
 
 		this.tickTime = -1;
 
@@ -155,32 +157,65 @@ class MyVehicle extends CGFobject
 		else
 			this.fallout = 0;
 
-			this.acceleration = 0.00008*acceleration;
+		this.acceleration = 0.00008*acceleration;
 	}
 
-	setRotSpeed(rotSpeed)
+	setRotAcceleration(rotAcceleration)
 	{
-		this.rotationSpeed[0] = 0;
-		this.rotationSpeed[1] = 0.2*rotSpeed;
-		this.rotationSpeed[2] = 0;
+		if (rotAcceleration == 0)
+			this.rotationFallout = 0.000000000000000000000001;
+		else
+			this.rotationFallout = 0;
 
-		this.wheelAngle = 3*this.rotationSpeed[1];
+		this.rotationAcceleration[1] = 0.001*rotAcceleration;
 	}
 
 	updatePosition()
 	{
-		if (this.rotationSpeed[1] > this.maxAngle)
-			this.rotationSpeed[1] = this.maxAngle;
+		if (this.rotationSpeed[1] > 0) //Makes rotationSpeed[1] = 0 when its near 0
+		{
+			if (this.rotationSpeed[1] - this.rotationFallout < 0)
+				this.rotationSpeed[1] = 0;
+			else
+				this.rotationSpeed[1] -= this.rotationFallout;
+		}
+		else if (this.rotationSpeed[1] < 0)
+		{
+			if (this.rotationSpeed[1] + this.rotationFallout > 0)
+				this.rotationSpeed[1] = 0;
+			else
+				this.rotationSpeed[1] += this.rotationFallout;
+		}
+
+		if (this.rotationSpeed[1] > this.maxRotation)
+			this.rotationSpeed[1] = this.maxRotation;
+
+		if (this.rotationSpeed[1] < -this.maxRotation)
+			this.rotationSpeed[1] = -this.maxRotation;
+
+		this.wheelAngle = 0.3*this.rotationSpeed[1];
+
+		this.rotationSpeed[1] += this.guiSpeed * this.rotationAcceleration[1] * this.tickTime;
 
 		this.rotation[0] += this.rotationSpeed[0];
-		this.rotation[1] += this.rotationSpeed[1]*this.speed;
+		this.rotation[1] += this.rotationSpeed[1];
 		this.rotation[2] += this.rotationSpeed[2];
 
 		
-		if (this.speed > 0)
-			this.speed -= this.fallout;
-		else
-			this.speed += this.fallout;
+		if (this.speed > 0) //Makes speed = 0 when its near 0
+		{
+			if (this.speed - this.fallout < 0)
+				this.speed = 0;
+			else
+				this.speed -= this.fallout;
+		}
+		else if (this.speed < 0)
+		{
+			if (this.speed + this.fallout > 0)
+				this.speed = 0;
+			else
+				this.speed += this.fallout;
+		}
 		
 		if (this.speed > this.maxSpeed)
 			this.speed = this.maxSpeed;
@@ -195,6 +230,10 @@ class MyVehicle extends CGFobject
 		this.position[2] += this.speed*Math.cos(this.rotation[1]);
 
 		this.wheelFrontRotation += this.speed/this.tireDiameter/2;
+
+		console.log("this.rotationAcceleration[1] = " + this.rotationAcceleration[1]);
+		console.log("this.rotationSpeed[1] = " + this.rotationSpeed[1]);
+
 	};
 	
 	update(currTime, length, axelDistance, tireDiameter, width, height, guiSpeed)
