@@ -33,7 +33,7 @@ class MyVehicle extends CGFobject
 
 		this.wheelAngle = 0;
 
-		this.maxRotation = 4;
+		this.maxRotation = 0.7;
 		this.maxWheelAngle = Math.PI/6;
 
 		this.fallout = 0;
@@ -175,33 +175,30 @@ class MyVehicle extends CGFobject
 
 	updatePosition()
 	{
-		console.log("this.rotationSpeed[1] = " + this.rotationSpeed[1]);
-		console.log("this.wheelAngle = " + this.wheelAngle);
-		console.log("this.speed = " + this.speed);
-
-
 		var absSpeed = Math.abs(this.speed);
 
 		if (this.speed > 0)
 		{
-			this.rotationSpeed[1] += this.guiSpeed * this.rotationAcceleration[1] * this.deltaTime * Math.pow(absSpeed, 0.8) * 4;
-			this.rotation[1] += this.rotationSpeed[1] * this.deltaTime + (this.guiSpeed * this.rotationAcceleration[1] * Math.pow(absSpeed, 0.8) * this.deltaTime * this.deltaTime / 2);
+			this.rotation[1] += this.rotationSpeed[1]*this.deltaTime + (this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime*this.deltaTime/2);
+			this.rotationSpeed[1] += this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime;
 		}
 		else if (this.speed < 0)
 		{
-			this.rotationSpeed[1] -= this.guiSpeed * this.rotationAcceleration[1] * this.deltaTime * Math.pow(absSpeed, 0.8) * 4;
-			this.rotation[1] += this.rotationSpeed[1] * this.deltaTime + (this.guiSpeed * this.rotationAcceleration[1] * Math.pow(absSpeed, 0.8) * this.deltaTime * this.deltaTime / 2);
+			this.rotation[1] -= this.rotationSpeed[1]*this.deltaTime + (this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime*this.deltaTime/2);
+			this.rotationSpeed[1] += this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime;
 		}
 		else
 			this.rotationSpeed[1] = 0;
-			this.wheelAngle += this.guiSpeed * this.rotationAcceleration[1] * this.deltaTime;
+
+		
+		this.wheelAngle += this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime;
 		
 
-		if (this.rotationSpeed[1] > this.maxRotation * this.deltaTime)
-			this.rotationSpeed[1] = this.maxRotation * this.deltaTime;
+		if (this.rotationSpeed[1] > this.maxRotation)
+			this.rotationSpeed[1] = this.maxRotation;
 
-		if (this.rotationSpeed[1] < -this.maxRotation * this.deltaTime)
-			this.rotationSpeed[1] = -this.maxRotation * this.deltaTime;
+		if (this.rotationSpeed[1] < -this.maxRotation)
+			this.rotationSpeed[1] = -this.maxRotation;
 
 		if (this.wheelAngle > this.maxWheelAngle)
 			this.wheelAngle = this.maxWheelAngle;
@@ -211,17 +208,17 @@ class MyVehicle extends CGFobject
 
 		if (this.rotationSpeed[1] > 0) //Makes rotationSpeed[1] = 0 when its near 0
 		{
-			if (this.rotationSpeed[1] - this.rotationFallout * this.deltaTime < 0)
+			if (this.rotationSpeed[1] - this.rotationFallout*this.deltaTime < 0)
 				this.rotationSpeed[1] = 0;
 			else
-				this.rotationSpeed[1] -= this.rotationFallout * this.deltaTime;
+				this.rotationSpeed[1] -= this.rotationFallout*this.deltaTime;
 		}
 		else if (this.rotationSpeed[1] < 0)
 		{
-			if (this.rotationSpeed[1] + this.rotationFallout * this.deltaTime > 0)
+			if (this.rotationSpeed[1] + this.rotationFallout*this.deltaTime > 0)
 				this.rotationSpeed[1] = 0;
 			else
-				this.rotationSpeed[1] += this.rotationFallout * this.deltaTime;
+				this.rotationSpeed[1] += this.rotationFallout*this.deltaTime;
 		}
 
 		if (this.wheelAngle > 0) //Makes rotationSpeed[1] = 0 when its near 0
@@ -239,10 +236,9 @@ class MyVehicle extends CGFobject
 				this.wheelAngle += this.rotationFallout * this.deltaTime;
 		}
 
-		
 
-		this.position[0] += (this.speed*Math.sin(this.rotation[1]) * this.deltaTime)  /*+ (this.guiSpeed * this.acceleration * this.deltaTime * this.deltaTime / 2)*/;
-		this.position[2] += this.speed*Math.cos(this.rotation[1]) * this.deltaTime /*+ (this.guiSpeed * this.acceleration * this.deltaTime * this.deltaTime / 2)*/;
+		this.position[0] += (this.speed*this.deltaTime + this.guiSpeed*this.acceleration*this.deltaTime*this.deltaTime/2)*Math.sin(this.rotation[1]);
+		this.position[2] += (this.speed*this.deltaTime + this.guiSpeed*this.acceleration*this.deltaTime*this.deltaTime/2)*Math.cos(this.rotation[1]);
 
 		this.speed += this.guiSpeed * this.acceleration * this.deltaTime;
 
@@ -267,7 +263,7 @@ class MyVehicle extends CGFobject
 		if (this.speed < -this.maxSpeed*this.guiSpeed)
 			this.speed = -this.maxSpeed*this.guiSpeed;
 
-		this.wheelFrontRotation += this.speed/this.tireDiameter/2 * this.deltaTime;
+		this.wheelFrontRotation += this.speed/this.tireDiameter*this.deltaTime/2;
 
 	};
 	
