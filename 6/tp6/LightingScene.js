@@ -129,7 +129,7 @@ class LightingScene extends CGFscene
 
 		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
-		this.framerate = 10;
+		this.framerate = 20;
 
 		this.setUpdatePeriod(1000/this.framerate);
 	};

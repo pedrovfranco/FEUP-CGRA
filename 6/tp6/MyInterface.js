@@ -1,5 +1,4 @@
- 
-class MyInterface extends CGFinterface {
+ class MyInterface extends CGFinterface {
 
 
 	/**
