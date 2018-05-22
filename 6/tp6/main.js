@@ -16,6 +16,7 @@ serialInclude([
 	'MyInterface.js',
 	'MyTerrain.js',
 	'MyVehicle.js',
+	'MyCrane.js',
 	'MyTire.js',
 
 	main=function() {
