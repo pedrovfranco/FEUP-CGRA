@@ -19,9 +19,15 @@ class MyCrane extends CGFobject
 		this.armAppearance = new CGFappearance(this.scene);
 		this.armAppearance.loadTexture("../resources/images/black.png");
 
-		this.lowerBase = new CylinderWihoutBases(scene,slices,stacks);
+		this.lowerBase = new MyCylinderWihoutBases(scene,slices,stacks);
 		this.oneSide = new MyBase(scene,slices);
 		this.otherSide = new MyBase(scene,slices);
+
+		this.shorterArm = new MyPrismWithTop(scene, 4, 1);
+		this.littleString = new MyCylinderWihoutBases(scene,slices,stacks);
+		this.magnet = new MyCylinderWihoutBases(scene,slices,stacks);
+		this.magnetTop = new MyBase(scene,slices);
+		this.magnetBottom = new MyBase(scene,slices);
 
 
 
@@ -46,9 +52,74 @@ class MyCrane extends CGFobject
 	this.scene.pushMatrix();
 	this.scene.translate(0,6,-5);
 	this.scene.rotate(Math.PI/4,1,0,0);
-	this.scene.scale(1/2,1/2,8);
+	this.scene.scale(0.4,0.4,8);
 	this.armAppearance.apply();
 	this.arm.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(-0.45,6,-5);
+	this.scene.rotate(Math.PI/2,0, 1,0);
+	this.scene.scale(0.9,0.9,0.9);
+	this.baseAppearance.apply();
+	this.lowerBase.display();
+	this.scene.popMatrix();
+
+
+	this.scene.pushMatrix();
+	this.scene.translate(-0.45,6,-5);
+	this.scene.rotate(-Math.PI/2,0, 1,0);
+	this.scene.scale(0.9,0.9,0.9);
+	this.baseAppearance.apply();
+	this.oneSide.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(0.4,6,-5);
+	this.scene.rotate(Math.PI/2,0, 1,0);
+	this.scene.scale(0.9,0.9,0.9);
+	this.baseAppearance.apply();
+	this.otherSide.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(0,8.75,-8);
+	this.scene.rotate(Math.PI/4,1,0,0);
+	this.scene.scale(1/3,1/3,4);
+	this.armAppearance.apply();
+	this.shorterArm.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(0,8.75,-8);
+	this.scene.rotate(Math.PI/2,1,0,0);
+	this.scene.scale(1/20,1/20,2);
+	this.baseAppearance.apply();
+	this.littleString.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(0,7,-8);
+	this.scene.rotate(Math.PI/2,1, 0,0);
+	this.scene.scale(0.9,0.9,0.3);
+	this.baseAppearance.apply();
+	this.magnet.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(0,7,-8);
+	this.scene.rotate(-Math.PI/2,1, 0,0);
+	this.scene.scale(0.9,0.9,0.3);
+	this.baseAppearance.apply();
+	this.magnetTop.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(0,6.7,-8);
+	this.scene.rotate(Math.PI/2,1, 0,0);
+	this.scene.scale(0.9,0.9,0.3);
+	this.baseAppearance.apply();
+	this.magnetBottom.display();
 	this.scene.popMatrix();
 
 	}

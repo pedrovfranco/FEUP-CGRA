@@ -105,10 +105,10 @@ class MyTire extends CGFobject {
 		this.base = new MyBase(scene, slices);
 
 		this.cylinderAppearance = new CGFappearance(this.scene);
-		this.cylinderAppearance.loadTexture("../resources/images/random.png");
+		this.cylinderAppearance.loadTexture("../resources/images/tireSide.jpg");
 
 		this.baseAppearance = new CGFappearance(this.scene);
-		this.baseAppearance.loadTexture("../resources/images/random.png");
+		this.baseAppearance.loadTexture("../resources/images/tireFront.jpg");
 		
 	}
 
