@@ -111,3 +111,46 @@ class MyCylinder extends CGFobject
 	}
 };
 
+class MyCylinderForTexture extends CGFobject
+{
+
+	constructor(scene,slices,stacks){
+
+
+		super(scene);
+	    this.lowerBase = new MyCylinderWihoutBases(scene,slices,stacks);
+		this.oneSide = new MyBase(scene,slices);
+		this.otherSide = new MyBase(scene,slices);
+
+	}
+
+
+	display(){
+
+	this.scene.pushMatrix();
+	this.scene.translate(0,1,0);
+	this.scene.rotate(Math.PI/2, 1,0,0);
+	this.scene.scale(0.9,0.9,0.9);
+	this.lowerBase.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+	this.scene.translate(0,1,0);
+	this.scene.rotate(-Math.PI/2, 1,0,0);
+	this.scene.scale(0.9,0.9,0.9);
+	this.oneSide.display();
+	this.scene.popMatrix();
+
+	this.scene.pushMatrix();
+    this.scene.translate(0,0.25,0);
+	this.scene.rotate(Math.PI/2, 1,0,0);
+	this.scene.scale(0.9,0.9,0.9);
+	this.otherSide.display();
+	this.scene.popMatrix();
+
+
+	}
+
+
+
+}

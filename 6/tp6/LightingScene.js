@@ -47,6 +47,7 @@ class LightingScene extends CGFscene
 		this.width = 2.2;
 		this.height = 2;
 
+		
 		//Terrain Altimetry	
 		this.altimetry = [
 		[0.0, 0.4, 0.4, 0.6, 0.7, 0.6, 0.5, 0.2, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.1, 0.0, 0.1, 0.1, 1.0],
@@ -322,7 +323,7 @@ class LightingScene extends CGFscene
 
 		//Car
 		this.pushMatrix();
-		this.car.display();
+	//	this.car.display();
 		this.popMatrix();
 
 		//SemiSphere
@@ -345,7 +346,8 @@ class LightingScene extends CGFscene
 
 		 //Crane
 		 this.pushMatrix();
-		 this.translate(-10,0,0);
+		 this.rotate(Math.PI,0,1,0);
+		 //this.translate(-10,0,0);
 		 this.crane.display();
 		 this.popMatrix();
 
@@ -357,6 +359,7 @@ class LightingScene extends CGFscene
 		 this.platAppearance.apply();
 		 this.platform.display();
 		 this.popMatrix();
+
 
 
 		// ---- BEGIN Scene drawing section
