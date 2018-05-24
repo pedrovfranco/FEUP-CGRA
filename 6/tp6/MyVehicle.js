@@ -191,9 +191,6 @@ class MyVehicle extends CGFobject
 
 	updatePosition()
 	{
-
-		console.log(this.rotationSpeed[1]);
-
 		if (this.speed != 0)
 		{
 			this.rotation[1] += checkSquareRoot(this.speed, 0.8)*this.rotationSpeed[1]*this.deltaTime + (checkSquareRoot(this.speed, 0.8)*this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime*this.deltaTime/2);

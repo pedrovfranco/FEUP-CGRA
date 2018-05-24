@@ -1,11 +1,3 @@
-var degToRad = Math.PI / 180.0;
-
-var BOARD_WIDTH = 6.0;
-var BOARD_HEIGHT = 4.0;
-
-var BOARD_A_DIVISIONS = 30;
-var BOARD_B_DIVISIONS = 100;
-
 class LightingScene extends CGFscene
 {
 	constructor()
@@ -47,8 +39,7 @@ class LightingScene extends CGFscene
 		this.width = 2.2;
 		this.height = 2;
 
-		
-		//Terrain Altimetry	
+		//Terrain Altimetry
 		this.altimetry = [
 		[0.0, 0.4, 0.4, 0.6, 0.7, 0.6, 0.5, 0.2, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.1, 0.0, 0.1, 0.1, 1.0],
 		[0.1, 0.2, 0.1, 0.1, 0.3, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.5],
@@ -111,7 +102,7 @@ class LightingScene extends CGFscene
 		this.car = new MyVehicle(this);
 		this.crane = new MyCrane(this, 100, 1);
 		this.platform = new MyTerrain(this, 1, 2, 2, this.altimetry2);
-		
+
 
 		this.materialDefault = new CGFappearance(this);
 
@@ -135,7 +126,7 @@ class LightingScene extends CGFscene
 		this.materialB.setSpecular(0.8,0.8,0.8,1);
 		this.materialB.setShininess(120);
 
-		
+
 
 		this.terrainGrass = new CGFappearance(this);
 		this.terrainGrass.loadTexture("../resources/images/grass2.jpg");
@@ -152,7 +143,7 @@ class LightingScene extends CGFscene
 
 		this.platAppearance = new  CGFappearance(this);
 		this.platAppearance.loadTexture("../resources/images/platform.jpg");
-	
+
 		this.currTerrainApperance = 0;
 		this.terreno = this.terrainAppearancesList[this.currTerrainApperance];
 
@@ -170,8 +161,8 @@ class LightingScene extends CGFscene
 
 	initLights()
 	{
- 		this.setGlobalAmbientLight(1, 1, 1, 0);		
-	
+ 		this.setGlobalAmbientLight(1, 1, 1, 0);
+
 		this.lights[0].setPosition(4, 6, 1, 1);
 		this.lights[0].setVisible(true); // show marker on light position (different from enabled)
 		this.lights[0].setAmbient(0, 0, 0, 1);
@@ -248,7 +239,7 @@ class LightingScene extends CGFscene
 			text+=" W";
 			keysPressed=true;
 			this.car.setAcceleration(1);
-		}	
+		}
 		else if (this.gui.isKeyPressed("KeyS"))
 		{
 			text+=" S";
@@ -263,7 +254,7 @@ class LightingScene extends CGFscene
 			text+=" A";
 			keysPressed=true;
 			this.car.setRotAcceleration(1);
-			
+
 		}
 		else if (this.gui.isKeyPressed("KeyD"))
 		{
@@ -298,7 +289,7 @@ class LightingScene extends CGFscene
 
 		// Draw axis
 		if (this.axis)
-		//	this.Axis.display();
+			this.Axis.display();
 		this.materialDefault.apply();
 
 		// ---- END Background, camera and axis setup
@@ -310,7 +301,7 @@ class LightingScene extends CGFscene
 		this.scale(50, 50, 50);
 		this.rotate(-Math.PI/2, 1, 0, 0);
 		this.terrainAppearances[this.currTerrainApperance].apply();
-		this.terrain.display();
+		// this.terrain.display();
 		this.popMatrix();
 
 		//Terrain
@@ -318,19 +309,19 @@ class LightingScene extends CGFscene
 		this.scale(50, 50, 50);
 		this.rotate(Math.PI/2, 1, 0, 0);
 		this.terrainAppearances[this.currTerrainApperance].apply();
-		this.terrain.display();
+		// this.terrain.display();
 		this.popMatrix();
 
 		//Car
 		this.pushMatrix();
-	//	this.car.display();
+		// this.car.display();
 		this.popMatrix();
 
 		//SemiSphere
 		 this.pushMatrix();
 		 this.translate(0, -5, 0);
 		 this.scale(50, 50, 50);
-		 this.rotate(-Math.PI/2, 1, 0, 0);	
+		 this.rotate(-Math.PI/2, 1, 0, 0);
 		 this.backgroundAppearance.apply();
 		 this.semisphere.display();
 		 this.popMatrix();
@@ -346,8 +337,7 @@ class LightingScene extends CGFscene
 
 		 //Crane
 		 this.pushMatrix();
-		 this.rotate(Math.PI,0,1,0);
-		 //this.translate(-10,0,0);
+		//  this.translate(-10,0,0);
 		 this.crane.display();
 		 this.popMatrix();
 
@@ -359,7 +349,6 @@ class LightingScene extends CGFscene
 		 this.platAppearance.apply();
 		 this.platform.display();
 		 this.popMatrix();
-
 
 
 		// ---- BEGIN Scene drawing section
