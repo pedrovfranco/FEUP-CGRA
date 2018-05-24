@@ -26,7 +26,7 @@
 		this.elapsed = 0;
 
 		this.rotationSpeed = 0;
-		this.maxAngle   = Math.PI;
+//		this.maxAngle   = Math.PI;
 	
 		this.deltaTime = -1;
 		this.guiSpeed = 1;
@@ -34,7 +34,7 @@
 
 	display(){
 
-	this.scene.rotate(this.rotationSpeed, 1,0,0);
+//	this.scene.rotate(this.rotationSpeed, 1,0,0);
 
 	this.scene.pushMatrix();
 	this.scene.translate(0,8.75,-8);
@@ -116,7 +116,9 @@ class MyCrane extends CGFobject
         this.time = -1;
 		this.elapsed = 0;
 
+		this.angle = 0;
 		this.rotationSpeed = 0;
+		this.maxAngle = Math.PI;
 	
 		this.deltaTime = -1;
 		this.guiSpeed = 1;
@@ -124,7 +126,7 @@ class MyCrane extends CGFobject
 
 	display(){
 
-	this.scene.rotate(this.rotationSpeed, 0,1,0);
+	this.scene.rotate(this.angle, 0,1,0);
 
 	this.scene.pushMatrix();
 	this.scene.translate(0,1,0);
@@ -173,7 +175,7 @@ class MyCrane extends CGFobject
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-//	this.topCrane.display();
+	this.topCrane.display();
 	this.scene.popMatrix();
 
 	}
@@ -189,13 +191,23 @@ class MyCrane extends CGFobject
 
 		this.elapsed = currTime - this.time; //Time elapsed from start in milliseconds
 
-	//	if(deltaTime != Math.PI) {
-		this.rotationSpeed += this.deltaTime;
-	//	}
+		this.rotationSpeed = this.deltaTime;
+
+		this.updatePosition();		
 		
 		this.topCrane.update(currTime);
 	
 	};
+
+	updatePosition()
+	{
+
+		if(this.angle <=  this.maxAngle) {
+
+			this.angle += this.rotationSpeed;
+		}
+		
+	}
 
 };
 
