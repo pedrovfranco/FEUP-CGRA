@@ -4,6 +4,17 @@
  * @constructor
  */
 
+ function checkSquareRoot(x, y)
+ {
+    var result = Math.pow(x, y)
+
+    if (x > 0) {
+        return result;
+    } else {
+        return -1 * Math.pow( -x, y);
+    }
+}
+
 class MyVehicle extends CGFobject
 {
 	constructor(scene)
@@ -20,7 +31,7 @@ class MyVehicle extends CGFobject
 
 		this.carAppearance = new CGFappearance(scene);
 		this.carAppearance.loadTexture("../resources/images/car.png");
-		
+
 		this.time = -1;
 		this.elapsed = 0;
 
@@ -29,14 +40,14 @@ class MyVehicle extends CGFobject
 		this.acceleration = 0;
 
 		this.maxSpeed = 25;
-		
+
 		this.rotation = [0, 0, 0];
 		this.rotationSpeed = [0, 0, 0];
 		this.rotationAcceleration = [0, 0, 0];
 
 		this.wheelAngle = 0;
 
-		this.maxRotation = 0.7;
+		this.maxRotation = 0.1;
 		this.maxWheelAngle = Math.PI/6;
 
 		this.fallout = 0;
@@ -61,11 +72,11 @@ class MyVehicle extends CGFobject
 		this.scene.translate(this.position[0], this.position[1], this.position[2]);
 
 		this.scene.rotate(this.rotation[0], 1, 0, 0);
-	
-		this.scene.translate(0, 0, -this.axelDistance/2); // Rotate car by the rear wheel axis		
+
+		this.scene.translate(0, 0, -this.axelDistance/2); // Rotate car by the rear wheel axis
 		this.scene.rotate(this.rotation[1], 0, 1, 0);
 		this.scene.translate(0, 0, this.axelDistance/2);
-		
+
 		this.scene.rotate(this.rotation[2], 0, 0, 1);
 
 		// //back left tire
@@ -88,7 +99,7 @@ class MyVehicle extends CGFobject
 
 		//front left tire
 		this.scene.pushMatrix();
-			
+
 			this.scene.translate(tireX, tireScale, this.axelDistance/2);
 			this.scene.rotate(this.wheelAngle, 0, 1, 0);
 			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
@@ -96,7 +107,7 @@ class MyVehicle extends CGFobject
 			this.scene.scale(tireScale, tireScale, tireThickness);
 			this.tire.display();
 		this.scene.popMatrix();
-		
+
 		//front right tire
 		this.scene.pushMatrix();
 			this.scene.translate(-tireThickness-tireX, tireScale, this.axelDistance/2);
@@ -143,7 +154,7 @@ class MyVehicle extends CGFobject
 			this.semisphere.display();
 		this.scene.popMatrix();
 	};
- 
+
 	setVariables(length, axelDistance, tireDiameter, width, height, guiSpeed)
 	{
 		this.length = length;
@@ -171,7 +182,7 @@ class MyVehicle extends CGFobject
 		var mult = 1;
 
 		if (rotAcceleration == 0)
-			this.rotationFallout = mult/2;
+			this.rotationFallout = mult/8;
 		else
 			this.rotationFallout = 0;
 
@@ -180,24 +191,17 @@ class MyVehicle extends CGFobject
 
 	updatePosition()
 	{
-		var absSpeed = Math.abs(this.speed);
 
-		if (this.speed > 0)
+		console.log(this.rotationSpeed[1]);
+
+		if (this.speed != 0)
 		{
-			this.rotation[1] += this.rotationSpeed[1]*this.deltaTime + (this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime*this.deltaTime/2);
+			this.rotation[1] += checkSquareRoot(this.speed, 0.8)*this.rotationSpeed[1]*this.deltaTime + (checkSquareRoot(this.speed, 0.8)*this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime*this.deltaTime/2);
 			this.rotationSpeed[1] += this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime;
 		}
-		else if (this.speed < 0)
-		{
-			this.rotation[1] -= this.rotationSpeed[1]*this.deltaTime + (this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime*this.deltaTime/2);
-			this.rotationSpeed[1] += this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime;
-		}
-		else
-			this.rotationSpeed[1] = 0;
 
-		
 		this.wheelAngle += this.guiSpeed*this.rotationAcceleration[1]*this.deltaTime;
-		
+
 
 		if (this.rotationSpeed[1] > this.maxRotation)
 			this.rotationSpeed[1] = this.maxRotation;
@@ -228,17 +232,17 @@ class MyVehicle extends CGFobject
 
 		if (this.wheelAngle > 0) //Makes rotationSpeed[1] = 0 when its near 0
 		{
-			if (this.wheelAngle - this.rotationFallout * this.deltaTime < 0)
+			if (this.wheelAngle - 10*this.rotationFallout * this.deltaTime < 0)
 				this.wheelAngle = 0;
 			else
-				this.wheelAngle -= this.rotationFallout * this.deltaTime;
+				this.wheelAngle -= 10*this.rotationFallout * this.deltaTime;
 		}
 		else if (this.wheelAngle < 0)
 		{
-			if (this.wheelAngle + this.rotationFallout * this.deltaTime > 0)
+			if (this.wheelAngle + 10*this.rotationFallout * this.deltaTime > 0)
 				this.wheelAngle = 0;
 			else
-				this.wheelAngle += this.rotationFallout * this.deltaTime;
+				this.wheelAngle += 10*this.rotationFallout * this.deltaTime;
 		}
 
 
@@ -261,7 +265,7 @@ class MyVehicle extends CGFobject
 			else
 				this.speed += this.fallout;
 		}
-		
+
 		if (this.speed > this.maxSpeed*this.guiSpeed)
 			this.speed = this.maxSpeed*this.guiSpeed;
 
@@ -271,7 +275,7 @@ class MyVehicle extends CGFobject
 		this.wheelFrontRotation += this.speed/this.tireDiameter*this.deltaTime/2;
 
 	};
-	
+
 	update(currTime, length, axelDistance, tireDiameter, width, height, guiSpeed)
 	{
 		if (this.time == -1)
@@ -287,7 +291,7 @@ class MyVehicle extends CGFobject
 
 		this.updatePosition();
 	};
-};	
+};
 
 
 class MyTop extends CGFobject
@@ -303,43 +307,43 @@ class MyTop extends CGFobject
 	{
 		this.vertices = [
 		 -0.5, 0.5, 0,
-		 0.5, 0.5, 0, 
-		 -0.5, 0.5, 1, 
-		 0.5, 0.5, 1, 
-		 -1, -0.5, 0, 
-		 -0.5, 0.5, 0, 
-		 -1, -0.5, 1, 
-		 -0.5, 0.5, 1, 
-		 -1, -0.5, 0, 
-		 1, -0.5, 0, 
+		 0.5, 0.5, 0,
+		 -0.5, 0.5, 1,
+		 0.5, 0.5, 1,
+		 -1, -0.5, 0,
+		 -0.5, 0.5, 0,
 		 -1, -0.5, 1,
-		 1, -0.5, 1, 
-		 0.5, 0.5, 0, 
-		 1, -0.5, 0, 
-		 0.5, 0.5, 1, 
-		 1, -0.5, 1, 
-		 -0.5, 0.5, 0, 
-		 0.5, 0.5, 0, 
-		 -1, -0.5, 0, 
-		 1, -0.5, 0, 
-		 -0.5, 0.5, 1, 
-		 0.5, 0.5, 1, 
-		 -1, -0.5, 1, 
+		 -0.5, 0.5, 1,
+		 -1, -0.5, 0,
+		 1, -0.5, 0,
+		 -1, -0.5, 1,
+		 1, -0.5, 1,
+		 0.5, 0.5, 0,
+		 1, -0.5, 0,
+		 0.5, 0.5, 1,
+		 1, -0.5, 1,
+		 -0.5, 0.5, 0,
+		 0.5, 0.5, 0,
+		 -1, -0.5, 0,
+		 1, -0.5, 0,
+		 -0.5, 0.5, 1,
+		 0.5, 0.5, 1,
+		 -1, -0.5, 1,
 		 1, -0.5, 1
 		 ];
 
 		this.indices = [
-		0, 2, 1, 
+		0, 2, 1,
 		1, 2, 3,
 		4, 6, 5,
-		5, 6, 7, 
-		8, 9, 10, 
-		9, 11, 10, 
-		12, 14, 13, 
-		13, 14, 15, 
-		16, 17, 18, 
-		17, 19, 18, 
-		20, 22, 21, 
+		5, 6, 7,
+		8, 9, 10,
+		9, 11, 10,
+		12, 14, 13,
+		13, 14, 15,
+		16, 17, 18,
+		17, 19, 18,
+		20, 22, 21,
 		21, 22, 23
 		];
 
@@ -422,110 +426,115 @@ class MyBody extends CGFobject
 	initBuffers()
 	{
 		this.vertices = [
-		1, 0, 0, 
-		1, 0, 1, 
+		1, 0, 0,
+		1, 0, 1,
 		0, 1, 0,
-		0, 1, 1, 
-		0, 1, 0, 
-		0, 1, 1, 
-		-1, 0, 0, 
-		-1, 0, 1, 
-		-1, 0, 0, 
-		-1, 0, 1, 
-		-0, -1, 0, 
-		-0, -1, 1, 
-		-0, -1, 0, 
-		-0, -1, 1, 
-		1, -0, 0, 
-		1, -0, 1, 
-		1, 0, 0, 
-		0, 1, 0, 
-		-1, 0, 0, 
-		-0, -1, 0, 
-		0, 0, 0, 
-		1, 0, 1, 
-		0, 1, 1, 
-		-1, 0, 1, 
-		-0, -1, 1, 
+		0, 1, 1,
+		0, 1, 0,
+		0, 1, 1,
+		-1, 0, 0,
+		-1, 0, 1,
+		-1, 0, 0,
+		-1, 0, 1,
+		-0, -1, 0,
+		-0, -1, 1,
+		-0, -1, 0,
+		-0, -1, 1,
+		1, -0, 0,
+		1, -0, 1,
+		1, 0, 0,
+		0, 1, 0,
+		-1, 0, 0,
+		-0, -1, 0,
+		0, 0, 0,
+		1, 0, 1,
+		0, 1, 1,
+		-1, 0, 1,
+		-0, -1, 1,
 		0, 0, 1
 		];
 
 		this.indices = [
-		0, 2, 1, 
+		0, 2, 1,
 		1, 2, 3,
-		4, 6, 5, 
-		5, 6, 7, 
-		8, 10, 9, 
-		9, 10, 11, 
-		12, 14, 13, 
-		13, 14, 15, 
-		16, 20, 17, 
-		17, 20, 18, 
-		18, 20, 19, 
-		19, 20, 16, 
-		21, 22, 25, 
-		22, 23, 25, 
-		23, 24, 25, 
+		4, 6, 5,
+		5, 6, 7,
+		8, 10, 9,
+		9, 10, 11,
+		12, 14, 13,
+		13, 14, 15,
+		16, 20, 17,
+		17, 20, 18,
+		18, 20, 19,
+		19, 20, 16,
+		21, 22, 25,
+		22, 23, 25,
+		23, 24, 25,
 		24, 21, 25
 		];
 
 		this.normals = [
-		0.7071067811865476, 0.7071067811865475, 0, 
-		0.7071067811865476, 0.7071067811865475, 0, 
-		0.7071067811865476, 0.7071067811865475, 0, 
-		0.7071067811865476, 0.7071067811865475, 0, 
-		-0.7071067811865475, 0.7071067811865476, 0, 
-		-0.7071067811865475, 0.7071067811865476, 0, 
-		-0.7071067811865475, 0.7071067811865476, 0, 
-		-0.7071067811865475, 0.7071067811865476, 0, 
+		0.7071067811865476, 0.7071067811865475, 0,
+		0.7071067811865476, 0.7071067811865475, 0,
+		0.7071067811865476, 0.7071067811865475, 0,
+		0.7071067811865476, 0.7071067811865475, 0,
+		-0.7071067811865475, 0.7071067811865476, 0,
+		-0.7071067811865475, 0.7071067811865476, 0,
+		-0.7071067811865475, 0.7071067811865476, 0,
+		-0.7071067811865475, 0.7071067811865476, 0,
 		-0.7071067811865477, -0.7071067811865475, 0,
 		-0.7071067811865477, -0.7071067811865475, 0,
-		-0.7071067811865477, -0.7071067811865475, 0, 
-		-0.7071067811865477, -0.7071067811865475, 0, 
-		0.7071067811865474, -0.7071067811865477, 0, 
-		0.7071067811865474, -0.7071067811865477, 0, 
-		0.7071067811865474, -0.7071067811865477, 0, 
-		0.7071067811865474, -0.7071067811865477, 0, 
-		0, 0, -1, 
-		0, 0, -1, 
-		0, 0, -1, 
-		0, 0, -1, 
-		0, 0, -1, 
-		0, 0, 1, 
-		0, 0, 1, 
-		0, 0, 1, 
-		0, 0, 1, 
+		-0.7071067811865477, -0.7071067811865475, 0,
+		-0.7071067811865477, -0.7071067811865475, 0,
+		0.7071067811865474, -0.7071067811865477, 0,
+		0.7071067811865474, -0.7071067811865477, 0,
+		0.7071067811865474, -0.7071067811865477, 0,
+		0.7071067811865474, -0.7071067811865477, 0,
+		0, 0, -1,
+		0, 0, -1,
+		0, 0, -1,
+		0, 0, -1,
+		0, 0, -1,
+		0, 0, 1,
+		0, 0, 1,
+		0, 0, 1,
+		0, 0, 1,
 		0, 0, 1
 		];
 
 
 		this.texCoords = [
-		0.232421875, 0.9931640625,
-		0.232421875, 0.861328125,
-		0.6650390625, 0.9931640625,
-		0.6650390625, 0.861328125,
-		0.91406, 0.8457,
-		0.91406, 0.70703125,
-		0.2334, 0.8457,
-		0.2334, 0.70703125,
+		0.8681640625, 0.5732421875,
+		1, 0.5732421875,
+		0.8681640625, 1,
+		1, 1,
+
+		0.6806640625, 0.724609375,
+		0.6806640625, 0.5859375,
+		0.0, 0.724609375,
+		0.0, 0.5859375,
+
 		0.1396484375, 0.0830078125,
 		0.1396484375, 0.0830078125,
 		0.1396484375, 0.0830078125,
 		0.1396484375, 0.0830078125,
-		0.2334, 0.8457,
-		0.2334, 0.70703125,
-		0.91406, 0.8457,
-		0.91406, 0.70703125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125,
-		0.1396484375, 0.0830078125
+
+		0.0, 0.724609375,
+		0.0, 0.5859375,
+		0.6806640625, 0.724609375,
+		0.6806640625, 0.5859375,
+
+		0.11328125, 0.09765625,
+		0.11328125, 0.09765625,
+		0.11328125, 0.09765625,
+		0.11328125, 0.09765625,
+		0.11328125, 0.09765625,
+
+		0.0, 1,
+		0.0, 0.7568359375,
+		0.6806640625, 1,
+		0.6806640625, 0.7568359375,
+		0.34033203125, 0.87841796875
 		];
 
 
