@@ -21,67 +21,69 @@ class MyVehicle extends CGFobject
 	{
 		super(scene);
 
+		//Objects Declaration
 		this.top = new MyTop(scene);
 		this.body = new MyBody(scene);
 		this.tire = new MyTire(scene, 35, 1);
 		this.semisphere = new MySemiSphere(scene, 20, 20);
 		this.carAppearance = new CGFappearance(scene);
 
+		//Headlight Texture
 		this.headlightAppearance =  new CGFappearance(this.scene);
 		this.headlightAppearance.loadTexture("../resources/images/headlight.jpg");
 
+		//Time variables
 		this.time = -1;
+		this.deltaTime = -1;
 		this.elapsed = 0;
 
 		this.position = [0, 0, 0];
-		this.speed = 0;
 		this.acceleration = 0;
 
+		//Speed Attributes
+		this.speed = 0;
 		this.maxSpeed = 25;
+		this.guiSpeed = 1;
 
+		//Rotation Variables
 		this.rotation = [0, 0, 0];
 		this.rotationSpeed = [0, 0, 0];
 		this.rotationAcceleration = [0, 0, 0];
 
 		this.wheelAngle = 0;
+		this.wheelFrontRotation = 0;
 
 		this.maxRotation = 0.1;
 		this.maxWheelAngle = Math.PI/6;
 
+		//Friction Force
 		this.fallout = 0;
-
 		this.rotationFallout = 0;
 
-		this.deltaTime = -1;
-
-		this.wheelFrontRotation = 0;
-
-		this.guiSpeed = 1;
-
+		//This is used to prevent movement when car is in crane
 		this.locked = false;
-
+	
+		//Setting pre-defined car variables
 		this.setVariables(4, 3, 1, 2.2, 2, 1);
 	};
 
 	display()
 	{
+		//Tire variables
 		var tireScale = this.tireDiameter/2;
 		var tireThickness = tireScale*0.7;
 		var tireX = (this.width - 2*tireThickness)/2 - 0.01;
 
 		this.scene.translate(this.position[0], this.position[1], this.position[2]);
-
 		this.scene.rotate(this.rotation[0], 1, 0, 0);
-
 		this.scene.translate(0, 0, -this.axelDistance/2); // Rotate car by the rear wheel axis
 		this.scene.rotate(this.rotation[1], 0, 1, 0);
 		this.scene.translate(0, 0, this.axelDistance/2);
-
 		this.scene.rotate(this.rotation[2], 0, 0, 1);
 
 		// //back left tire
 		this.scene.pushMatrix();
-			this.scene.translate(tireX, tireScale, -this.axelDistance/2);
+			this.scene.translate(tireX + 0.3, tireScale, -this.axelDistance/2);
 			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.scene.scale(tireScale, tireScale, tireThickness);
@@ -90,7 +92,7 @@ class MyVehicle extends CGFobject
 
 		// //back right tire
 		this.scene.pushMatrix();
-			this.scene.translate(-tireThickness-tireX, tireScale, -this.axelDistance/2);
+			this.scene.translate(-tireThickness-tireX - 0.3, tireScale, -this.axelDistance/2);
 			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
 			this.scene.scale(tireScale, tireScale, tireThickness);
@@ -100,7 +102,7 @@ class MyVehicle extends CGFobject
 		//front left tire
 		this.scene.pushMatrix();
 
-			this.scene.translate(tireX, tireScale, this.axelDistance/2);
+			this.scene.translate(tireX + 0.3, tireScale, this.axelDistance/2);
 			this.scene.rotate(this.wheelAngle, 0, 1, 0);
 			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
@@ -110,7 +112,7 @@ class MyVehicle extends CGFobject
 
 		//front right tire
 		this.scene.pushMatrix();
-			this.scene.translate(-tireThickness-tireX, tireScale, this.axelDistance/2);
+			this.scene.translate(-tireThickness-tireX - 0.3, tireScale, this.axelDistance/2);
 			this.scene.rotate(this.wheelAngle, 0, 1, 0);
 			this.scene.rotate(this.wheelFrontRotation, 1, 0, 0);
 			this.scene.rotate(Math.PI/2, 0, 1, 0);
@@ -307,30 +309,30 @@ class MyTop extends CGFobject
 	initBuffers()
 	{
 		this.vertices = [
-		 -0.5, 0.5, 0,
-		 0.5, 0.5, 0,
-		 -0.5, 0.5, 1,
-		 0.5, 0.5, 1,
-		 -1, -0.5, 0,
-		 -0.5, 0.5, 0,
-		 -1, -0.5, 1,
-		 -0.5, 0.5, 1,
-		 -1, -0.5, 0,
-		 1, -0.5, 0,
-		 -1, -0.5, 1,
-		 1, -0.5, 1,
-		 0.5, 0.5, 0,
-		 1, -0.5, 0,
-		 0.5, 0.5, 1,
-		 1, -0.5, 1,
-		 -0.5, 0.5, 0,
-		 0.5, 0.5, 0,
-		 -1, -0.5, 0,
-		 1, -0.5, 0,
-		 -0.5, 0.5, 1,
-		 0.5, 0.5, 1,
-		 -1, -0.5, 1,
-		 1, -0.5, 1
+		 -0.5, 0.5, 0.0,
+		  0.5, 0.5, 0.0,
+		 -0.5, 0.5, 1.0,
+		  0.5, 0.5, 1.0,
+		 -1.0,-0.5, 0.0,
+		 -0.5, 0.5, 0.0,
+		 -1.0,-0.5, 1.0,
+		 -0.5, 0.5, 1.0,
+		 -1.0,-0.5, 0.0,
+		  1.0,-0.5, 0.0,
+		 -1.0,-0.5, 1.0,
+		  1.0,-0.5, 1.0,
+		  0.5, 0.5, 0.0,
+		  1.0,-0.5, 0.0,
+		  0.5, 0.5, 1.0,
+		  1.0,-0.5, 1.0,
+		 -0.5, 0.5, 0.0,
+		  0.5, 0.5, 0.0,
+		 -1.0,-0.5, 0.0,
+		  1.0,-0.5, 0.0,
+		 -0.5, 0.5, 1.0,
+		  0.5, 0.5, 1.0,
+		 -1.0,-0.5, 1.0,
+		  1.0,-0.5, 1.0
 		 ];
 
 		this.indices = [
@@ -357,18 +359,18 @@ class MyTop extends CGFobject
 		-2/Math.sqrt(5), 1/Math.sqrt(5), 0,
 		-2/Math.sqrt(5), 1/Math.sqrt(5), 0,
 		-2/Math.sqrt(5), 1/Math.sqrt(5), 0,
-		0, -1, 0,
-		0, -1, 0,
-		0, -1, 0,
-		0, -1, 0,
+		0,-1, 0,
+		0,-1, 0,
+		0,-1, 0,
+		0,-1, 0,
 		2/Math.sqrt(5), 1/Math.sqrt(5), 0,
 		2/Math.sqrt(5), 1/Math.sqrt(5), 0,
 		2/Math.sqrt(5), 1/Math.sqrt(5), 0,
 		2/Math.sqrt(5), 1/Math.sqrt(5), 0,
-		0, 0, -1,
-		0, 0, -1,
-		0, 0, -1,
-		0, 0, -1,
+		0, 0,-1,
+		0, 0,-1,
+		0, 0,-1,
+		0, 0,-1,
 		0, 0, 1,
 		0, 0, 1,
 		0, 0, 1,
@@ -376,15 +378,15 @@ class MyTop extends CGFobject
 		];
 
 		this.texCoords = [
-		0.4258, 0.042,
-		0.669, 0.041,
+		0.4258, 0.0420,
+		0.6690, 0.0410,
 		0.4248, 0.3086,
-		0.67, 0.3056,
+		0.6700, 0.3056,
 
 		0.3115234375, 0.021484375,
-		0.423828125, 0.041015625,
+		0.4238281250, 0.041015625,
 		0.3115234375, 0.333984375,
-		0.42578125, 0.314453125,
+		0.4257812500, 0.314453125,
 
 		0, 0,
 		0, 0,
@@ -392,19 +394,19 @@ class MyTop extends CGFobject
 		0, 0,
 
 		0.3115234375, 0.021484375,
-		0.423828125, 0.041015625,
+		0.4238281250, 0.041015625,
 		0.3115234375, 0.333984375,
-		0.42578125, 0.314453125,
+		0.4257812500, 0.314453125,
 
-		0.42, 0.318,
+		0.4200000000, 0.318000000,
 		0.6787109375, 0.318359375,
-		0.2832, 0.41,
-		0.79296875, 0.41015625,
+		0.2832000000, 0.410000000,
+		0.7929687500, 0.410156250,
 
-		0.42, 0.318,
+		0.4200000000, 0.318000000,
 		0.6787109375, 0.318359375,
-		0.2832, 0.41,
-		0.79296875, 0.41015625
+		0.2832000000, 0.410000000,
+		0.7929687500, 0.410156250
 		];
 
 
@@ -427,32 +429,32 @@ class MyBody extends CGFobject
 	initBuffers()
 	{
 		this.vertices = [
-		1, 0, 0,
-		1, 0, 1,
-		0, 1, 0,
-		0, 1, 1,
-		0, 1, 0,
-		0, 1, 1,
-		-1, 0, 0,
-		-1, 0, 1,
-		-1, 0, 0,
-		-1, 0, 1,
-		-0, -1, 0,
-		-0, -1, 1,
-		-0, -1, 0,
-		-0, -1, 1,
-		1, -0, 0,
-		1, -0, 1,
-		1, 0, 0,
-		0, 1, 0,
-		-1, 0, 0,
-		-0, -1, 0,
-		0, 0, 0,
-		1, 0, 1,
-		0, 1, 1,
-		-1, 0, 1,
-		-0, -1, 1,
-		0, 0, 1
+		1.0, 0.0, 0.0,
+		1.0, 0.0, 1.0,
+		0.0, 1.0, 0.0,
+		0.0, 1.0, 1.0,
+		0.0, 1.0, 0.0,
+		0.0, 1.0, 1.0,
+	   -1.0, 0.0, 0.0,
+	   -1.0, 0.0, 1.0,
+	   -1.0, 0.0, 0.0,
+	   -1.0, 0.0, 1.0,
+	   -0.0,-1.0, 0.0,
+	   -0.0,-1.0, 1.0,
+	   -0.0,-1.0, 0.0,
+	   -0.0,-1.0, 1.0,
+		1.0,-0.0, 0.0,
+		1.0,-0.0, 1.0,
+		1.0, 0.0, 0.0,
+		0.0, 1.0, 0.0,
+	   -1.0, 0.0, 0.0,
+	   -0.0,-1.0, 0.0,
+		0.0, 0.0, 0.0,
+		1.0, 0.0, 1.0,
+		0.0, 1.0, 1.0,
+	   -1.0, 0.0, 1.0,
+	   -0.0,-1.0, 1.0,
+		0.0, 0.0, 1.0
 		];
 
 		this.indices = [
@@ -479,23 +481,23 @@ class MyBody extends CGFobject
 		0.7071067811865476, 0.7071067811865475, 0,
 		0.7071067811865476, 0.7071067811865475, 0,
 		0.7071067811865476, 0.7071067811865475, 0,
-		-0.7071067811865475, 0.7071067811865476, 0,
-		-0.7071067811865475, 0.7071067811865476, 0,
-		-0.7071067811865475, 0.7071067811865476, 0,
-		-0.7071067811865475, 0.7071067811865476, 0,
-		-0.7071067811865477, -0.7071067811865475, 0,
-		-0.7071067811865477, -0.7071067811865475, 0,
-		-0.7071067811865477, -0.7071067811865475, 0,
-		-0.7071067811865477, -0.7071067811865475, 0,
-		0.7071067811865474, -0.7071067811865477, 0,
-		0.7071067811865474, -0.7071067811865477, 0,
-		0.7071067811865474, -0.7071067811865477, 0,
-		0.7071067811865474, -0.7071067811865477, 0,
-		0, 0, -1,
-		0, 0, -1,
-		0, 0, -1,
-		0, 0, -1,
-		0, 0, -1,
+	   -0.7071067811865475, 0.7071067811865476, 0,
+	   -0.7071067811865475, 0.7071067811865476, 0,
+	   -0.7071067811865475, 0.7071067811865476, 0,
+	   -0.7071067811865475, 0.7071067811865476, 0,
+	   -0.7071067811865477,-0.7071067811865475, 0,
+	   -0.7071067811865477,-0.7071067811865475, 0,
+	   -0.7071067811865477,-0.7071067811865475, 0,
+	   -0.7071067811865477,-0.7071067811865475, 0,
+		0.7071067811865474,-0.7071067811865477, 0,
+		0.7071067811865474,-0.7071067811865477, 0,
+		0.7071067811865474,-0.7071067811865477, 0,
+		0.7071067811865474,-0.7071067811865477, 0,
+		0, 0,-1,
+		0, 0,-1,
+		0, 0,-1,
+		0, 0,-1,
+		0, 0,-1,
 		0, 0, 1,
 		0, 0, 1,
 		0, 0, 1,
@@ -506,24 +508,24 @@ class MyBody extends CGFobject
 
 		this.texCoords = [
 		0.8681640625, 0.5732421875,
-		1, 0.5732421875,
-		0.8681640625, 1,
-		1, 1,
+		1.0000000000, 0.5732421875,
+		0.8681640625, 1.0000000000,
+		1.0000000000, 1.0000000000,
 
 		0.6806640625, 0.724609375,
-		0.6806640625, 0.5859375,
-		0.0, 0.724609375,
-		0.0, 0.5859375,
+		0.6806640625, 0.585937500,
+		0.0000000000, 0.724609375,
+		0.0000000000, 0.585937500,
 
 		0.1396484375, 0.0830078125,
 		0.1396484375, 0.0830078125,
 		0.1396484375, 0.0830078125,
 		0.1396484375, 0.0830078125,
 
-		0.0, 0.724609375,
-		0.0, 0.5859375,
+		0.0000000000, 0.724609375,
+		0.0000000000, 0.585937500,
 		0.6806640625, 0.724609375,
-		0.6806640625, 0.5859375,
+		0.6806640625, 0.585937500,
 
 		0.11328125, 0.09765625,
 		0.11328125, 0.09765625,
@@ -531,14 +533,12 @@ class MyBody extends CGFobject
 		0.11328125, 0.09765625,
 		0.11328125, 0.09765625,
 
-		0.0, 1,
-		0.0, 0.7568359375,
-		0.6806640625, 1,
-		0.6806640625, 0.7568359375,
+		0.00000000000, 1.0000000000,
+		0.00000000000, 0.7568359375,
+		0.68066406250, 1.0000000000,
+		0.68066406250, 0.7568359375,
 		0.34033203125, 0.87841796875
 		];
-
-
 
 		this.primitiveType=this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
