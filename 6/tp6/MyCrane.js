@@ -201,7 +201,8 @@ class MyCrane extends CGFobject
 
 	updatePosition()
 	{
-		
+		console.log(this.status);
+
 		if (this.status == 0)
 		{
 			if (this.car.speed == 0 && this.car.position[0] > 11.5-7 && this.car.position[0] < 11.5 && this.car.position[2] > -4.5-7 && this.car.position[2] < -4.5)
@@ -274,7 +275,9 @@ class MyCrane extends CGFobject
 	else if(this.status == 7){
 
 	 if (this.topCraneAngle < -this.topCraneMaxAngle)
-		this.topCraneAngle += this.deltaTime;	
+		this.topCraneAngle += this.deltaTime;
+	 else
+	 	this.status = 0;
 		      
 	}
 
