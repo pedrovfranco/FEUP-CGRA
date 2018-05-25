@@ -45,6 +45,8 @@
 
 		tex.add(this.scene, 'terreno', this.scene.terrainAppearancesList);
 		//tex.add(this.scene, 'Car');
+
+		tex.add(this.scene, 'carro', this.scene.carAppearancesList);
 		
 		this.initKeys();
 		return true;

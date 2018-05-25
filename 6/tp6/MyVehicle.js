@@ -25,12 +25,10 @@ class MyVehicle extends CGFobject
 		this.body = new MyBody(scene);
 		this.tire = new MyTire(scene, 35, 1);
 		this.semisphere = new MySemiSphere(scene, 20, 20);
+		this.carAppearance = new CGFappearance(scene);
 
 		this.headlightAppearance =  new CGFappearance(this.scene);
 		this.headlightAppearance.loadTexture("../resources/images/headlight.jpg");
-
-		this.carAppearance = new CGFappearance(scene);
-		this.carAppearance.loadTexture("../resources/images/car.png");
 
 		this.time = -1;
 		this.elapsed = 0;
@@ -289,6 +287,11 @@ class MyVehicle extends CGFobject
 		if (!this.locked)
 			this.updatePosition();
 	};
+
+	setAppearance(appearance){
+		this.carAppearance = appearance
+
+	}
 };
 
 

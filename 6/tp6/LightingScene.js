@@ -87,8 +87,6 @@ class LightingScene extends CGFscene
 		this.materialB.setSpecular(0.8,0.8,0.8,1);
 		this.materialB.setShininess(120);
 
-
-
 		this.terrainGrass = new CGFappearance(this);
 		this.terrainGrass.loadTexture("../resources/images/grass2.jpg");
 
@@ -101,12 +99,29 @@ class LightingScene extends CGFscene
 		this.terrainAppearances = [this.terrainGrass, this.terrainSand, this.terrainRock];
 
 		this.terrainAppearancesList = ['Grass', 'Sand', 'Rock'];
+		this.currTerrainApperance = 0;
+		this.terreno = this.terrainAppearancesList[this.currTerrainApperance];
+
+		this.whiteCar = new CGFappearance(this);
+		this.whiteCar.loadTexture("../resources/images/car.png");
+
+		this.redCar = new CGFappearance(this);
+		this.redCar.loadTexture("../resources/images/Redcar.png");
+
+		this.blueCar = new CGFappearance(this);
+		this.blueCar.loadTexture("../resources/images/Bluecar.png");
+
+		this.PimpMyRide = new CGFappearance(this);
+		this.PimpMyRide.loadTexture("../resources/images/PimpMyRide.png");
+
+		this.carAppearancesList = ['Blue', 'White', 'Red', 'PimpMyRide'];
+
+		this.currCarAppearance = 0;
+		this.carAppearances = [this.blueCar, this.whiteCar, this.redCar, this.PimpMyRide];
+		this.carro = this.carAppearancesList[this.currCarAppearance];
 
 		this.platAppearance = new  CGFappearance(this);
 		this.platAppearance.loadTexture("../resources/images/platform.jpg");
-
-		this.currTerrainApperance = 0;
-		this.terreno = this.terrainAppearancesList[this.currTerrainApperance];
 
 		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
@@ -248,6 +263,10 @@ class LightingScene extends CGFscene
 		// Update all lights used
 		this.updateLights();
 
+		//Update Car Texture
+		this.car.setAppearance(this.carAppearances[this.currCarAppearance]);
+		this.currCarAppearance = this.carAppearancesList.indexOf(this.carro);
+
 		// Draw axis
 		if (this.axis)
 			this.Axis.display();
@@ -276,8 +295,10 @@ class LightingScene extends CGFscene
 		//Car
 		this.pushMatrix();
 
-			if (!this.crane.displayCar)
-				this.car.display();
+			if (!this.crane.displayCar){
+				this.car.display();		
+			}
+				
 		this.popMatrix();
 
 		//SemiSphere
