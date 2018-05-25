@@ -60,6 +60,8 @@ class MyVehicle extends CGFobject
 
 		this.guiSpeed = 1;
 
+		this.locked = false;
+
 		this.setVariables(4, 3, 1, 2.2, 2, 1);
 	};
 
@@ -282,11 +284,10 @@ class MyVehicle extends CGFobject
 
 		this.elapsed = currTime - this.time; //Time elapsed from start in milliseconds
 
-
-
 		this.setVariables(length, axelDistance, tireDiameter, width, height, guiSpeed);
 
-		this.updatePosition();
+		if (!this.locked)
+			this.updatePosition();
 	};
 };
 
