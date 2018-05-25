@@ -41,17 +41,17 @@ class LightingScene extends CGFscene
 
 		//Terrain Altimetry
 		this.altimetry = [
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 0.0, 1.0],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 0.5, 0.6],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 0.4, 0.0],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 0.3, 0.5],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 1.0, 1.3],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 1.2, 2.0],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 0.5, 0.7],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 1.0, 1.2],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 0.7, 0.9],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 0.0, 0.0],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.2, 0.1, 0.0, 1.0]
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.6],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.5],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.3],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.2, 2.0],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.7],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.2],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.9],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
 		];
 
 	   this.altimetry2= [[ 0.1 , 0.1],
@@ -275,7 +275,9 @@ class LightingScene extends CGFscene
 
 		//Car
 		this.pushMatrix();
-		this.car.display();
+
+			if (!this.crane.displayCar)
+				this.car.display();
 		this.popMatrix();
 
 		//SemiSphere
@@ -298,17 +300,26 @@ class LightingScene extends CGFscene
 
 		 //Crane
 		 this.pushMatrix();
-		 this.translate(-10,0,0);
+		 this.translate(8,0,0);
 		 this.crane.display();
 		 this.popMatrix();
 
-		 //Platform
+		 //smallPlatform
 		 this.pushMatrix();
-		 this.translate(-10,0,-10);
-		 this.rotate(-Math.PI/2, 1,0,0);
-		 this.scale(10,10,1);
-		 this.platAppearance.apply();
-		 this.platform.display();
+			 this.translate(8,0,-8);
+			 this.rotate(-Math.PI/2, 1,0,0);
+			 this.scale(7,7,1);
+			 this.platAppearance.apply();
+			 this.platform.display();
+		 this.popMatrix();
+
+		 //bigPlatform
+		 this.pushMatrix();
+			 this.translate(8, 0, 10);
+			 this.rotate(-Math.PI/2, 1,0,0);
+			 this.scale(12,12,1);
+			 this.platAppearance.apply();
+			 this.platform.display();
 		 this.popMatrix();
 
 
