@@ -28,11 +28,10 @@ class LightingScene extends CGFscene
 		this.gl.depthFunc(this.gl.LEQUAL);
 
 		this.axis = true;
-
 		this.Axis = new CGFaxis(this);
 
+		//Car Pre-defined Attributes
 		this.speed = 1;
-
 		this.length = 5;
 		this.axelDistance = 3;
 		this.tireDiameter = 1;
@@ -54,19 +53,21 @@ class LightingScene extends CGFscene
 		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
 		];
 
-	   this.altimetry2= [[ 0.1 , 0.1],
-						 [ 0.1 , 0.1 ]
-						 ];
+	   //Platform Altimetry
+	   this.altimetry2= [[ 0.1 , 0.1],[ 0.1 , 0.1 ]];
 
+		//Object Declaration (?)
 		this.terrain = new MyTerrain(this, 10, 5, 5, this.altimetry);
 		this.car = new MyVehicle(this);
 		this.crane = new MyCrane(this, 100, 1);
 		this.crane.setCar(this.car);
 		this.platform = new MyTerrain(this, 1, 2, 2, this.altimetry2);
+		this.semisphere = new MySemiSphereReversed(this, 50, 50);
 
-
+		//Material Default
 		this.materialDefault = new CGFappearance(this);
 
+		//Sky Texture
 		this.backgroundAppearance = new CGFappearance(this);
 		this.backgroundAppearance.loadTexture("../resources/images/sky.jpg");
 		this.backgroundAppearance.setAmbient(1, 1, 1, 1);
@@ -74,19 +75,7 @@ class LightingScene extends CGFscene
 		this.backgroundAppearance.setSpecular(1, 1, 1, 1);
 		this.backgroundAppearance.setShininess(0);
 
-		// Materials
-		this.materialA = new CGFappearance(this);
-		this.materialA.setAmbient(0.3,0.3,0.3,1);
-		this.materialA.setDiffuse(0.6,0.6,0.6,1);
-		this.materialA.setSpecular(0,0.2,0.8,1);
-		this.materialA.setShininess(120);
-
-		this.materialB = new CGFappearance(this);
-		this.materialB.setAmbient(0.3,0.3,0.3,1);
-		this.materialB.setDiffuse(0.6,0.6,0.6,1);
-		this.materialB.setSpecular(0.8,0.8,0.8,1);
-		this.materialB.setShininess(120);
-
+		//Terrain Textures
 		this.terrainGrass = new CGFappearance(this);
 		this.terrainGrass.loadTexture("../resources/images/grass2.jpg");
 
@@ -95,13 +84,13 @@ class LightingScene extends CGFscene
 
 		this.terrainRock = new CGFappearance(this);
 		this.terrainRock.loadTexture("../resources/images/rock.jpg");
-
-		this.terrainAppearances = [this.terrainGrass, this.terrainSand, this.terrainRock];
-
-		this.terrainAppearancesList = ['Grass', 'Sand', 'Rock'];
+	
 		this.currTerrainApperance = 0;
+		this.terrainAppearances = [this.terrainGrass, this.terrainSand, this.terrainRock];
+		this.terrainAppearancesList = ['Grass', 'Sand', 'Rock'];
 		this.terreno = this.terrainAppearancesList[this.currTerrainApperance];
 
+		//Car Textures
 		this.whiteCar = new CGFappearance(this);
 		this.whiteCar.loadTexture("../resources/images/car.png");
 
@@ -114,19 +103,17 @@ class LightingScene extends CGFscene
 		this.PimpMyRide = new CGFappearance(this);
 		this.PimpMyRide.loadTexture("../resources/images/PimpMyRide.png");
 
-		this.carAppearancesList = ['Blue', 'White', 'Red', 'PimpMyRide'];
-
 		this.currCarAppearance = 0;
 		this.carAppearances = [this.blueCar, this.whiteCar, this.redCar, this.PimpMyRide];
+		this.carAppearancesList = ['Blue', 'White', 'Red', 'PimpMyRide'];
 		this.carro = this.carAppearancesList[this.currCarAppearance];
-
+		
+		//Platforms Texture
 		this.platAppearance = new  CGFappearance(this);
 		this.platAppearance.loadTexture("../resources/images/platform.jpg");
 
-		this.semisphere = new MySemiSphereReversed(this, 50, 50);
-
+		//Framerate
 		this.framerate = 20;
-
 		this.setUpdatePeriod(1000/this.framerate);
 	};
 
@@ -274,55 +261,53 @@ class LightingScene extends CGFscene
 
 		// ---- END Background, camera and axis setup
 
+		//Update Terrain Texture
 		this.currTerrainApperance = this.terrainAppearancesList.indexOf(this.terreno);
 
 		//Terrain
 		this.pushMatrix();
-		this.scale(50, 50, 50);
-		this.rotate(-Math.PI/2, 1, 0, 0);
-		this.terrainAppearances[this.currTerrainApperance].apply();
-		this.terrain.display();
+		    this.scale(50, 50, 50);
+		    this.rotate(-Math.PI/2, 1, 0, 0);
+		    this.terrainAppearances[this.currTerrainApperance].apply();
+		    this.terrain.display();
 		this.popMatrix();
 
 		//Terrain
 		this.pushMatrix();
-		this.scale(50, 50, 50);
-		this.rotate(Math.PI/2, 1, 0, 0);
-		this.terrainAppearances[this.currTerrainApperance].apply();
-		this.terrain.display();
+		    this.scale(50, 50, 50);
+		    this.rotate(Math.PI/2, 1, 0, 0);
+		    this.terrainAppearances[this.currTerrainApperance].apply();
+		    this.terrain.display();
 		this.popMatrix();
 
 		//Car
 		this.pushMatrix();
-
-			if (!this.crane.displayCar){
-				this.car.display();		
-			}
-				
+			if (!this.crane.displayCar)
+				 this.car.display();		
 		this.popMatrix();
 
 		//SemiSphere
 		 this.pushMatrix();
-		 this.translate(0, -5, 0);
-		 this.scale(50, 50, 50);
-		 this.rotate(-Math.PI/2, 1, 0, 0);
-		 this.backgroundAppearance.apply();
-		 this.semisphere.display();
+		     this.translate(0, -5, 0);
+		     this.scale(50, 50, 50);
+		     this.rotate(-Math.PI/2, 1, 0, 0);
+		     this.backgroundAppearance.apply();
+		     this.semisphere.display();
 		 this.popMatrix();
 
 		 //SemiSphere
 		 this.pushMatrix();
-		 this.translate(0, -5, 0);
-		 this.scale(50, 50, 50);
-		 this.rotate(Math.PI/2, 1, 0, 0);
-		 this.terrainGrass.apply();
-		 this.semisphere.display();
+		     this.translate(0, -5, 0);
+		     this.scale(50, 50, 50);
+		     this.rotate(Math.PI/2, 1, 0, 0);
+		     this.terrainGrass.apply();
+		     this.semisphere.display();
 		 this.popMatrix();
 
 		 //Crane
 		 this.pushMatrix();
-		 this.translate(8,0,0);
-		 this.crane.display();
+		      this.translate(8,0,0);
+		      this.crane.display();
 		 this.popMatrix();
 
 		 //smallPlatform

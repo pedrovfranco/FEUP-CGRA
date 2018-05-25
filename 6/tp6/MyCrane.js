@@ -30,7 +30,7 @@
 
 	this.scene.pushMatrix();
    	this.scene.scale(1/3,1/3,4);
-      this.scene.translate(0, 1, -1);
+     this.scene.translate(0, 1, -1);
    	this.armAppearance.apply();
    	this.shorterArm.display();
 	this.scene.popMatrix();
@@ -72,12 +72,7 @@ class MyPendulum extends CGFobject{
 		this.magnet = new MyCylinderForTexture(scene,slices,stacks);
 
 		this.baseAppearance = new CGFappearance(this.scene);
-		this.baseAppearance.loadTexture("../resources/images/black.png");
-
-		this.armAppearance = new CGFappearance(this.scene);
-		this.armAppearance.loadTexture("../resources/images/black.png");
-
-
+		this.baseAppearance.loadTexture("../resources/images/grey.jpg");
 	}
 
 	display(){
@@ -114,10 +109,7 @@ class MyCrane extends CGFobject
       	this.pendulum = new MyPendulum(scene, slices, stacks);
 
 		this.baseAppearance = new CGFappearance(this.scene);
-		this.baseAppearance.loadTexture("../resources/images/black.png");
-
-		this.armAppearance = new CGFappearance(this.scene);
-		this.armAppearance.loadTexture("../resources/images/black.png");
+		this.baseAppearance.loadTexture("../resources/images/grey.jpg");
 
     	this.time = -1;
 		this.elapsed = 0;
@@ -137,7 +129,7 @@ class MyCrane extends CGFobject
 		this.car = new MyVehicle(scene);
 
 		this.displayCar = false;
-		this.status = 0; //0 = waiting for car, 1 = rotating to car position, 2 = descing to car, 3 = ascending car, 4 = rotate to drop car, 5 = drop car
+		this.status = 0; //0 = waiting for car, 1 = rotating to car position, 2 = descing to car, 3 = ascending car, 4 = rotate to drop car, 5 = descending to floor, 6 = freeing car, 7 = ascending to initial position
 
 	}
 
@@ -157,7 +149,6 @@ class MyCrane extends CGFobject
 			this.scene.translate(0, 7.5,-3.75);
 			this.scene.rotate(Math.PI/3,1,0,0);
 			this.scene.scale(0.4,0.4,8);
-			this.armAppearance.apply();
 			this.arm.display();
 		this.scene.popMatrix();
 
