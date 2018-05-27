@@ -185,7 +185,7 @@ class LightingScene extends CGFscene
 
 	update(currTime)
 	{
-		this.skyRotation += 0.025;
+		this.skyRotation += 0.0125;
 		this.checkKeys();
 		this.car.update(currTime, this.length, this.axelDistance, this.tireDiameter, this.width, this.height, this.speed);
 		this.crane.update(currTime);
