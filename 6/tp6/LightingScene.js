@@ -121,6 +121,10 @@ class LightingScene extends CGFscene
 		this.platAppearance = new  CGFappearance(this);
 		this.platAppearance.loadTexture("../resources/images/platform.jpg");
 
+		//Time variables
+		this.lastCurrTime = 0;
+		this.deltaTime = 0;
+
 		//Framerate
 		this.framerate = 20;
 		this.setUpdatePeriod(1000/this.framerate);
@@ -191,7 +195,10 @@ class LightingScene extends CGFscene
 
 	update(currTime)
 	{
-		this.skyRotation += 0.0125;
+		this.deltaTime = (currTime - this.lastCurrTime)/1000;
+		this.lastCurrTime = currTime;
+
+		this.skyRotation += 0.15 * this.deltaTime;
 		this.checkKeys();
 		this.car.update(currTime, this.length, this.axelDistance, this.tireDiameter, this.width, this.height, this.speed);
 		this.crane.update(currTime);
