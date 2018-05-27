@@ -19,9 +19,13 @@
 
 		this.gui = new dat.GUI();
 
+		//Speed Variation
 		this.gui.add(this.scene, 'speed', 0, 3);
+
+		//Axis Visibility
 		this.gui.add(this.scene, 'axis');
 
+		//Car Attributes Folder
 		var car = this.gui.addFolder("Carro");
 		car.open();
 
@@ -31,6 +35,7 @@
 		car.add(this.scene, 'width', 1.8, 2.5);
 		car.add(this.scene, 'height', 1.2, 2.0);
 
+		//Lights Folder
 		var luzes = this.gui.addFolder("Luzes");
 		luzes.open();
 
@@ -40,12 +45,11 @@
 		luzes.add(this.scene, 'luz3');
 		luzes.add(this.scene, 'luz4');
 
-		var tex = this.gui.addFolder("Textures");
+		//Textures Folder
+		var tex = this.gui.addFolder("Texturas");
 		tex.open();
 
 		tex.add(this.scene, 'terreno', this.scene.terrainAppearancesList);
-		//tex.add(this.scene, 'Car');
-
 		tex.add(this.scene, 'carro', this.scene.carAppearancesList);
 		
 		this.initKeys();

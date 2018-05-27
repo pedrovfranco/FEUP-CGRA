@@ -10,46 +10,39 @@
 	{
 		super(scene);
 
+		//Object Declaration
 		this.shorterArm = new MyPrismWithTop(scene, 4, 1);
 
-		this.armAppearance = new CGFappearance(this.scene);
-		this.armAppearance.loadTexture("../resources/images/black.png");
-
+		//Time Variables
         this.time = -1;
 		this.elapsed = 0;
+		this.deltaTime = -1;
 
 		this.angle = 0;
 		this.rotationSpeed = 0;
-		this.maxAngle = Math.PI/6;
-
-		this.deltaTime = -1;
-
+		this.maxAngle = Math.PI/6;	
 	}
 
 	display(){
 
+	//Short Arm
 	this.scene.pushMatrix();
-   	this.scene.scale(1/3,1/3,4);
-     this.scene.translate(0, 1, -1);
-   	this.armAppearance.apply();
-   	this.shorterArm.display();
+   	    this.scene.scale(1/3,1/3,4);
+        this.scene.translate(0, 1, -1);
+   	    this.shorterArm.display();
 	this.scene.popMatrix();
-
 
 	}
 
 	update(currTime)
 	{
 	if (this.time == -1)
-			this.time = currTime;
+		this.time = currTime;
 
 		this.deltaTime = (currTime - this.time - this.elapsed)/1000;
-
 		this.elapsed = currTime - this.time; //Time elapsed from start in milliseconds
-
 		this.rotationSpeed = this.deltaTime;
 
-		// this.updatePosition();
 	};
 
    updatePosition()
@@ -59,18 +52,19 @@
          this.angle += this.rotationSpeed;
       }
    }
-
 };
 
-class MyPendulum extends CGFobject{
+class MyMagnet extends CGFobject{
 
 	constructor(scene, slices, stacks)
 	{
 		super(scene);
 
+		//Objects Declaration
 		this.littleString = new MyCylinderForTexture(scene,slices,stacks);
 		this.magnet = new MyCylinderForTexture(scene,slices,stacks);
 
+		//Crane Texture
 		this.baseAppearance = new CGFappearance(this.scene);
 		this.baseAppearance.loadTexture("../resources/images/grey.jpg");
 	}
@@ -79,22 +73,23 @@ class MyPendulum extends CGFobject{
 
    this.scene.translate(0, -1.3, -0.05);
 
+	//String
 	this.scene.pushMatrix();
-	this.scene.rotate(Math.PI/2,1,0,0);
-	this.scene.scale(1/20,1/20,1.5);
-	this.baseAppearance.apply();
-	this.littleString.display();
+	    this.scene.rotate(Math.PI/2,1,0,0);
+	    this.scene.scale(1/20,1/20,1.5);
+	    this.baseAppearance.apply();
+ 	    this.littleString.display();
 	this.scene.popMatrix();
 
+	//Magnet
 	this.scene.pushMatrix();
-	this.scene.translate(0,-1.5,0);
-	this.scene.scale(1,0.2,1);
-	this.baseAppearance.apply();
-	this.magnet.display();
+	    this.scene.translate(0,-1.5,0);
+	    this.scene.scale(1,0.2,1);
+	    this.baseAppearance.apply();
+	    this.magnet.display();
 	this.scene.popMatrix();
 
 	}
-
 }
 
 class MyCrane extends CGFobject
@@ -102,34 +97,52 @@ class MyCrane extends CGFobject
 	constructor(scene, slices, stacks)
 	{
 		super(scene);
+
+		//Object Declaration
 		this.base = new MyCylinderForTexture(scene,slices,stacks);
 		this.smallerBase = new MyCylinderForTexture(scene,slices,stacks);
 		this.arm = new MyPrismWithTop(scene, 4, 1);
 		this.topCrane = new MyUpperCrane(scene,slices,stacks);
-      	this.pendulum = new MyPendulum(scene, slices, stacks);
+      	this.magnet = new MyMagnet(scene, slices, stacks);
 
+		//Crane Texture
 		this.baseAppearance = new CGFappearance(this.scene);
 		this.baseAppearance.loadTexture("../resources/images/grey.jpg");
 
+		//Time Variables
     	this.time = -1;
+    	this.deltaTime = -1;
 		this.elapsed = 0;
 
 		this.angle = 0;
 		this.rotationSpeed = 0;
-		this.maxAngle = Math.PI;
-
-    	this.topCranePosition = [0, 7, -4];
+		
+   		//Lower Base Angle & Top Crane Rotation Angle
+   		this.maxAngle = Math.PI;
     	this.topCraneAngle = Math.PI/6;
     	this.topCraneMaxAngle = -Math.PI/6;
 
+		//Initial Top Crane Position
+    	this.topCranePosition = [0, 7, -4];
+
+		//Varying Pendulum Position (depedant on top crane position) 
     	this.pendulumPostition = [this.topCranePosition[0], this.topCranePosition[1] + 4*Math.sin(this.topCraneAngle), this.topCranePosition[2] - 4*Math.cos(this.topCraneAngle)];
-
-		this.deltaTime = -1;
-
+		
+		//Declaration of the car from the scene
 		this.car = new MyVehicle(scene);
 
+		//Bool to control the display of the car
+		//True when it is placed on the small platform and picked by crane
 		this.displayCar = false;
-		this.status = 0; //0 = waiting for car, 1 = rotating to car position, 2 = descing to car, 3 = ascending car, 4 = rotate to drop car, 5 = drop car
+		
+		this.status = 0; 
+
+		//0 = waiting for car
+		//1 = rotating to car position
+		//2 = descing to car
+		//3 = ascending car
+		//4 = rotate to drop car
+		//5 = drop car
 
 	}
 
@@ -140,11 +153,13 @@ class MyCrane extends CGFobject
 
 		this.scene.rotate(Math.PI, 0, 1, 0);
 
+		//Lower Base
 		this.scene.pushMatrix();
 			this.baseAppearance.apply();
 			this.base.display();
 		this.scene.popMatrix();
 
+		//Arm
 		this.scene.pushMatrix();
 			this.scene.translate(0, 7.5,-3.75);
 			this.scene.rotate(Math.PI/3,1,0,0);
@@ -152,6 +167,7 @@ class MyCrane extends CGFobject
 			this.arm.display();
 		this.scene.popMatrix();
 
+		//Smaller Base
 		this.scene.pushMatrix();
 			this.scene.translate(0.55,7.5,-4);
 			this.scene.rotate(Math.PI/2,0, 0,1);
@@ -160,17 +176,20 @@ class MyCrane extends CGFobject
 			this.smallerBase.display();
 		this.scene.popMatrix();
 
+		//Top Crane
 		this.scene.pushMatrix();
 			this.scene.translate(this.topCranePosition[0], this.topCranePosition[1], this.topCranePosition[2]);
 			this.scene.rotate(this.topCraneAngle, 1, 0, 0);
 			this.topCrane.display();
 		this.scene.popMatrix();
 
+		//Mgnet
 		this.scene.pushMatrix();
 			this.scene.translate(this.pendulumPostition[0], this.pendulumPostition[1], this.pendulumPostition[2]);
-			this.pendulum.display();
+			this.magnet.display();
 		this.scene.popMatrix();
 
+		//Car
 		if (this.displayCar)
 		{
 			this.scene.pushMatrix();
@@ -189,13 +208,10 @@ class MyCrane extends CGFobject
 			this.time = currTime;
 
 		this.deltaTime = (currTime - this.time - this.elapsed)/1000;
-
 		this.elapsed = currTime - this.time; //Time elapsed from start in milliseconds
-
 		this.rotationSpeed = this.deltaTime;
 
 		this.updatePosition();
-
 		this.topCrane.update(currTime);
 	};
 
