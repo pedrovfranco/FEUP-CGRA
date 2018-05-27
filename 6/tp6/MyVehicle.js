@@ -26,6 +26,7 @@ class MyVehicle extends CGFobject
 		this.body = new MyBody(scene);
 		this.tire = new MyTire(scene, 35, 1);
 		this.semisphere = new MySemiSphere(scene, 20, 20);
+		this.sidemirror = new MySideMirror(scene);
 		this.carAppearance = new CGFappearance(scene);
 
 		//Headlight Texture
@@ -123,7 +124,6 @@ class MyVehicle extends CGFobject
 			this.tire.display();
 		this.scene.popMatrix();
 
-
 		//Body
 		this.scene.pushMatrix();
 			this.scene.translate(0, 0.25*this.height, 0);
@@ -143,6 +143,22 @@ class MyVehicle extends CGFobject
 			this.top.display();
 		this.scene.popMatrix();
 
+		//Left sidemirror
+		this.scene.pushMatrix();
+			this.scene.translate(this.width/2 + 0.2, this.height/1.45, this.length/2/2.8);
+			this.scene.scale(0.2, 0.3, 0.15);
+			this.scene.rotate(Math.PI/2, 1, 0, 0);
+			this.sidemirror.display();
+		this.scene.popMatrix();
+
+		//Right sidemirror
+		this.scene.pushMatrix();
+			this.scene.translate(-(this.width/2 + 0.2), this.height/1.45, this.length/2/2.8);
+			this.scene.scale(0.2, 0.3, 0.15);
+			this.scene.rotate(Math.PI/2, 1, 0, 0);
+			this.sidemirror.display();
+		this.scene.popMatrix();
+
 		//Left headlight
 		this.scene.pushMatrix();
 			this.scene.translate(this.width/2*0.7, this.height/2, this.length/2);
@@ -158,6 +174,7 @@ class MyVehicle extends CGFobject
 			this.headlightAppearance.apply();
 			this.semisphere.display();
 		this.scene.popMatrix();
+	
 	};
 
 	setVariables(length, axelDistance, tireDiameter, width, height, guiSpeed)
@@ -274,7 +291,7 @@ class MyVehicle extends CGFobject
 		if (this.speed < -this.maxSpeed*this.guiSpeed)
 			this.speed = -this.maxSpeed*this.guiSpeed;
 
-		this.wheelFrontRotation += this.speed/this.tireDiameter*this.deltaTime/2;
+		this.wheelFrontRotation += this.deltaTime*this.speed/(this.tireDiameter/2);
 
 		if (this.position[1] + this.deltaTime*this.gravitySpeed + (this.gravity*this.deltaTime*this.deltaTime/2) < 0)
 		{
@@ -557,4 +574,123 @@ class MyBody extends CGFobject
 		this.initGLBuffers();
 	}
 
+};
+
+
+class MySideMirror extends CGFobject
+{
+	constructor(scene)
+	{
+		super(scene);
+
+		this.initBuffers();
+	}
+
+	initBuffers()
+	{
+		this.vertices = [
+		 -0.5, 0.5, 0.0,
+		  0.5, 0.5, 0.0,
+		 -0.5, 0.5, 1.0,
+		  0.5, 0.5, 1.0,
+		 -1.0,-0.5, 0.0,
+		 -0.5, 0.5, 0.0,
+		 -1.0,-0.5, 1.0,
+		 -0.5, 0.5, 1.0,
+		 -1.0,-0.5, 0.0,
+		  1.0,-0.5, 0.0,
+		 -1.0,-0.5, 1.0,
+		  1.0,-0.5, 1.0,
+		  0.5, 0.5, 0.0,
+		  1.0,-0.5, 0.0,
+		  0.5, 0.5, 1.0,
+		  1.0,-0.5, 1.0,
+		 -0.5, 0.5, 0.0,
+		  0.5, 0.5, 0.0,
+		 -1.0,-0.5, 0.0,
+		  1.0,-0.5, 0.0,
+		 -0.5, 0.5, 1.0,
+		  0.5, 0.5, 1.0,
+		 -1.0,-0.5, 1.0,
+		  1.0,-0.5, 1.0
+		 ];
+
+		this.indices = [
+		0, 2, 1,
+		1, 2, 3,
+		4, 6, 5,
+		5, 6, 7,
+		8, 9, 10,
+		9, 11, 10,
+		12, 14, 13,
+		13, 14, 15,
+		16, 17, 18,
+		17, 19, 18,
+		20, 22, 21,
+		21, 22, 23
+		];
+
+		this.normals = [
+		0, 1, 0,
+		0, 1, 0,
+		0, 1, 0,
+		0, 1, 0,
+		-2/Math.sqrt(5), 1/Math.sqrt(5), 0,
+		-2/Math.sqrt(5), 1/Math.sqrt(5), 0,
+		-2/Math.sqrt(5), 1/Math.sqrt(5), 0,
+		-2/Math.sqrt(5), 1/Math.sqrt(5), 0,
+		0,-1, 0,
+		0,-1, 0,
+		0,-1, 0,
+		0,-1, 0,
+		2/Math.sqrt(5), 1/Math.sqrt(5), 0,
+		2/Math.sqrt(5), 1/Math.sqrt(5), 0,
+		2/Math.sqrt(5), 1/Math.sqrt(5), 0,
+		2/Math.sqrt(5), 1/Math.sqrt(5), 0,
+		0, 0,-1,
+		0, 0,-1,
+		0, 0,-1,
+		0, 0,-1,
+		0, 0, 1,
+		0, 0, 1,
+		0, 0, 1,
+		0, 0, 1
+		];
+
+		this.texCoords = [
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875,
+		0.07225913621262459, 0.6279296875
+		];
+
+
+		this.primitiveType=this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
+	}
 };
