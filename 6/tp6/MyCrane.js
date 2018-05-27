@@ -251,7 +251,7 @@ class MyCrane extends CGFobject
 		{
 			this.displayCar = false;
 			this.car.locked = false;
-			this.car.position = [8, this.pendulumPostition[1] - this.car.height - 2.8, 10];
+			this.car.position = [8, this.pendulumPostition[1] - this.car.height - 2.8, 10.5];
 			this.car.rotation[1] = Math.PI;
 
 			this.status = 0;		
