@@ -106,9 +106,15 @@ class LightingScene extends CGFscene
 		this.PimpMyRide = new CGFappearance(this);
 		this.PimpMyRide.loadTexture("../resources/images/PimpMyRide.png");
 
+		this.pinkCar = new CGFappearance(this);
+		this.pinkCar.loadTexture("../resources/images/Pinkcar.png");
+
+		this.stripedCar = new CGFappearance(this);
+		this.stripedCar.loadTexture("../resources/images/Stripedcar.png");
+
 		this.currCarAppearance = 0;
-		this.carAppearances = [this.blueCar, this.whiteCar, this.redCar, this.PimpMyRide];
-		this.carAppearancesList = ['Blue', 'White', 'Red', 'PimpMyRide'];
+		this.carAppearances = [this.blueCar, this.whiteCar, this.redCar, this.pinkCar, this.PimpMyRide, this.stripedCar];
+		this.carAppearancesList = ['Blue', 'White', 'Red', 'Pink', 'PimpMyRide', 'Striped'];
 		this.carro = this.carAppearancesList[this.currCarAppearance];
 		
 		//Platforms Texture
