@@ -37,8 +37,12 @@ class MyVehicle extends CGFobject
 		this.deltaTime = -1;
 		this.elapsed = 0;
 
+		//Kinetic variables
 		this.position = [0, 0, 0];
 		this.acceleration = 0;
+
+		this.gravity = -9.8;
+		this.gravitySpeed = 0;
 
 		//Speed Attributes
 		this.speed = 0;
@@ -273,6 +277,16 @@ class MyVehicle extends CGFobject
 
 		this.wheelFrontRotation += this.speed/this.tireDiameter*this.deltaTime/2;
 
+		if (this.position[1] + this.deltaTime*this.gravitySpeed + (this.gravity*this.deltaTime*this.deltaTime/2) < 0)
+		{
+			this.position[1] = 0;
+			this.gravitySpeed = 0;
+		}
+		else
+		{
+			this.gravitySpeed += this.deltaTime*this.gravity;
+			this.position[1] += this.deltaTime*this.gravitySpeed + (this.gravity*this.deltaTime*this.deltaTime/2);
+		}
 	};
 
 	update(currTime, length, axelDistance, tireDiameter, width, height, guiSpeed)

@@ -129,7 +129,7 @@ class MyCrane extends CGFobject
 		this.car = new MyVehicle(scene);
 
 		this.displayCar = false;
-		this.status = 0; //0 = waiting for car, 1 = rotating to car position, 2 = descing to car, 3 = ascending car, 4 = rotate to drop car, 5 = descending to floor, 6 = freeing car, 7 = ascending to initial position
+		this.status = 0; //0 = waiting for car, 1 = rotating to car position, 2 = descing to car, 3 = ascending car, 4 = rotate to drop car, 5 = drop car
 
 	}
 
@@ -201,8 +201,6 @@ class MyCrane extends CGFobject
 
 	updatePosition()
 	{
-		console.log(this.status);
-
 		if (this.status == 0)
 		{
 			if (this.car.speed == 0 && this.car.position[0] > 11.5-7 && this.car.position[0] < 11.5 && this.car.position[2] > -4.5-7 && this.car.position[2] < -4.5)
@@ -243,7 +241,6 @@ class MyCrane extends CGFobject
 		{
 			if (this.angle >= 0)
 			{
-				// this.car.rotation[1] += this.deltaTime;
 				this.angle -= this.rotationSpeed;
 			}
 			else
@@ -252,34 +249,13 @@ class MyCrane extends CGFobject
 
 		else if (this.status == 5)
 		{
-			
-			if (this.topCraneAngle > this.topCraneMaxAngle)
-				this.topCraneAngle -= this.deltaTime;
-			
-			else 
-				this.status = 6;		
-	    }
-
-	else if(this.status == 6){
-
-			this.car.locked = false;	
 			this.displayCar = false;
+			this.car.locked = false;
+			this.car.position = [8, this.pendulumPostition[1] - this.car.height - 2.8, 10];
+			this.car.rotation[1] = Math.PI;
 
-			this.car.position = [8,0,8];
-		
-		if(this.car.position[0] != 0 && this.car.position[1] == 0 && this.car.position[2] != 0){
-		      this.status = 7;
-		}
-	}
-
-	else if(this.status == 7){
-
-	 if (this.topCraneAngle < -this.topCraneMaxAngle)
-		this.topCraneAngle += this.deltaTime;
-	 else
-	 	this.status = 0;
-		      
-	}
+			this.status = 0;		
+	    }
 
 		this.pendulumPostition[0] = this.topCranePosition[0];
 		this.pendulumPostition[1] = this.topCranePosition[1] + 4*Math.sin(this.topCraneAngle);
