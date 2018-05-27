@@ -38,19 +38,22 @@ class LightingScene extends CGFscene
 		this.width = 2.2;
 		this.height = 2;
 
+		//Background Rotation Variable
+		this.skyRotation = 0;
+
 		//Terrain Altimetry
 		this.altimetry = [
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.6],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.5],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.3],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.2, 2.0],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.7],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.2],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.9],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-		[0.0, 0.4, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+		[0.2, 0.1, 0.3, 0.2, 0.2, 0.1, 0.3, 0.4, 0.3, 0.1, 0.2],
+		[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.5, 0.3],
+		[0.3, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.4, 0.6],
+		[0.4, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.3, 0.5],
+		[0.2, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 1.0, 1.3],
+		[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.9, 1.2, 1.6],
+		[0.3, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.7],
+		[0.2, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 1.0, 1.2],
+		[0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.7, 0.9],
+		[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.4, 0.6],
+		[0.1, 0.0, 0.1, 0.2, 0.3, 0.1, 0.2, 0.2, 0.1, 0.3, 0.5]
 		];
 
 	   //Platform Altimetry
@@ -182,6 +185,7 @@ class LightingScene extends CGFscene
 
 	update(currTime)
 	{
+		this.skyRotation += 0.025;
 		this.checkKeys();
 		this.car.update(currTime, this.length, this.axelDistance, this.tireDiameter, this.width, this.height, this.speed);
 		this.crane.update(currTime);
@@ -279,7 +283,7 @@ class LightingScene extends CGFscene
 		    this.scale(50, 50, 50);
 		    this.rotate(Math.PI/2, 1, 0, 0);
 		    this.terrainAppearances[this.currTerrainApperance].apply();
-		    this.terrain.display();
+		    this.platform.display();
 		this.popMatrix();
 
 		//Car
@@ -293,6 +297,7 @@ class LightingScene extends CGFscene
 		     this.translate(0, -5, 0);
 		     this.scale(50, 50, 50);
 		     this.rotate(-Math.PI/2, 1, 0, 0);
+		     this.rotate(this.skyRotation,0,0,1);
 		     this.backgroundAppearance.apply();
 		     this.semisphere.display();
 		 this.popMatrix();
@@ -302,7 +307,8 @@ class LightingScene extends CGFscene
 		     this.translate(0, -5, 0);
 		     this.scale(50, 50, 50);
 		     this.rotate(Math.PI/2, 1, 0, 0);
-		     this.terrainGrass.apply();
+		      this.rotate(this.skyRotation,0,0,1);
+		     this.backgroundAppearance.apply();
 		     this.semisphere.display();
 		 this.popMatrix();
 

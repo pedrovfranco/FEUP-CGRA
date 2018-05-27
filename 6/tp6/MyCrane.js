@@ -150,7 +150,6 @@ class MyCrane extends CGFobject
 	{
 
 		this.scene.rotate(this.angle, 0, 1, 0);
-
 		this.scene.rotate(Math.PI, 0, 1, 0);
 
 		//Lower Base
